@@ -1,0 +1,10 @@
+.uplodform{
+    display: flex;
+    justify-content: center;
+    margin-left: 50px;
+    border-color: black;
+    border: 1px;
+    border-radius: 5px;
+    border-style: solid;
+    height: 15rem;
+}

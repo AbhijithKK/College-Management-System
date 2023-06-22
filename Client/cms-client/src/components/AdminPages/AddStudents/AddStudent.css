@@ -1,0 +1,11 @@
+
+    @media (max-width:600px) {
+        .StudentForm{
+            margin-left: 10px;
+            width: 50%;
+           
+    }
+    .form{
+        width: 70%;
+    }
+}

@@ -4,6 +4,7 @@ import './MainPage.css'
 import admin from "../../assets/admin.png";
 import student from "../../assets/student.png";
 import faculty from "../../assets/faculty.png";
+import { Link } from 'react-router-dom';
 const MainPage = () => {
   return (
     <div className='mainpage'>
@@ -22,15 +23,15 @@ const MainPage = () => {
         <div className="mainbox  mt-5">
         <div className="box mb-4 ">
           <img src={admin} alt="admin img" />
-          <h5>Admin Login</h5>
+         <Link to='/adminlogin'> <h5>Admin Login</h5></Link>
         </div>
         <div className="box1 mb-4 ">
           <img src={student} alt="student img" />
-          <h5>Student Login</h5>
+          <Link to='/studentlogin'><h5>Student Login</h5></Link>
         </div>
         <div className="box2 mb-4 ">
           <img src={faculty} alt="faculty img" />
-          <h5>Faculty Login</h5>
+          <Link to='facultylogin'><h5>Faculty Login</h5></Link>
         </div>
       </div>
         </Col>

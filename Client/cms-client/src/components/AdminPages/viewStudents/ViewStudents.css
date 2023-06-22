@@ -1,0 +1,13 @@
+.tables{
+    margin-left: 71px;
+   display: flex;
+   justify-content: center;
+   
+}
+@media (max-width:600px) {
+    .tables{
+        margin-left: 71px;
+     
+}
+
+}
