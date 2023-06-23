@@ -7,12 +7,13 @@ const { adminLogin,addStudent, addFaculty, addClub,
       deleteSubject, deleteSemester, updateFaculty, updateStudent, 
       postupdateStudent,
        postupdateFaculty,
-       checkAuth} = require('../controllers/adminControllers')
+       checkAuth,
+       logOut} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 let router=express.Router()
 
 // <====ADD API====>
-router.post('/',adminLogin)
+router.post('/adminLogin',adminLogin)
 router.post('/addStudent',addStudent)
 router.post('/addFaculty',addFaculty)
 router.post('/addClub',addClub)
@@ -33,6 +34,7 @@ router.get('/viewClubRequests',viewClubRequests)
 router.get('/viewApproveLists',viewApproveLists)
 router.get('/viewApproveLists',viewApproveLists)
 router.get('/checkAuth',checkAuth)
+router.get('/logout',logOut)
 
 // <====DELETE API====>
 router.get('/deleteStudent',deleteStudent)

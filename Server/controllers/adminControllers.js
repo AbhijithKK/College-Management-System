@@ -12,9 +12,10 @@ let admin = {
     // <====LOGIN VERIFY====>
     adminLogin: async(req, res) => {
         try{
+            console.log(req.body);
         const email = 'admin@gmail.com'
         const password = 'password'
-        if (email === req.body.email && password === req.body.password) {
+        if (email === req.body.mail && password === req.body.password) {
           
            
             res.cookie('jwtAdmin',await jwtSign(123456),{ withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "none", maxAge: 1000000 })
@@ -49,15 +50,15 @@ let admin = {
             password = await bcript.hash(password, 10)
             console.log(req.body);
             studentModel.create({
-                name: req.body.name,
+                name: req.body.names,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
-                guardianNo: req.body.guardianNo,
+                guardianNo: req.body.guardianNumber,
                 department: req.body.department,
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB: req.body.DOB,
+                DOB: req.body.dob,
                 semester: req.body.semester,
                 password: password
             }).then(() => res.json('Student Added'))
@@ -71,7 +72,7 @@ let admin = {
             password = await bcript.hash(password, 10)
             console.log(req.body);
             facultyModel.create({
-                name: req.body.name,
+                name: req.body.names,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
                 teachingArea: req.body.teachingArea,
@@ -79,8 +80,8 @@ let admin = {
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB: req.body.DOB,
-                qualifications: req.body.qualifications,
+                DOB: req.body.dob,
+                qualifications: req.body.qualification,
                 password: password
             }).then(() => res.json("faculty Added"))
         } catch (err) {
@@ -90,8 +91,9 @@ let admin = {
     addClub: async (req, res) => {
         try {
             club.create({
-                name: req.body.name,
-                discription: req.body.discription
+                name: req.body.names,
+                discription: req.body.discription,
+                clubAdmin:req.body.clubAdmin
             }).then(() => {
                 res.json('club Created')
             })
@@ -334,6 +336,10 @@ let admin = {
         let faculty = await facultyModel.findOne({ _id: id })
         res.json(faculty)
     },
+    // =======>logout<======
+    logOut: (req, res) => {
+        res.cookie('jwtAdmin', '').json(true)
+    }
 
 
 }

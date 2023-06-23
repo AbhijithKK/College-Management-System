@@ -1,4 +1,4 @@
-import './ViewClubRequest.css'
+import './ViewDepartment.css'
 // import {Form,Container,Row,Col,Button} from 'react-bootstrap';
 
 import * as React from 'react';
@@ -45,7 +45,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function ViewClubRequest() {
+export default function ViewDepartment() {
     // ======>modal<=====
 const [open, setOpen] = React.useState(false);
 

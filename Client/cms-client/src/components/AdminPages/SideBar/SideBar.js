@@ -16,9 +16,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {DashboardSharp,PersonAddAlt1Sharp,GroupAddSharp,Groups2Sharp
-,SupervisorAccountSharp,LocalLibrarySharp ,Diversity3Sharp,
-SchoolSharp,HomeWorkSharp,CalendarViewMonthSharp,LogoutSharp,VerifiedSharp,UploadFileSharp,MailSharp} from '@mui/icons-material';
+import {
+  DashboardSharp, PersonAddAlt1Sharp, GroupAddSharp, Groups2Sharp
+  , SupervisorAccountSharp, LocalLibrarySharp, Diversity3Sharp,
+  SchoolSharp, HomeWorkSharp, CalendarViewMonthSharp, LogoutSharp, VerifiedSharp, UploadFileSharp, MailSharp
+} from '@mui/icons-material';
+// import { Link } from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -89,25 +92,25 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const links = [
-  { text: 'Dashboard', link: '/dashbord', icon: <DashboardSharp /> },
-  { text: 'Add Student', link: '/addstudent', icon: <GroupAddSharp />  },
-  { text: 'Add Faculty', link: '/addfaculty', icon: <PersonAddAlt1Sharp /> },
-  { text: 'Add Club', link: '/addclub', icon: <Groups2Sharp /> },
-]; 
+  { text: 'Dashboard', link: '/admin/dashboard', icon: <DashboardSharp /> },
+  { text: 'Add Student', link: '/admin/addstudent', icon: <GroupAddSharp /> },
+  { text: 'Add Faculty', link: '/admin/addfaculty', icon: <PersonAddAlt1Sharp /> },
+  { text: 'Add Club', link: '/admin/addclub', icon: <Groups2Sharp /> },
+];
 const view = [
-  { text: 'View Students', link: '/viewstudents', icon: <SchoolSharp /> },
-  { text: 'View Facultys', link: '/viewfaculty', icon: <SupervisorAccountSharp  />  },
-  { text: 'View Club Requests', link: '/viewclubrequests', icon: <Diversity3Sharp /> },
-  { text: 'View Departments', link: '/viewdepartments', icon: <HomeWorkSharp/> },
-  { text: 'View Semesters', link: '/viewsemester', icon: <CalendarViewMonthSharp /> },
-  { text: 'View Subjects', link: '/viewsubjects', icon: <LocalLibrarySharp /> },
-]; 
+  { text: 'View Students', link: '/admin/viewstudents', icon: <SchoolSharp /> },
+  { text: 'View Facultys', link: '/admin/viewfaculty', icon: <SupervisorAccountSharp /> },
+  { text: 'View Club Requests', link: '/admin/viewclubrequests', icon: <Diversity3Sharp /> },
+  { text: 'View Departments', link: '/admin/viewdepartments', icon: <HomeWorkSharp /> },
+  { text: 'View Semesters', link: '/admin/viewsemester', icon: <CalendarViewMonthSharp /> },
+  { text: 'View Subjects', link: '/admin/viewsubjects', icon: <LocalLibrarySharp /> },
+];
 const links1 = [
-  { text: 'Check Complaint', link: '/viewcomplaint', icon: <MailSharp /> },
-  { text: 'Upload Notice', link: '/uploadnotice', icon: <UploadFileSharp />  },
-  { text: 'Approve Requests', link: '/approverequests', icon: <VerifiedSharp /> },
-  { text: 'Logout', link: '/logout', icon: <LogoutSharp /> },
-]; 
+  { text: 'Check Complaint', link: '/admin/viewcomplaint', icon: <MailSharp /> },
+  { text: 'Upload Notice', link: '/admin/uploadnotice', icon: <UploadFileSharp /> },
+  { text: 'Approve Requests', link: '/admin/approverequests', icon: <VerifiedSharp /> },
+  { text: 'Logout', link: '/admin/logout', icon: <LogoutSharp /> },
+];
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -138,27 +141,27 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-           COLLEGE MANAGEMENT SYSTEM
+            COLLEGE MANAGEMENT SYSTEM
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-        <h2><u>Admin Panel</u></h2>
+          <h2><u>Admin Panel</u></h2>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          
-          {links.map((item,index) => (
-            // <Link to={item.link}>
+
+          {links.map((item, index) => (
+
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
-             
+
               <ListItemButton
-             
-              href={item.link}
+
+                to={item.link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -177,7 +180,7 @@ export default function MiniDrawer() {
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            // </Link>
+
           ))}
         </List>
         <Divider />
@@ -185,7 +188,7 @@ export default function MiniDrawer() {
           {view.map((item, index) => (
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-               href={item.link}
+                href={item.link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -210,7 +213,7 @@ export default function MiniDrawer() {
           {links1.map((item, index) => (
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-               href={item.link}
+                href={item.link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -235,10 +238,10 @@ export default function MiniDrawer() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Typography paragraph>
-                
-        
 
-          
+
+
+
         </Typography>
       </Box>
     </Box>
