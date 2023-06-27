@@ -13,7 +13,7 @@ const LoginForm = (props) => {
   const [password, usePassword] = useState('');
   const [errMsg, useErrmsg] = useState('');
   const history = useNavigate();
-const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const HandleEmailChange = (value) => {
     useMail(value);
   };
@@ -36,7 +36,8 @@ const dispatch=useDispatch()
     }).then((e) => {
       if (e.data === true) {
         history('/admin/dashboard');
-        dispatch({type:'refresh'})
+       
+        dispatch({ type: 'refresh' })
       } else {
         HandleErrmsg();
       }
@@ -74,7 +75,7 @@ const dispatch=useDispatch()
           <Col sm={12}>
             <div className="formContainer">
               <Form>
-                <p>{errMsg}</p>
+                <p style={{ color: 'red', fontWeight: 'bold' }}>{errMsg}</p>
                 <Form.Group>
                   <Form.Control
                     type="email"

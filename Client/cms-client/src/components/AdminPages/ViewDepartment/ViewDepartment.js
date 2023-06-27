@@ -12,6 +12,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button,TextField,Dialog,DialogActions,DialogContent,
    DialogTitle} from '@mui/material';
+import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../api/AdminApi';
+import { DeleteForeverSharp } from '@mui/icons-material';
+import { Await } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,17 +36,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories) {
-  return { name, calories };
-}
-
-const rows = [
-  createData('Frozen yoghurt', <button>Delete</button>, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 export default function ViewDepartment() {
     // ======>modal<=====
@@ -56,7 +48,32 @@ const handleClickOpen = () => {
 const handleClose = () => {
   setOpen(false);
 };
+const [value,setValue]=React.useState('')
+const [add,useAdd]=React.useState(false)
+
+const HandleAdd= async()=>{
+  await ApiAddDepartment(value)
+ setOpen(false);
+ useAdd(!add)
+ 
+}
+const [departments, setDepartment]=React.useState([])
 // ===================
+const [deleted,useDeleted]=React.useState(false)
+
+const FeatchData=async()=>{
+  let data= await ApiViewDepartment()
+  setDepartment(data)
+}
+React.useEffect(()=>{
+  FeatchData()
+ 
+},[deleted,add])
+const DeleteDepartment=async(id)=>{
+  await ApiDeleteDepartment(id)
+  useDeleted(!deleted)
+ 
+}
   return (
    <React.Fragment>
     
@@ -79,33 +96,35 @@ const handleClose = () => {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e)=>setValue(e.target.value)}
+            value={value}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={HandleAdd}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>
    
    
-     <TableContainer component={Paper} >
+     <TableContainer component={Paper}  className='tableContainer'>
         
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className='tables'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Department</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell className='rowWidth'>Department</StyledTableCell>
+              <StyledTableCell align="left" >Action</StyledTableCell>
               
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
+            {departments.map((row,index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell  component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
+                <StyledTableCell   align="left"><Button onClick={()=>DeleteDepartment(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
                
               </StyledTableRow>
             ))}

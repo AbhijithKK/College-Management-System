@@ -2,7 +2,7 @@
     margin-left: 71px;
    display: flex;
    justify-content: center;
-   width: 50%;
+   /* max-width: 50%; */
    
 }
 .addbtn{
@@ -27,10 +27,20 @@ background-color: rgb(255, 255, 255) !important;
 /* font-family: 'Courier New', Courier, monospace; */
 border-color: rgb(0, 0, 0) !important;
 }
+.tables .MuiTableCell-root {
+    width: 0%; /* Adjust the width as per your requirement */
+  }
+.tableContainer{
+   /* max-width: 50%; */
+  
+}
 @media (max-width:600px) {
     .tables{
         margin-left: 71px;
      
+}
+.rowWidth{
+    width: 5% !important;
 }
 
 }

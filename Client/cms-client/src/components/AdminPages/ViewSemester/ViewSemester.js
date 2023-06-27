@@ -11,6 +11,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
+import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
+import { useForm } from '../../useForm/useForm';
+import { DeleteForeverSharp } from '@mui/icons-material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,21 +35,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories) {
-  return { name, calories };
-}
 
-const rows = [
-  createData('Frozen yoghurt', <button>Delete</button>, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 export default function ViewSemester() {
   const [open, setOpen] = React.useState(false);
-  const [selectedDepartment, setSelectedDepartment] = React.useState('');
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,10 +49,39 @@ export default function ViewSemester() {
     setOpen(false);
   };
 
-  const handleDepartmentChange = (event) => {
-    setSelectedDepartment(event.target.value);
-  };
-
+  
+  const [value, useValue] = React.useState([])
+  const ApiCall = async () => {
+    let val = await ApiViewSemester()
+    useValue(val)
+  }
+  const Changeval = (event) => {
+    useFormdata(event)
+  }
+  const [formdata, useFormdata] = useForm({
+    semester:'',
+    department:''
+  })
+  const [semester,useSemester]=React.useState([])
+  const [refresh,userefresh]=React.useState(false)
+  const ApiSem=async()=>{
+    let data=await ApiViewDepartment()
+    useSemester(data)
+   
+  }
+  React.useEffect(() => {
+    ApiCall()
+    ApiSem()
+  }, [refresh])
+const AddSem=()=>{
+  ApiAddSemester(formdata)
+  setOpen(false);
+  userefresh(!refresh)
+}
+const DeleteSem=(id)=>{
+ApiDeleteSemester(id)
+userefresh(!refresh)
+}
   return (
     <React.Fragment>
       <div>
@@ -79,22 +101,30 @@ export default function ViewSemester() {
               type="text"
               fullWidth
               variant="standard"
+              name='semester'
+              value={formdata.semester}
+              onChange={Changeval}
             />
             <Select
-              value={selectedDepartment}
-              onChange={handleDepartmentChange}
+             
+              onChange={Changeval}
               fullWidth
               variant="standard"
               label="Select Department"
+              name='department'
+              value={formdata.department}
             >
-              <MenuItem value="department1">Department 1</MenuItem>
-              <MenuItem value="department2">Department 2</MenuItem>
-              {/* Add more MenuItem components for other departments */}
+              
+              {semester.map((val,index)=>(
+              <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
+              ))}
+             
+             
             </Select>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Add</Button>
+            <Button onClick={AddSem}>Add</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -103,19 +133,19 @@ export default function ViewSemester() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Department</StyledTableCell>
               <StyledTableCell>Semester</StyledTableCell>
+              <StyledTableCell>Department</StyledTableCell>
               <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {value.map((row, index) => (
+              <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.semester}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
+                <StyledTableCell align="left">{row.department}</StyledTableCell>
+                <StyledTableCell align="left"><Button onClick={()=>DeleteSem(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

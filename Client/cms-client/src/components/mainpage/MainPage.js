@@ -23,7 +23,7 @@ const MainPage = () => {
         <div className="mainbox  mt-5">
         <div className="box mb-4 ">
           <img src={admin} alt="admin img" />
-         <Link to='/adminlogin'> <h5>Admin Login</h5></Link>
+         <Link to='/admin/adminlogin'> <h5>Admin Login</h5></Link>
         </div>
         <div className="box1 mb-4 ">
           <img src={student} alt="student img" />

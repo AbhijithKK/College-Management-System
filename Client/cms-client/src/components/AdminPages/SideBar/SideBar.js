@@ -16,13 +16,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { Link } from 'react-router-dom';
 import {
-  DashboardSharp, PersonAddAlt1Sharp, GroupAddSharp, Groups2Sharp
-  , SupervisorAccountSharp, LocalLibrarySharp, Diversity3Sharp,
-  SchoolSharp, HomeWorkSharp, CalendarViewMonthSharp, LogoutSharp, VerifiedSharp, UploadFileSharp, MailSharp
+  DashboardSharp,
+  PersonAddAlt1Sharp,
+  GroupAddSharp,
+  Groups2Sharp,
+  SupervisorAccountSharp,
+  LocalLibrarySharp,
+  Diversity3Sharp,
+  SchoolSharp,
+  HomeWorkSharp,
+  CalendarViewMonthSharp,
+  LogoutSharp,
+  VerifiedSharp,
+  UploadFileSharp,
+  MailSharp
 } from '@mui/icons-material';
-// import { Link } from 'react-router-dom';
-
 
 const drawerWidth = 240;
 
@@ -111,6 +121,7 @@ const links1 = [
   { text: 'Approve Requests', link: '/admin/approverequests', icon: <VerifiedSharp /> },
   { text: 'Logout', link: '/admin/logout', icon: <LogoutSharp /> },
 ];
+
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -154,13 +165,10 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-
           {links.map((item, index) => (
-
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
-
               <ListItemButton
-
+                component={Link}
                 to={item.link}
                 sx={{
                   minHeight: 48,
@@ -180,7 +188,6 @@ export default function MiniDrawer() {
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-
           ))}
         </List>
         <Divider />
@@ -188,7 +195,8 @@ export default function MiniDrawer() {
           {view.map((item, index) => (
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-                href={item.link}
+                component={Link}
+                to={item.link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -213,7 +221,8 @@ export default function MiniDrawer() {
           {links1.map((item, index) => (
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-                href={item.link}
+                component={Link}
+                to={item.link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -237,12 +246,7 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
-
-
-
-
-        </Typography>
+        <Typography paragraph></Typography>
       </Box>
     </Box>
   );

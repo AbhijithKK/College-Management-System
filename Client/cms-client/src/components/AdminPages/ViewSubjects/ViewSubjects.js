@@ -11,6 +11,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
+import { ApiAddSubjects, ApiDeleteSubjects, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
+import { DeleteForeverSharp } from '@mui/icons-material';
+import { useForm } from '../../useForm/useForm';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,21 +35,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories) {
-  return { name, calories };
-}
-
-const rows = [
-  createData('Frozen yoghurt', <button>Delete</button>, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 export default function ViewSubjects() {
   const [open, setOpen] = React.useState(false);
-  const [selectedDepartment, setSelectedDepartment] = React.useState('');
+  const [refresh, useRefresh] = React.useState(false)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,10 +48,44 @@ export default function ViewSubjects() {
     setOpen(false);
   };
 
-  const handleDepartmentChange = (event) => {
-    setSelectedDepartment(event.target.value);
-  };
+ const [formVal,useForms]=useForm({
+  subject:'',
+  department:'',
+  semester:''
+ })
+  const [value, setVal] = React.useState([])
+  const SubApi = async () => {
+    let data = await ApiViewSubjects()
+    setVal(data)
+  }
+  const[department,useDepartment]=React.useState([])
+  const DepartmentApi = async () => {
+    let data = await ApiViewDepartment()
+    useDepartment(data)
+  }
+  React.useEffect(() => {
+    SubApi()
+    DepartmentApi()
+    ApiSem()
+  }, [refresh])
 
+  const DeleteSub = (id) => {
+    ApiDeleteSubjects(id)
+    useRefresh(!refresh)
+  }
+  const AddSubject=()=>{
+    ApiAddSubjects()
+    useRefresh(!refresh)
+
+  }
+  const FormDatas=(event)=>{
+    useForms(event)
+  }
+  const[semester,useSemester]=React.useState([])
+  const ApiSem=async()=>{
+   let data=await ApiViewSemester()
+   useSemester(data)
+  }
   return (
     <React.Fragment>
       <div>
@@ -79,22 +105,47 @@ export default function ViewSubjects() {
               type="text"
               fullWidth
               variant="standard"
+              name='subject'
+              value={formVal.subject}
+              onChange={FormDatas}
             />
             <Select
-              value={selectedDepartment}
-              onChange={handleDepartmentChange}
+            name='department'
+              value={formVal.department}
+              onChange={FormDatas}
               fullWidth
               variant="standard"
               label="Select Department"
+              
             >
-              <MenuItem value="department1">Department 1</MenuItem>
-              <MenuItem value="department2">Department 2</MenuItem>
-              {/* Add more MenuItem components for other departments */}
+              {department.map((data,index)=>(
+
+                  <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
+                ))
+              }
+             
+            </Select>
+            <Select
+            name='semester'
+              value={formVal.semester}
+              onChange={FormDatas}
+              fullWidth
+              variant="standard"
+              label="Select sem"
+              
+            >
+              <MenuItem value=''>Select Semester</MenuItem>
+              {semester.map((data,index)=>(
+
+                  <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
+                ))
+              }
+             
             </Select>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Add</Button>
+            <Button onClick={AddSubject}>Add</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -104,18 +155,20 @@ export default function ViewSubjects() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Department</StyledTableCell>
+              <StyledTableCell>Semester</StyledTableCell>
               <StyledTableCell>Subject</StyledTableCell>
               <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {value.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.subject}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
+                <StyledTableCell align="left">{row.department}</StyledTableCell>
+                <StyledTableCell align="left">{row.semester}</StyledTableCell>
+                <StyledTableCell align="left"><Button onClick={() => DeleteSub(row._id)}><DeleteForeverSharp /></Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

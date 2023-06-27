@@ -176,8 +176,9 @@ let admin = {
         try {
             let allDepartments = await department.find()
             res.json(allDepartments)
+            
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
     },
     viewSubjects: async (req, res) => {
@@ -244,15 +245,13 @@ let admin = {
             console.log(err);
         }
     },
-    deleteDepartment: (req, res) => {
+    deleteDepartment: async(req, res) => {
         try {
             let id = req.query.id
-            department.deleteOne({ _id: id }).then(async () => {
-                let departments = await department.find().lean()
-                res.json(departments)
-            })
+                await department.deleteOne({ _id: id })
+                res.json(true)
         } catch (err) {
-            console.log(err);
+            console.log(false);
         }
     },
     deleteSubject: (req, res) => {
@@ -270,11 +269,11 @@ let admin = {
         try {
             let id = req.query.id
             semester.deleteOne({ _id: id }).then(async () => {
-                let updateSemester = await semester.find().lean()
-                res.json(updateSemester)
+               
+                res.json('Semester Deleted')
             })
         } catch (err) {
-            console.log(err);
+           res.json(false)
         }
     },
 

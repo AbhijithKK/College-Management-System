@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes,} from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import AddStudent from '../AddStudents/AddStudent';
 import AddFaculty from '../AddFaculty/AddFaculty';
@@ -15,13 +15,10 @@ import Dashboard from '../Dasgboard/DashBoard';
 import Logout from '../../Logout/Logout';
 
 const Admin = () => {
-  const location = useLocation();
-  const isDashboard = location.pathname === '/dashboard';
-
+  
   return (
     <div>
       <SideBar />
-      <div className={`content ${isDashboard ? 'dashboard-content' : ''}`}>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addstudent" element={<AddStudent />} />
@@ -39,7 +36,7 @@ const Admin = () => {
 
         </Routes>
       </div>
-    </div>
+    
   );
 };
 
