@@ -1,6 +1,4 @@
 import './ViewSubjects.css'
-// import {Form,Container,Row,Col,Button} from 'react-bootstrap';
-
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -12,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 import { ApiAddSubjects, ApiDeleteSubjects, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
-import { DeleteForeverSharp } from '@mui/icons-material';
+import {  DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -48,44 +46,59 @@ export default function ViewSubjects() {
     setOpen(false);
   };
 
- const [formVal,useForms]=useForm({
-  subject:'',
-  department:'',
-  semester:''
- })
+  const [formVal, useForms] = useForm({
+    subject: '',
+    department: 'dep',
+    semester: 'sem'
+  })
   const [value, setVal] = React.useState([])
-  const SubApi = async () => {
-    let data = await ApiViewSubjects()
+  const SubApi = async (dep) => {
+    let data = await ApiViewSubjects(dep)
     setVal(data)
+
   }
-  const[department,useDepartment]=React.useState([])
+  const [Dep, useDep] = React.useState('default')
+  const [department, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
     useDepartment(data)
   }
   React.useEffect(() => {
-    SubApi()
+    SubApi(Dep)
     DepartmentApi()
     ApiSem()
-  }, [refresh])
+  }, [refresh, Dep])
 
   const DeleteSub = (id) => {
     ApiDeleteSubjects(id)
     useRefresh(!refresh)
   }
-  const AddSubject=()=>{
-    ApiAddSubjects()
-    useRefresh(!refresh)
-
+  const [errormsg,useErroemsg]=React.useState('')
+  const ErrormsgFnc=()=>{
+    useErroemsg('fill all input fileds')
   }
-  const FormDatas=(event)=>{
+  const AddSubject = () => {
+    if (formVal.subject.trim() && formVal.department!=='dep' && formVal.semester!=='sem') {
+      
+      ApiAddSubjects(formVal)
+      setOpen(false);
+    }else{
+     ErrormsgFnc()
+    }
+    useRefresh(!refresh)
+  }
+  const FormDatas = (event) => {
     useForms(event)
   }
-  const[semester,useSemester]=React.useState([])
-  const ApiSem=async()=>{
-   let data=await ApiViewSemester()
-   useSemester(data)
+  const [semester, useSemester] = React.useState([])
+  const ApiSem = async () => {
+    let data = await ApiViewSemester()
+    useSemester(data)
   }
+  const SelectDep = (event) => {
+    useDep(event.target.value)
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -97,6 +110,7 @@ export default function ViewSubjects() {
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Add New Subject</DialogTitle>
           <DialogContent>
+            <p style={{color:'red'}}>{errormsg}</p>
             <TextField
               autoFocus
               margin="dense"
@@ -110,37 +124,38 @@ export default function ViewSubjects() {
               onChange={FormDatas}
             />
             <Select
-            name='department'
+              name='department'
               value={formVal.department}
               onChange={FormDatas}
               fullWidth
               variant="standard"
               label="Select Department"
-              
-            >
-              {department.map((data,index)=>(
 
-                  <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
-                ))
+            >
+              <MenuItem hidden value={formVal.department}>Select Department</MenuItem>
+              {department.map((data, index) => (
+
+                <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
+              ))
               }
-             
+
             </Select>
             <Select
-            name='semester'
+              name='semester'
               value={formVal.semester}
               onChange={FormDatas}
               fullWidth
               variant="standard"
               label="Select sem"
-              
-            >
-              <MenuItem value=''>Select Semester</MenuItem>
-              {semester.map((data,index)=>(
 
-                  <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
-                ))
+            >
+              <MenuItem hidden value={formVal.semester}>Select Semester</MenuItem>
+              {semester.map((data, index) => (
+
+                <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
+              ))
               }
-             
+
             </Select>
           </DialogContent>
           <DialogActions>
@@ -152,17 +167,53 @@ export default function ViewSubjects() {
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
-          <TableHead>
+          <TableHead style={{ color: 'gray !importent' }}>
             <TableRow>
-              <StyledTableCell>Department</StyledTableCell>
-              <StyledTableCell>Semester</StyledTableCell>
               <StyledTableCell>Subject</StyledTableCell>
+              <StyledTableCell>
+
+
+                <Select
+                  style={{ color: 'white', backgroundColor: 'black', borderColor: 'white' }}
+                  name="department"
+                  value={Dep}
+                  onChange={SelectDep}
+                  fullWidth
+                  variant="standard"
+                  label="Select Department"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+
+                      },
+                    },
+                  }}
+                  IconComponent={(props) => (
+                    <span {...props} style={{ color: 'white' }}>
+                      ▼
+                    </span>
+                  )}
+                >
+                  <MenuItem value={Dep ? 'default' : 'default'}>
+                    Department
+                  </MenuItem>
+                  {department.map((data, index) => (
+                    <MenuItem key={index} value={data.name}>
+                      {data.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+
+
+
+              </StyledTableCell>
+              <StyledTableCell>Semester</StyledTableCell>
               <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {value.map((row) => (
-              <StyledTableRow key={row.name}>
+            {value.map((row, index) => (
+              <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {row.subject}
                 </StyledTableCell>

@@ -119,8 +119,8 @@ export const ApiDeleteSemester=async(id)=>{
       })
     return data
 }
-export const ApiViewSubjects=async()=>{
-   let {data}=await axios.get('/admin/viewSubjects',{
+export const ApiViewSubjects=async(dep)=>{
+   let {data}=await axios.get('/admin/viewSubjects',{params:{dep}},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -135,7 +135,7 @@ export const ApiViewSubjects=async()=>{
     return data
 }
 export const ApiAddSubjects=async(datas)=>{
-   let {data}=await axios.post('/admin/subjectt',{datas},{
+   let {data}=await axios.post('/admin/subject',{datas},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -146,15 +146,16 @@ export const ApiAddSubjects=async(datas)=>{
             text: 'Something Wrong',
 
           })
-          Swal.fire({
-            icon: 'success',
-            text: data,
-        })
+         
     }
+    Swal.fire({
+        icon: 'success',
+        text: data,
+    })
     return data
 }
-export const ApiDeleteSubjects=async()=>{
-   let {data}=await axios.get('/admin/subjectt',{
+export const ApiDeleteSubjects=async(id)=>{
+   let {data}=await axios.get('/admin/deleteSubject',{params:{id}},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -165,10 +166,32 @@ export const ApiDeleteSubjects=async()=>{
             text: 'Something Wrong',
 
           })
-          Swal.fire({
-            icon: 'error',
-            text: data,
-        })
+         
     }
+    Swal.fire({
+        icon: 'error',
+        text: data,
+    })
     return data
 }
+
+export const ApiUploadNotice=async(files,title)=>{
+    let {data}=await axios.post('/admin/uploadNotice',{files,title},{
+         headers:{'Content-Type':'multipart/form-data'},
+         withCredentials:true
+     })
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+ 
+           })
+          
+     }
+     Swal.fire({
+         icon: 'success',
+         text: data,
+     })
+     return data
+ }

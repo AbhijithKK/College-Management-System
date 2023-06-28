@@ -113,13 +113,15 @@ let admin = {
     },
     uploadNotice: (req, res) => {
         try {
+            console.log(req.body);
+            console.log(req.file);
             notice.create({
                 name: req.body.title,
-                filePath: req.file
+                filePath: req.file.filename
             })
             res.json('notice uploaded')
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
     },
     addSemester: (req, res) => {
@@ -134,10 +136,12 @@ let admin = {
         }
     },
     addSubject: (req, res) => {
+        console.log(req.body);
         try {
             subject.create({
-                department: req.body.department,
-                subject: req.body.subject
+                department: req.body.datas.department,
+                subject: req.body.datas.subject,
+                semester:req.body.datas.semester
             })
             res.json('subject added')
         } catch (err) {
@@ -174,7 +178,7 @@ let admin = {
     },
     viewDepartment: async (req, res) => {
         try {
-            let allDepartments = await department.find()
+            let allDepartments = await department.find().lean()
             res.json(allDepartments)
             
         } catch (err) {
@@ -183,7 +187,16 @@ let admin = {
     },
     viewSubjects: async (req, res) => {
         try {
-            let allSubjects = await subject.find()
+            let dep=req.query.dep
+            console.log(dep);
+            let allSubjects
+            if (dep=='default' ) {
+                
+                allSubjects = await subject.find().lean()
+            }else{
+
+                allSubjects = await subject.find({department:dep}).lean()
+            }
             res.json(allSubjects)
         } catch (err) {
             console.log(err);
@@ -257,11 +270,11 @@ let admin = {
     deleteSubject: (req, res) => {
         try {
             let id = req.query.id
-            subject.deleteOne({ _id: id }).then(async () => {
-                let updateSubject = await subject.find().lean()
-                res.json(updateSubject)
+            subject.deleteOne({ _id: id }).then( () => {
+              res.json('subject deleted')
             })
         } catch (err) {
+            res.json(false)
             console.log(err);
         }
     },

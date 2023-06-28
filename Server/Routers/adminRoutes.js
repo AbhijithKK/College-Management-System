@@ -20,7 +20,7 @@ router.post('/addClub',addClub)
 router.post('/department',addDepartment)
 router.post('/semester',addSemester)
 router.post('/Subject',addSubject)
-router.post('/uploadNotice',uploadNotice)
+router.post('/uploadNotice',upload.single('files'),uploadNotice)
 
 // <====VIEW PAGE API====>
 router.get('/home',dashBord)
