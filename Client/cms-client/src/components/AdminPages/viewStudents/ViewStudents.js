@@ -9,7 +9,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import EditSharp from '@mui/icons-material/EditSharp';
 import axios from '../../Axios/Axios'
+import { DeleteForeverSharp } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import Image from '@mui/icons-material/CoPresentSharp';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,18 +52,18 @@ export default function ViewStudents() {
   }
   return (
     <TableContainer component={Paper} >
-      <Table sx={{ minWidth: 700 }} aria-label="customized table" className='tables'>
+      <Table sx={{ minWidth: 600 }} aria-label="customized table" className='tables'>
         <TableHead>
           <TableRow>
             <StyledTableCell>Roll No.</StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
-            <StyledTableCell align="right">Department</StyledTableCell>
-            <StyledTableCell align="right">Mob.Number</StyledTableCell>
-            <StyledTableCell align="right">Adm Year</StyledTableCell>
-            <StyledTableCell align="right">D-O-B</StyledTableCell>
-            <StyledTableCell align="right">Gender</StyledTableCell>
-            <StyledTableCell align="right">Image</StyledTableCell>
-            <StyledTableCell align="right">Action</StyledTableCell>
+            <StyledTableCell align="">Name</StyledTableCell>
+            <StyledTableCell align="">Department</StyledTableCell>
+            <StyledTableCell align="">Mob.Number</StyledTableCell>
+            <StyledTableCell align="">Adm Year</StyledTableCell>
+            <StyledTableCell align="">D-O-B</StyledTableCell>
+            <StyledTableCell align="">Gender</StyledTableCell>
+            <StyledTableCell align="">Image</StyledTableCell>
+            <StyledTableCell align="">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,12 +72,14 @@ export default function ViewStudents() {
               <StyledTableCell component="th" scope="row">
                 {row.regNumber}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.department}</StyledTableCell>
-              <StyledTableCell align="right">{row.mobNumber}</StyledTableCell>
-              <StyledTableCell align="right">{row.admYear}</StyledTableCell>
-              <StyledTableCell align="right">{row.DOB}</StyledTableCell>
-              <StyledTableCell align="right">{row.gender}</StyledTableCell>
+              <StyledTableCell align="">{row.name}</StyledTableCell>
+              <StyledTableCell align="">{row.department}</StyledTableCell>
+              <StyledTableCell align="">{row.mobNumber}</StyledTableCell>
+              <StyledTableCell align="">{row.admYear}</StyledTableCell>
+              <StyledTableCell align="">{new Date(row.DOB).toLocaleDateString()}</StyledTableCell>
+              <StyledTableCell align="">{row.gender}</StyledTableCell>
+              <StyledTableCell align=""><Image></Image></StyledTableCell>
+              <StyledTableCell align=""><Button><EditSharp/></Button> <Button><DeleteForeverSharp/></Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
