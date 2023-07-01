@@ -11,6 +11,7 @@ const signup=mongoose.Schema({
     guardianNo:{type:String,required:true},
     semester:{type:String,required:true},
     mobNumber:{type:String,required:true},
+    guardianName:{type:String,required:true},
     email:{type:String,required:true},
     password:{type:String,required:true},
     image:{type:String}

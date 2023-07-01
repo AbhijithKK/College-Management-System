@@ -49,11 +49,13 @@ let admin = {
             let password = 'password'
             password = await bcript.hash(password, 10)
             console.log(req.body);
+         
             studentModel.create({
                 name: req.body.names,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
                 guardianNo: req.body.guardianNumber,
+                guardianName:req.body.guardianName,
                 department: req.body.department,
                 admYear: req.body.admYear,
                 gender: req.body.gender,
@@ -63,13 +65,14 @@ let admin = {
                 password: password
             }).then(() => res.json('Student Added'))
         } catch (err) {
-            console.log(err);
+           res.json(false)
         }
     },
     addFaculty: async (req, res) => {
         try {
             let password = 'password'
             password = await bcript.hash(password, 10)
+           
             console.log(req.body);
             facultyModel.create({
                 name: req.body.names,
@@ -80,7 +83,7 @@ let admin = {
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB: req.body.dob,
+                DOB:req.body.dob,
                 qualifications: req.body.qualification,
                 password: password
             }).then(() => res.json("faculty Added"))
@@ -162,7 +165,14 @@ let admin = {
     },
     viewStudents: async (req, res) => {
         try {
-            let allStudents = await studentModel.find().lean()
+            let Dep=req.query.Dep
+            let allStudents 
+            if(Dep=='default'){
+                 allStudents = await studentModel.find().lean()
+            }else{
+                allStudents = await studentModel.find({department:Dep}).lean()
+            }
+            
             res.json(allStudents)
         } catch (err) {
             console.log(err);
@@ -236,13 +246,13 @@ let admin = {
     },
 
     // <====DELETE CONTROLLS====>
-    deleteStudent: (req, res) => {
+    deleteStudent: async(req, res) => {
         try {
             let id = req.query.id
-            studentModel.deleteOne({ _id: id }).then(async () => {
-                let updatestudents = await studentModel.find().lean()
-                res.json(updatestudents)
-            })
+          await  studentModel.deleteOne({ _id: id })
+               
+                res.json('student Data Deleted')
+            
         } catch (err) {
             console.log(err);
         }
@@ -292,33 +302,47 @@ let admin = {
 
     // <====UPDATE CONTROLLS====>
 
-    postupdateStudent: (req, res) => {
+    postupdateStudent: async(req, res) => {
         try {
-            let id = req.query.id
-            studentModel.updateOne({ _id: id }, {
-                name: req.body.name,
-                email: req.body.email,
-                mobNumber: req.body.mobNumber,
-                teachingArea: req.body.teachingArea,
-                department: req.body.department,
-                admYear: req.body.admYear,
-                gender: req.body.gender,
-                address: req.body.address,
-                DOB: req.body.DOB,
-                qualifications: req.body.qualifications,
-                image: req.file[0].filename
-            }).then(() => {
-                res.json('ok')
-            })
-        } catch (err) {
-            console.log(err);
-        }
+            console.log(req.body);
+            const id = req.body.id;
+           
+           
+            const updateData = {
+              name: req.body.name,
+              email: req.body.email,
+              mobNumber: req.body.mobNumber,
+              DOB: req.body.dob,
+              admYear: req.body.admYear,
+              address: req.body.address,
+              department: req.body.department,
+              gender: req.body.gender,
+              guardianName: req.body.guardianName,
+              guardianNumber: req.body.guardianNumber,
+              semester: req.body.semester,
+            };
+          
+            if (req.file) {
+              updateData.image = req.file[0].filename;
+            }
+          console.log('kk');
+            let data= await studentModel.updateOne({ _id: id }, updateData);
+          
+           console.log(data);
+              res.json('Student Data Updated');
+            
+          } catch (err) {
+            
+            res.json(false);
+          }
+          
 
     },
-    postupdateFaculty: (req, res) => {
+    postupdateFaculty: async(req, res) => {
         try {
             let id = req.query.id
-            studentModel.updateOne({ _id: id }, {
+            let dob=await Date(req.body.dob).toLocaleDateString()
+            facultyModel.updateOne({ _id: id }, {
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -327,26 +351,52 @@ let admin = {
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB: req.body.DOB,
+                DOB: dob,
                 qualifications: req.body.qualifications,
                 image: req.file[0].filename
             }).then(() => {
                 res.json('ok')
             })
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
 
     },
     updateStudent: async (req, res) => {
-        let id = req.query.id
+        try{
+            let id = req.query.id
+            
+            if (id==undefined) {
+                console.log('ijj');
+               res.json({
+                name: '',
+                email: '',
+                mobNumber: '',
+                DOB: '',
+                admYear: '',
+                guardianName: '',
+                guardianNumber: '',
+                address: '',
+                department: '',
+                gender: '',
+                semester: '',
+              }) 
+              return
+            }
         let student = await studentModel.findOne({ _id: id })
         res.json(student)
+        }catch(err){
+            res.json(false)
+        }
     },
     updateFaculty: async (req, res) => {
+        try{
         let id = req.query.id
         let faculty = await facultyModel.findOne({ _id: id })
         res.json(faculty)
+    }catch(err){
+        res.json(false)
+    }
     },
     // =======>logout<======
     logOut: (req, res) => {

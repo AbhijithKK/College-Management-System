@@ -14,7 +14,7 @@ let router=express.Router()
 
 // <====ADD API====>
 router.post('/adminLogin',adminLogin)
-router.post('/addStudent',addStudent)
+router.post('/student',addStudent)
 router.post('/addFaculty',addFaculty)
 router.post('/addClub',addClub)
 router.post('/department',addDepartment)

@@ -2,7 +2,10 @@ import { Button, Container, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./AddStudent.css";
 import { useForm } from "../../useForm/useForm";
-import axios from "../../Axios/Axios";
+
+import { useEffect, useState } from "react";
+import { ApiAddStudent, ApiViewDepartment } from "../../api/AdminApi";
+
 function AddStudent() {
   const [value, SetValue] = useForm({
     names: "",
@@ -20,18 +23,26 @@ function AddStudent() {
   const ValueHandle = (event) => {
     SetValue(event);
   };
+const [errmsg,setErrmsg]=useState('')
   const SubmitForm = () => {
-    axios
-      .post("/admin/addStudent", value, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((data) => {
-        console.log(data.data);
-      });
+    if (value.names.trim() &&value.email.trim()&&value.mobNumber.trim()&&value.dob.trim()&&value.admYear.trim()&&value.guardianName.trim()&&value.guardianNumber.trim()
+    &&value.address.trim()&&value.department.trim()&&value.gender.trim()&&value.semester.trim()) {
+      
+      ApiAddStudent(value)
+    }else{
+      setErrmsg('Fill the Form properly')
+    }
+  
+
   };
+  const [dept,setDept]=useState([])
+  const HelpDep=async()=>{
+    let data=await ApiViewDepartment()
+    setDept(data)
+  }
+  useEffect(()=>{
+    HelpDep()
+  },[])
   return (
     <Container>
       <Row>
@@ -45,6 +56,7 @@ function AddStudent() {
             }}
           >
             <Form className="form">
+              <p style={{color:'red'}}>{errmsg}</p>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="disabledTextInput"></Form.Label>
                 <Form.Control
@@ -107,10 +119,14 @@ function AddStudent() {
                 <Row>
                   <Col sm={12} md={6}>
                     <Form.Label htmlFor="">Select Departments</Form.Label>
-                    <Form.Select id="" name="department" onChange={ValueHandle}>
-                      <option value="">Select Department</option>
-                      <option value="eee">eee</option>
-                      <option value="cs">cs</option>
+                    <Form.Select id=""  name="department" onChange={ValueHandle}>
+                    <option hidden value={value.department}>Select Department</option>
+              {dept.map((data, index) => (
+
+                <option key={index} value={data.name}>{data.name}</option>
+              ))
+              }
+
                     </Form.Select>
                   </Col>
                   <Col sm={12} md={6}>
@@ -129,7 +145,8 @@ function AddStudent() {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="">Select gender</Form.Label>
-                <Form.Select id="" name="gender" onChange={ValueHandle}>
+                <Form.Select id="" value={value.gender} name="gender" onChange={ValueHandle}>
+                  <option hidden value="">Select Gender</option>
                   <option value="m">male</option>
                   <option value="f">female</option>
                 </Form.Select>

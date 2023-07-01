@@ -195,3 +195,90 @@ export const ApiUploadNotice=async(files,title)=>{
      })
      return data
  }
+ export const ApiUpdateStudent=async(id)=>{
+   let {data}=await axios.get('/admin/updateStudent',{params:{id}},{
+        headers:{'Content-Type':'application/json'},
+        withCredentials:true
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+        }
+        return data
+ }
+
+ export const ApiStudentUpdatePost=async(id,name,email,mobNumber,address,department,
+    dob,admYear,semester,gender,guardianName,guardianNumber)=>{
+    let {data}=await axios.post('/admin/updateStudent',{id,name,email,mobNumber,address,department,
+       dob,admYear, semester,gender,guardianName,guardianNumber},
+        {headers:{
+            'Content-Type':'application/json'
+        }})
+        if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+    
+              })
+             
+        }
+       
+        Swal.fire({
+            icon: 'success',
+            text: 'Student Data Updated',
+        })
+        return data
+ }
+
+ export const ApiStudentDelete=async(id)=>{
+    let data =await axios.get('/admin//deleteStudent',{params:{id}},{
+        headers:{'Content-Type':'application/json'},withCredentials:true
+
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+         
+    }
+   
+    Swal.fire({
+        icon: 'success',
+        text: 'Student data Deleted',
+    })
+    return data
+ }
+ export const ApiAddStudent=(value)=>{
+    axios
+      .post("/admin/student", value, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((data) => {
+        if (data.data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+    
+              })
+             
+        }
+       
+        Swal.fire({
+            icon: 'success',
+            text: data.data,
+        })
+        return data.data
+      });
+ }
