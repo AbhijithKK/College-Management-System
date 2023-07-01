@@ -15,7 +15,7 @@ let router=express.Router()
 // <====ADD API====>
 router.post('/adminLogin',adminLogin)
 router.post('/student',addStudent)
-router.post('/addFaculty',addFaculty)
+router.post('/faculty',addFaculty)
 router.post('/addClub',addClub)
 router.post('/department',addDepartment)
 router.post('/semester',addSemester)
@@ -25,7 +25,7 @@ router.post('/uploadNotice',upload.single('files'),uploadNotice)
 // <====VIEW PAGE API====>
 router.get('/home',dashBord)
 router.get('/viewStudents',viewStudents)
-router.get('/viewFacultys',viewFacultys)
+router.get('/facultys',viewFacultys)
 router.get('/viewDepartment',viewDepartment)
 router.get('/viewSubjects',viewSubjects)
 router.get('/viewSemester',viewSemester)
@@ -47,7 +47,7 @@ router.get('/deleteSemester',deleteSemester)
 router.get('/updateFaculty',updateFaculty)
 router.get('/updateStudent',updateStudent)
 router.post('/updateStudent',upload.single('image'),postupdateStudent)
-router.post('/updateStudent',upload.single('image'),postupdateFaculty)
+router.post('/updateFaculty',upload.single('image'),postupdateFaculty)
 
 
 

@@ -282,3 +282,113 @@ export const ApiUploadNotice=async(files,title)=>{
         return data.data
       });
  }
+
+ export const ApiAddFaculty=(value)=>{
+    axios.post('/admin/faculty',value,{
+        headers:{
+            'Content-Type':'application/json'
+        },withCredentials:true
+    }).then((data)=>{
+        if (data.data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+    
+              })
+             
+        }
+       
+        Swal.fire({
+            icon: 'success',
+            text: data.data,
+        })
+        return data.data
+    })
+ }
+
+ export const ApiDeleteFaculty=async(id)=>{
+  let {data}=await axios.get('/admin/deleteFaculty',{params:{id}},{
+        headers:{
+            'Content-Type':'application/json'
+        },withCredentials:true
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+         
+    }
+   
+    Swal.fire({
+        icon: 'success',
+        text: data,
+    })
+    return data
+
+ }
+
+ export const ApiFacultyUpdatePost=async(id,name,email,mobNumber,address,department,
+    dob,admYear,semester,gender,teachingArea,qualifications)=>{
+    let {data}=await axios.post('/admin/updateFaculty',{id,name,email,mobNumber,address,department,
+       dob,admYear, semester,gender,teachingArea,qualifications},
+        {headers:{
+            'Content-Type':'application/json'
+        }})
+        if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+    
+              })
+             
+        }
+       
+        Swal.fire({
+            icon: 'success',
+            text: 'Faculty Data Updated',
+        })
+        return data
+ }
+
+export const ApiViewFaculty=async(Dep)=>{
+  let {data}=await axios.get('/admin/facultys',{params:{Dep}},{
+        headers:{
+          'Content-Type':'application/json'
+        },withCredentials:true
+      })
+        if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+    
+              })
+             
+        } 
+       
+        return data
+     
+ }
+ export const ApiUpdateFaculty=async(id)=>{
+    let {data}=await axios.get('/admin/updateFaculty',{params:{id}},{
+        headers:{
+            'Content-Type':'application/json'
+        },withCredentials:true
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+         
+    }
+    return data
+  
+ }

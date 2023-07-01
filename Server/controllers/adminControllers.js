@@ -180,10 +180,17 @@ let admin = {
     },
     viewFacultys: async (req, res) => {
         try {
-            let allFacultys = await facultyModel.find()
+            let Dep=req.query.Dep
+            let allFacultys
+            if(Dep=='default'){
+             allFacultys = await facultyModel.find().lean()
+            }else{
+                allFacultys = await facultyModel.find({department:Dep}).lean()
+
+            }
             res.json(allFacultys)
         } catch (err) {
-            console.log(err);
+            response.json(false)
         }
     },
     viewDepartment: async (req, res) => {
@@ -257,15 +264,15 @@ let admin = {
             console.log(err);
         }
     },
-    deleteFaculty: (req, res) => {
+    deleteFaculty: async(req, res) => {
         try {
             let id = req.query.id
-            facultyModel.deleteOne({ _id: id }).then(async () => {
-                let updateFacultys = await facultyModel.find().lean()
-                res.json(updateFacultys)
-            })
+           await facultyModel.deleteOne({ _id: id })
+                
+                res.json('faculty Deleted')
+           
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
     },
     deleteDepartment: async(req, res) => {
@@ -274,7 +281,7 @@ let admin = {
                 await department.deleteOne({ _id: id })
                 res.json(true)
         } catch (err) {
-            console.log(false);
+            res.json(false)
         }
     },
     deleteSubject: (req, res) => {
@@ -340,9 +347,8 @@ let admin = {
     },
     postupdateFaculty: async(req, res) => {
         try {
-            let id = req.query.id
-            let dob=await Date(req.body.dob).toLocaleDateString()
-            facultyModel.updateOne({ _id: id }, {
+            let id = req.body.id
+            const datas={
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -351,11 +357,15 @@ let admin = {
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB: dob,
+                DOB: req.body.dob,
                 qualifications: req.body.qualifications,
-                image: req.file[0].filename
-            }).then(() => {
-                res.json('ok')
+                
+            }
+            if (req.file) {
+                updateData.image = req.file[0].filename;
+              }
+            facultyModel.updateOne({_id:id} ,datas).then(() => {
+                res.json('faculty updated')
             })
         } catch (err) {
             res.json(false)

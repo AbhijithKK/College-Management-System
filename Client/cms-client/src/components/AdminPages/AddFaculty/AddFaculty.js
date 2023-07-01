@@ -1,8 +1,9 @@
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import './AddFaculty.css'
-import axios from '../../Axios/Axios'
 import { useForm } from '../../useForm/useForm';
+import { ApiAddFaculty, ApiViewDepartment } from '../../api/AdminApi';
+import { useEffect, useState } from 'react';
 function Addfaculty() {
     const [value,SetValue]=useForm({
         names:'',
@@ -20,15 +21,27 @@ function Addfaculty() {
     const Handlevalue=(event)=>{
         SetValue(event)
     }
-    const SendData=()=>{
-        axios.post('/admin/addFaculty',value,{
-            headers:{
-                'Content-Type':'application/json'
-            },withCredentials:true
-        }).then((data)=>{
-            console.log(data.data);
-        })
+    const [errmsg,setErrmsg]=useState('')
+  const SendData = () => {
+    if (value.names.trim() &&value.email.trim()&&
+    value.mobNumber.trim()&&value.dob.trim()&&
+    value.admYear.trim()&&
+    value.qualification.trim()&&value.teachingArea.trim()
+    &&value.address.trim()&&value.department.trim()&&value.gender.trim()&&value.semester.trim()) {
+      
+        ApiAddFaculty(value)
+    }else{
+      setErrmsg('Fill the Form properly')
     }
+  };
+  const [dept,setDept]=useState([])
+  const HelpDep=async()=>{
+    let data=await ApiViewDepartment()
+    setDept(data)
+  }
+  useEffect(()=>{
+    HelpDep()
+  },[])
     return (
         <Container>
             <Row>
@@ -40,7 +53,7 @@ function Addfaculty() {
                         justifyContent: "center"
                     }}>
                         <Form className='form'>
-
+                                <p style={{color:'red'}}>{errmsg}</p>
                             <Form.Group className="mb-3">
                                 <Form.Label htmlFor="disabledTextInput"></Form.Label>
                                 <Form.Control id="disabledTextInput" type='text' name='names' value={value.names} onChange={Handlevalue} placeholder="Full Name" />
@@ -70,14 +83,17 @@ function Addfaculty() {
                                     <Col sm={12}  md={6}>
                                         <Form.Label htmlFor="disabledSelect">Select Departments</Form.Label>
                                         <Form.Select id="disabledSelect" name='department' onChange={Handlevalue}>
-                                            <option value="">select Department</option>
-                                            <option value="eee">eee</option>
-                                            <option value="cs">cs</option>
+                                        <option hidden value={value.department}>Select Department</option>
+                                         {dept.map((data, index) => (
+
+                                         <option key={index} value={data.name}>{data.name}</option>
+                                            ))
+                                                  }
                                         </Form.Select>
                                     </Col>
                                     <Col sm={12}  md={6}>
                                         <Form.Label htmlFor="disabledSelect">Select Semesters</Form.Label>
-                                        <Form.Select id="disabledSelect" name='semester' onChange={Handlevalue}>
+                                        <Form.Select id="disabledSelect" value={value.semester} name='semester' onChange={Handlevalue}>
                                             <option value="">select sem</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -91,8 +107,8 @@ function Addfaculty() {
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label htmlFor="disabledSelect">Select gender</Form.Label>
-                                <Form.Select id="disabledSelect" name='gender' onChange={Handlevalue}>
-                                    <option value="">select gender</option>
+                                <Form.Select id="disabledSelect" name='gender' value={value.gender} onChange={Handlevalue}>
+                                    <option hidden value="">select gender</option>
                                     <option value="m">male</option>
                                     <option value="f">female</option>
                                 </Form.Select>
