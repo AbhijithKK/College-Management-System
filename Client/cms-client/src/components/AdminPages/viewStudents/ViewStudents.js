@@ -99,7 +99,7 @@ const GetDept=async()=>{
   const [Dep,setDept]=React.useState('default')
   React.useEffect(() => {
     axios
-      .get("/admin/viewStudents",{params:{Dep}}, {
+      .get("/admin/students",{params:{Dep}}, {
         headers: {
           "Content-Type": "application/json",
         },

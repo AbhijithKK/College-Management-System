@@ -4,7 +4,7 @@ import Swal from "sweetalert2"
 
 
 export const  ApiViewDepartment=async()=>{
-   let {data}=await axios.get('/admin/viewDepartment',{
+   let {data}=await axios.get('/admin/department',{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -60,7 +60,7 @@ export const  ApiAddDepartment=async(datas)=>{
      return data
  }
 export const ApiViewSemester=async()=>{
-   let {data}=await axios.get('/admin/viewSemester',{
+   let {data}=await axios.get('/admin/semester',{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -120,7 +120,7 @@ export const ApiDeleteSemester=async(id)=>{
     return data
 }
 export const ApiViewSubjects=async(dep)=>{
-   let {data}=await axios.get('/admin/viewSubjects',{params:{dep}},{
+   let {data}=await axios.get('/admin/subjects',{params:{dep}},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
