@@ -17,3 +17,11 @@ export const StudentProfileApi=async()=>{
     })
     return data
 }
+export const studentClubApi=async()=>{
+  let {data}=await axios.get('/student/clubs',{
+    headers:{
+        'Content-Type':'application/json'
+    }
+  })
+  return data
+}

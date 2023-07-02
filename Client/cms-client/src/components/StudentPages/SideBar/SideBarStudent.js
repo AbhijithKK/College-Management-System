@@ -100,7 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const links = [
   { text: 'Profile', link: '/student/profile', icon: <AccountCircleSharp /> },
   { text: 'Result', link: '/student/result', icon: <CheckCircleSharp /> },
-  { text: 'Clubs', link: '/student/club', icon: <Diversity3Sharp /> },
+  { text: 'Clubs', link: '/student/clubs', icon: <Diversity3Sharp /> },
   { text: 'Attendance', link: '/student/attendance', icon: <HowToRegSharp /> },
 ];
 const view = [
