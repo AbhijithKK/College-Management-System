@@ -9,9 +9,10 @@ let student = {
     // ========>LOGIN VERIFY<=========
     studentLogin: async (req, res) => {
         try {
-            let data = await studentModel.findeOne({ email: req.body.email })
+            let data = await studentModel.findOne({ email: req.body.email })
+            console.log(data);
             if (data === null) {
-                res.json('Invalid username or password')
+                res.json(false)
             } else {
                 let datas = await bcrypt.compare(req.body.password, data.password)
                 if (datas === true) {
@@ -28,11 +29,11 @@ let student = {
 
     },
     // ======>AUTHENDICATION CHECK<========
-    checkAuth: async () => {
+    checkAuth: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
             console.log(verify);
-            let data = await studentModel.findeOne({ _id: verify.data })
+            let data = await studentModel.findOne({ _id: verify.data })
             if (data !== null) {
                 res.json(true)
             } else {
@@ -44,10 +45,10 @@ let student = {
 
     },
     // =====>GET APIS<======
-    getProfile: async () => {
+    getProfile: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
-            let data = await studentModel.findeOne({ _id: verify.data })
+            let data = await studentModel.findOne({ _id: verify.data })
             if (data !== null) {
                 res.json(data)
             } else {
@@ -57,7 +58,7 @@ let student = {
             res.json(false)
         }
     },
-    getAttendance: async () => {
+    getAttendance: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
             res.json('attendance')
@@ -66,7 +67,7 @@ let student = {
         }
     }
     ,
-    getResult: async () => {
+    getResult: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
             res.json('result')
@@ -75,7 +76,7 @@ let student = {
         }
     }
     ,
-    getClubs: async () => {
+    getClubs: async (req,res) => {
         try {
             let data = await club.find().lean()
             res.json(data)
@@ -84,7 +85,7 @@ let student = {
         }
     }
     ,
-    getNotice: async () => {
+    getNotice: async (req,res) => {
         try {
             let data = await notice.find().lean()
             res.json(data)
@@ -92,20 +93,20 @@ let student = {
             res.json(false)
         }
     },
-    getLeaveLetterStatus: async () => {
+    getLeaveLetterStatus: async (req,res) => {
 
     },
-    getNotificationCalender: async () => {
+    getNotificationCalender: async (req,res) => {
 
     },
 
     // ====>CLUB REQUEST SEND>====
-    postClub: async () => {
+    postClub: async (req,res) => {
 
     }
     ,
     // ======>PROFILE UPDATE<=====
-    postProfile: async () => {
+    postProfile: async (req,res) => {
         try {
             console.log(req.body);
             const id = req.body.id;
@@ -140,7 +141,7 @@ let student = {
         }
     },
     // =======>UPDATE PASSWORD<====
-    postPassword: async () => {
+    postPassword: async (req,res) => {
         try {
             let data = await jwtVerify(req.cookies.studentjwt)
             let newPassword = bcrypt.hash(req.body.password, 10)
@@ -150,10 +151,10 @@ let student = {
             res.json(false)
         }
     }, 
-    postComplaint: async () => {
+    postComplaint: async (req,res) => {
 
     },
-    postLeaveLetter: () => {
+    postLeaveLetter: (req,res) => {
 
     },
     // =======>logout<======

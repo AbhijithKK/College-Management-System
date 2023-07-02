@@ -27,11 +27,11 @@ const MainPage = () => {
         </div>
         <div className="box1 mb-4 ">
           <img src={student} alt="student img" />
-          <Link to='/studentlogin'><h5>Student Login</h5></Link>
+          <Link to='/student/studentlogin'><h5>Student Login</h5></Link>
         </div>
         <div className="box2 mb-4 ">
           <img src={faculty} alt="faculty img" />
-          <Link to='facultylogin'><h5>Faculty Login</h5></Link>
+          <Link to='/faculty/facultylogin'><h5>Faculty Login</h5></Link>
         </div>
       </div>
         </Col>

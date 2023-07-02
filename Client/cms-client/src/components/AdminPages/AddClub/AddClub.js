@@ -3,18 +3,20 @@ import './AddClub.css';
 import { useEffect, useState } from 'react';
 import axios from '../../Axios/Axios';
 import { useForm } from '../../useForm/useForm';
+import Swal from "sweetalert2"
 
 function AddClub() {
   const [faculty, setFaculty] = useState([{ name: '' }]);
 
   useEffect(() => {
     axios
-      .get('/admin/viewFacultys', {
+      .get('/admin/facultys',{params:{Dep:'default'}}, {
         headers: {
           'Content-Type': 'application/json'
         }
       })
       .then((data) => {
+        console.log(data.data);
         FacultyName(data.data);
       });
   }, []);
@@ -37,7 +39,11 @@ const SendData=()=>{
       'Content-Type':'application/json'
     },withCredentials:true
   }).then((data)=>{
-    console.log(data.data);
+    Swal.fire({
+      icon: 'success',
+      text: 'Clib Added',
+  })
+  return data
   })
 }
   return (
@@ -59,7 +65,7 @@ const SendData=()=>{
                   <Form.Control type="text" name='names' value={value.names} onChange={HandleChange} placeholder="Enter Club Name" />
                 </Form.Group>
                 <Form.Select aria-label="Default select example" name='clubAdmin' onChange={HandleChange} >
-                  <option>Select Club Admin</option>
+                  <option hidden> Select Club Admin</option>
                   {faculty.map((value, index) => (
                     <option key={index} value={value.name}>
                       {value.name}

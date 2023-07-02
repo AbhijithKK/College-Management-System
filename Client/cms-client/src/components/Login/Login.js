@@ -7,6 +7,7 @@ import faculty from '../../assets/faculty.png'
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../Axios/Axios";
 import { useDispatch } from "react-redux";
+import { StudentLoginApi } from "../api/StudentApi";
 
 const LoginForm = (props) => {
   const [mail, useMail] = useState('');
@@ -26,23 +27,42 @@ const LoginForm = (props) => {
     useErrmsg('Enter correct username and password');
   };
 
-  const HandleSend = () => {
-    console.log(mail, password);
-    axios.post('/admin/adminLogin', { mail, password }, {
-      Headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    }).then((e) => {
-      if (e.data === true) {
-        history('/admin/dashboard');
-       
+  const HandleSend = async() => {
+    if (props.img === 'admin') {
+
+
+      console.log(mail, password);
+      axios.post('/admin/adminLogin', { mail, password }, {
+        Headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      }).then((e) => {
+        if (e.data === true) {
+          history('/admin/dashboard');
+
+          dispatch({ type: 'refresh' })
+        } else {
+          HandleErrmsg();
+        }
+      });
+    } else if (props.img === 'student') {
+    let data=await StudentLoginApi(mail, password)
+      if (data===false) {
+        
+        ErrMsg('Invalid username or password')
+      }else{
+        history('/student/profile');
+
         dispatch({ type: 'refresh' })
-      } else {
-        HandleErrmsg();
       }
-    });
+    } else if (props.img === 'faculty') {
+
+    }
   };
+  const ErrMsg=(data)=>{
+    useErrmsg(data)
+  }
 
   console.log(password);
 
