@@ -92,6 +92,13 @@ let student = {
             res.json(false)
         }
     },
+    getLeaveLetterStatus: async () => {
+
+    },
+    getNotificationCalender: async () => {
+
+    },
+
     // ====>CLUB REQUEST SEND>====
     postClub: async () => {
 
@@ -142,6 +149,12 @@ let student = {
         } catch (err) {
             res.json(false)
         }
+    }, 
+    postComplaint: async () => {
+
+    },
+    postLeaveLetter: () => {
+
     }
 }
 
