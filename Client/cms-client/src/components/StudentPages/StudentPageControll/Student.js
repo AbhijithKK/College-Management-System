@@ -1,12 +1,14 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import SideBarStudent from '../SideBar/SideBarStudent'
+import Profile from '../Profile/Profile'
 
 const Student = () => {
   return (
-    <div>
+      <div>
+        <SideBarStudent/>
       <Routes>
-        <Route path='*' element={<SideBarStudent/>}></Route>
+        <Route path='/profile' element={<Profile/>}></Route>
       </Routes>
     </div>
   )

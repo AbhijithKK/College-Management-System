@@ -9,3 +9,11 @@ export const StudentLoginApi=async(email,password)=>{
     })
     return data
 }
+export const StudentProfileApi=async()=>{
+    let {data}=await axios.get('/student/profile',{
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    return data
+}

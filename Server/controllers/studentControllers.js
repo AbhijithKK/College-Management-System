@@ -117,13 +117,13 @@ let student = {
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
                 DOB: req.body.dob,
-                admYear: req.body.admYear,
-                address: req.body.address,
-                department: req.body.department,
                 gender: req.body.gender,
+                admYear: req.body.admYear,
+                department: req.body.department,
+                semester: req.body.semester,
                 guardianName: req.body.guardianName,
                 guardianNumber: req.body.guardianNumber,
-                semester: req.body.semester,
+                address: req.body.address,
             };
 
             if (req.file) {
