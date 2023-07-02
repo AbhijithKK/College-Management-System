@@ -155,6 +155,10 @@ let student = {
     },
     postLeaveLetter: () => {
 
+    },
+    // =======>logout<======
+    logOut: (req, res) => {
+        res.cookie('studentjwt', '').json(true)
     }
 }
 

@@ -11,7 +11,7 @@ router.get('/checknotice', student.getNotice)
 router.get('/leaveStatus',student.getLeaveLetterStatus)
 router.get('/notificationCalander',student.getNotificationCalender)
 router.get('/payment',)
-router.get('/logout',)
+router.get('/logout',student.logOut)
 
 router.post('addcomplaint')
 router.post('/clubs', student.postClub)
