@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './Result.css'
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -17,11 +16,22 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Button } from '@mui/material';
+import './Attendance.css';
+import { Chart } from "react-google-charts";
 
+
+// =================>PIE CHART<===================
+export const data = [
+    ["Task", "month"],
+    ["Present", 100],
+    ["Absent", 20],
+    
+  ];
+  
+  export const options = {
+    title: "Attendance Pie Chart",
+  };
+// ===============================================
 
 
 function TablePaginationActions(props) {
@@ -105,7 +115,7 @@ const rows = [
   createData('03/07/2023', 'rahul', 'present'),
 ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
-export default function Result() {
+export default function Attendance() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -122,81 +132,16 @@ export default function Result() {
     setPage(0);
   };
 
-
-
-  // ================>DROP DOWN MENU<=================
-const [anchorEl, setAnchorEl] = React.useState(null);
-const open = Boolean(anchorEl);
-const handleClick = (event) => {
-  setAnchorEl(event.currentTarget);
-};
-const handleClose = () => {
-  setAnchorEl(null);
-};
-
-// =================================================
-
-
-
   return (
     <Container>
-         <h1>Result</h1>
-        {/* ===========================DROP DOWN======================
-         */}
-
-           
-            <div>
-                
-      
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Sem 1</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 2</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 3</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 4</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 5</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 6</MenuItem>
-      </Menu>
-    </div>
-            
-{/* ========================================================== */}
-     
-     
+      <h1>Attendance</h1>
       <TableContainer component={Paper} className="StudentResultTable">
-     
-     
-      {/* ====================DROP DOWN bUTTON================ */}
-      <Button
-        id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        sort by semester <ArrowDropDownIcon/>
-      </Button>
-      {/* ===================================================== */}
-
-
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}>Subject</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Mark</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Grade</TableCell>
+              <TableCell style={{fontWeight:"bold"}}>Date</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="right">Attendance By</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="right">Status</TableCell>
             </TableRow>
             {(rowsPerPage > 0
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -242,7 +187,15 @@ const handleClose = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-      
+      {/* =================>pie Chart<============ */}
+      <Chart
+      chartType="PieChart"
+      data={data}
+      options={options}
+      width={"100%"}
+      height={"400px"}
+    />
+    {/* =============================================== */}
     </Container>
   );
 }

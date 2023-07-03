@@ -33,6 +33,7 @@ import {
   UploadFileSharp,
   MailSharp
 } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -176,6 +177,7 @@ export default function MiniDrawer() {
                   px: 2.5,
                 }}
               >
+                <Tooltip title={item.text}>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -185,6 +187,7 @@ export default function MiniDrawer() {
                 >
                   {item.icon}
                 </ListItemIcon>
+                </Tooltip>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
@@ -203,6 +206,7 @@ export default function MiniDrawer() {
                   px: 2.5,
                 }}
               >
+                <Tooltip title={item.text}>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -212,6 +216,7 @@ export default function MiniDrawer() {
                 >
                   {item.icon}
                 </ListItemIcon>
+                </Tooltip>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
@@ -229,6 +234,7 @@ export default function MiniDrawer() {
                   px: 2.5,
                 }}
               >
+                <Tooltip title={item.text}>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -238,6 +244,7 @@ export default function MiniDrawer() {
                 >
                   {item.icon}
                 </ListItemIcon>
+                </Tooltip>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
