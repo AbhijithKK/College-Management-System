@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
 const signup=mongoose.Schema({
-    regNumber:{type:Number,default:0001},
+    regNumber:{type:Number,default:1},
     name:{type:String,required:true},
     DOB:{type:Date,required:true},
     gender:{type:String,required:true},
@@ -14,7 +14,7 @@ const signup=mongoose.Schema({
     guardianName:{type:String,required:true},
     email:{type:String,required:true},
     password:{type:String,required:true},
-    image:{type:String}
+    image:{type:String ,default:'noImg'}
 })
 
 const studentModel=mongoose.model('student',signup)

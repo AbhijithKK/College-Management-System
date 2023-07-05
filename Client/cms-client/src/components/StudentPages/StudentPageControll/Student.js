@@ -5,6 +5,7 @@ import Profile from '../Profile/Profile'
 import Clubs from '../Clubs/Clubs'
 import Attendance from '../Attendance/Attendance'
 import Result from '../Result/Result'
+import Notice from '../Notice/Notice'
 
 const Student = () => {
   return (
@@ -15,7 +16,8 @@ const Student = () => {
         <Route path='/clubs' element={<Clubs/>}></Route>
         <Route path='/attendance' element={<Attendance/>}></Route>
         <Route path='/result' element={<Result/>}></Route>
-        
+        <Route path='/notice' element={<Notice/>}></Route>
+         
         
 
       </Routes>

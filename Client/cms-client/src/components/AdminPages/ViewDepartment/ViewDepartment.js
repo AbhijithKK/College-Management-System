@@ -14,7 +14,6 @@ import {Button,TextField,Dialog,DialogActions,DialogContent,
    DialogTitle} from '@mui/material';
 import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../api/AdminApi';
 import { DeleteForeverSharp } from '@mui/icons-material';
-import { Await } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

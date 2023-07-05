@@ -1,5 +1,6 @@
 const express = require('express')
 const student = require('../controllers/studentControllers')
+const upload = require('../heplers/multer')
 const router = express.Router()
 
 router.get('/profile', student.getProfile)
@@ -14,12 +15,12 @@ router.get('/checkAuth',student.checkAuth)
 router.get('/logout',student.logOut)
 
 router.post('/login', student.studentLogin)
-router.post('addcomplaint')
+router.post('/addcomplaint')
 router.post('/clubs', student.postClub)
-router.post('updateprofile', student.postProfile)
-router.post('changepassword', student.postPassword)
-router.post('leaveletter', student.postLeaveLetter)
-router.post('addcomplaint', student.postComplaint)
+router.post('/updateprofile',upload.single('image'), student.postProfile)
+router.post('/changepassword', student.postPassword)
+router.post('/leaveletter', student.postLeaveLetter)
+router.post('/addcomplaint', student.postComplaint)
 
 
 module.exports = router

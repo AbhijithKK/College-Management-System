@@ -25,3 +25,45 @@ export const studentClubApi=async()=>{
   })
   return data
 }
+
+export const StudentNoticeApi=async()=>{
+   let {data}=await axios.get('/student/checknotice',{
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+         
+    }
+    return data
+
+}
+export const StudentProfileUpdateApi=async(name,email,mobNumber,dob,admYear,guardianName,guardianNumber,address,department,
+    gender,semester,image)=>{
+  let {data}=await  axios.post('/student/updateprofile',{name,email,mobNumber,dob,admYear,guardianName,guardianNumber,address,department,
+    gender,semester,image},{
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+        }
+        Swal.fire({
+            icon: 'success',
+            
+            text: 'Profile Updated',
+
+          })
+}

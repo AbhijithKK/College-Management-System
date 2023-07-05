@@ -108,11 +108,10 @@ let student = {
     // ======>PROFILE UPDATE<=====
     postProfile: async (req,res) => {
         try {
-            console.log(req.body);
-            const id = req.body.id;
+            let verify = await jwtVerify(req.cookies.studentjwt)
+                let id=verify.data
 
-
-            const updateData = {
+            let updateData = {
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -126,10 +125,12 @@ let student = {
                 address: req.body.address,
             };
 
-            if (req.file) {
-                updateData.image = req.file[0].filename;
+            if (req.file!==undefined) {
+               
+                updateData.image =await req.file.filename;
+                
             }
-
+          
             let data = await studentModel.updateOne({ _id: id }, updateData);
 
             console.log(data);

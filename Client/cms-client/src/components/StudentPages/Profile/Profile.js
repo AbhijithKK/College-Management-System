@@ -3,7 +3,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
     MDBModal, MDBModalDialog, MDBModalContent,MDBModalHeader, MDBModalTitle, MDBModalBody,
     MDBModalFooter, } from 'mdb-react-ui-kit';
 import './Profile.css'
-import { StudentProfileApi } from '../../api/StudentApi';
+import { StudentProfileApi, StudentProfileUpdateApi } from '../../api/StudentApi';
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -17,9 +17,10 @@ export default function Profile() {
         let data=await StudentProfileApi()
         setStudetnData(data)
     }
+    const[refresh,setRefresh]=useState(false)
     useEffect(()=>{
         ApiHelper()
-    },[])
+    },[refresh])
    
 
 
@@ -38,9 +39,10 @@ export default function Profile() {
   const [department,setdepartment]=React.useState('')
   const [gender,setgender]=React.useState('')
   const [semester,setsemester]=React.useState('')
-
+  const[pic,setPic]=useState('')
   
-               
+ console.log(studetnData);
+  
   const HandleClickOpen =async () => { 
     
     setOpen(true);
@@ -72,8 +74,19 @@ const GetDept=async()=>{
   setSem(data)
  }
 //  console.log(semester);
+const [errmsg,setErrmsg]=useState('')
 const HandlSave=()=>{
-
+  if (name.trim() &&email.trim()&&mobNumber.trim()&&dob.trim()&&admYear.trim()&&guardianName.trim()&&guardianNumber.trim()
+    &&address.trim()&&department.trim()&&gender.trim()&&semester.trim()) {
+      
+  StudentProfileUpdateApi(name,email,mobNumber,dob,admYear,guardianName,guardianNumber,address,department,
+    gender,semester,pic)
+    setRefresh(!refresh)
+    setOpen(false);
+  }else{
+    setErrmsg('Fill the form prperly')
+  }
+    
 }
   // ===================
  
@@ -85,7 +98,7 @@ const toggleShow = () => setCentredModal(!centredModal);
 // ================================================
   return (
     <>
-   {/* ===================>PASSWORD MODAL OTP */}
+   {/* ===================>PASSWORD MODAL OTP======= */}
    
 
 <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
@@ -124,6 +137,7 @@ const toggleShow = () => setCentredModal(!centredModal);
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Student Details</DialogTitle>
         <DialogContent>
+          <p style={{color:'red'}}>{errmsg}</p>
           <TextField
             autoFocus
             margin="dense"
@@ -273,10 +287,22 @@ const toggleShow = () => setCentredModal(!centredModal);
             onChange={(event)=> setaddress(event.target.value)
               }
           />
+          <TextField 
+            margin="dense"
+            id="address"
+            label="Change Profile Photo"
+            type="file"
+            fullWidth
+            variant="standard"
+           
+           
+            onChange={(event)=> setPic(event.target.files[0])
+              }
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="button" onClick={HandlSave}>Save</Button>
+          <Button type="button" onClick={HandlSave}>Update</Button>
         </DialogActions>
       </Dialog>
       </div>
@@ -289,7 +315,7 @@ const toggleShow = () => setCentredModal(!centredModal);
               <MDBRow className="g-0">
                 <MDBCol md="4" className="gradient-custom text-center text-black"
                   style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                  <MDBCardImage src={studetnData.image==='noImg' ?  'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp' : `http://localhost:4000/images/${studetnData.image}`}
                     alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
                   <MDBTypography tag="h5">{studetnData.name }</MDBTypography>
                   {/* <MDBCardText>Web Designer</MDBCardText> */}
