@@ -4,6 +4,7 @@ const { jwtSign, jwtVerify } = require("../heplers/jwt")
 const e = require("cors")
 const { club } = require("../models/clubScheema")
 const { notice } = require("../models/noticeScheema")
+const { options } = require("../Routers/adminRoutes")
 
 let student = {
     // ========>LOGIN VERIFY<=========
@@ -144,10 +145,12 @@ let student = {
     // =======>UPDATE PASSWORD<====
     postPassword: async (req,res) => {
         try {
+            
             let data = await jwtVerify(req.cookies.studentjwt)
-            let newPassword = bcrypt.hash(req.body.password, 10)
-            let student = await studentModel.updateOne({ _id: data.data }, { password: newPassword })
-            console.log(student);
+            let newPassword =await bcrypt.hash(req.body.pass, 10)
+             await studentModel.updateOne({ _id: data.data }, { password: newPassword })
+            
+           req.json('password updated')
         } catch (err) {
             res.json(false)
         }
@@ -158,7 +161,21 @@ let student = {
     postLeaveLetter: (req,res) => {
 
     },
-    // =======>logout<======
+    postMailVerify:async(req,res)=>{
+        try{
+        let data=await studentModel.findOne({$or:[{email:req.body.data},{mobNumber:req.body.data}]})
+        if (data!==null) {
+            let otp=11111
+            res.json({otp:otp})
+        }else{
+            res.json({otp:false,text:'Enter Your Registerd Email or Mobile Number'})
+        }
+        console.log(data);
+        }catch(err){
+            res.json(false)
+        }
+    },
+    // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('studentjwt', '').json(true)
     }

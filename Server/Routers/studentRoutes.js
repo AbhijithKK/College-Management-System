@@ -21,6 +21,7 @@ router.post('/updateprofile',upload.single('image'), student.postProfile)
 router.post('/changepassword', student.postPassword)
 router.post('/leaveletter', student.postLeaveLetter)
 router.post('/addcomplaint', student.postComplaint)
+router.post('/verifymail',student.postMailVerify)
 
 
 module.exports = router

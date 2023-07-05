@@ -67,3 +67,43 @@ export const StudentProfileUpdateApi=async(name,email,mobNumber,dob,admYear,guar
 
           })
 }
+
+export const StudentVerifyMail=async(datas)=>{
+let {data}=await axios.post('/student/verifymail',{data:datas},{
+    headers:{
+        'Content-Type':'application/json'
+    },withCredentials:true
+})
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+
+      })
+    }
+return data
+
+}
+export const studentSubmitpassApi=async(pass)=>{
+    let {data}=axios.post('/student/changepassword',{pass},{
+        headers:{
+            'Content-Type':'application/json'
+        },withCredentials:true
+    })
+    if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+    
+          })
+        }
+        Swal.fire({
+            icon: 'success',
+           
+            text: 'Password Changed Successfully',
+    
+          })
+    return data
+}

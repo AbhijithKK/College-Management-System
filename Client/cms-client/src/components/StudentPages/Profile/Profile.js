@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon, MDBBtn,
-    MDBModal, MDBModalDialog, MDBModalContent,MDBModalHeader, MDBModalTitle, MDBModalBody,
-    MDBModalFooter, } from 'mdb-react-ui-kit';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
 import './Profile.css'
-import { StudentProfileApi, StudentProfileUpdateApi } from '../../api/StudentApi';
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { StudentProfileApi, StudentProfileUpdateApi, StudentVerifyMail, studentSubmitpassApi } from '../../api/StudentApi';
+import { Button, DialogContentText, FormControl, InputLabel, MenuItem, Select, useMediaQuery, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -92,45 +90,164 @@ const HandlSave=()=>{
  
 
 //   ===========>PASSWORD MODAL<============
-const [centredModal, setCentredModal] = useState(false);
+const [openPas, setOpenPas] = React.useState(false);
+const [emailOrPhone, setEmailOrPhone] = React.useState('');
+const [otp, setOtp] = React.useState('');
+const theme = useTheme();
+const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+const [text,setText]=useState(' Enter your Registered email or phone number ')
+const [label1,setLabel1]=useState("Email or Phone")
+const [btnText,setBtnText]=useState("Send OTP")
+const[errMsg,setErrMsg]=useState('')
+const [cameOtp,setcameOtp]=useState(0)
+const handleClickOpenPas = () => {
+  setOpenPas(true);
+};
 
-const toggleShow = () => setCentredModal(!centredModal);
+const handleClosepas = () => {
+  setOpenPas(false);
+};
+
+const handleVerify = async() => { 
+let data=await StudentVerifyMail(emailOrPhone)
+if (data.otp===false) {
+  setErrMsg(data.text)
+}else{
+  setcameOtp(data.otp)
+  setText('Enter your OTP')
+  setLabel1('Enter OTP')
+  setBtnText('Verify')  
+  setErrMsg('')
+}}
+const VerifyOtp=()=>{
+  console.log(otp,cameOtp);
+ 
+  if ( parseInt(otp)===cameOtp) {
+    handleClosepas()
+    handleClickOpenPas1()
+    
+  }else{
+
+    setErrMsg('Enter Currect OTP')
+  }
+
+}
 // ================================================
+
+// =============================password change==========================
+const [open1, setOpenPas1] = React.useState(false);
+
+const handleClickOpenPas1 = () => {
+  setOpenPas1(true);
+};
+
+const handleClosepas1 = () => {
+  setOpenPas1(false);
+};
+
+
+const[newpass,SetNewpass]=useState('')
+const[confirmPass,setConfirmPass]=useState('')
+const SubmitPass=async()=>{
+  if (newpass===confirmPass){
+    await studentSubmitpassApi(newpass)
+    handleClosepas1()
+
+  }else{
+    setErrMsg('password not match')
+  }
+}
+// ======================================================================
   return (
     <>
-   {/* ===================>PASSWORD MODAL OTP======= */}
-   
 
-<MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
-  <MDBModalDialog centered>
-    <MDBModalContent>
-      <MDBModalHeader>
-        <MDBModalTitle>Change password</MDBModalTitle>
-        <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
-      </MDBModalHeader>
-      <MDBModalBody>
-      <TextField
+
+    {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
+    <div>
+      
+      <Dialog
+        fullScreen={fullScreen}
+        open={open1}
+        onClose={handleClosepas1}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"OTP Verification"}
+        </DialogTitle>
+        <p style={{color:'red'}}>{errMsg}</p>
+        <DialogContent>
+          <DialogContentText>
+           Change Password
+          </DialogContentText>
+          <TextField
             autoFocus
             margin="dense"
-            id="fullname"
-            label="Enter your mobileno./email address"
+            label='Enter New password'
             type="text"
+            value={newpass}
+            onChange={(e)=>SetNewpass(e.target.value)}
             fullWidth
-            variant="standard"
-            name="names"
-            value={ name }
-            onChange={(e)=>setName(e.target.value)}
           />
-      </MDBModalBody>
-      <MDBModalFooter>
-        <MDBBtn color='secondary' onClick={toggleShow}>
-          Close
-        </MDBBtn>
-        <MDBBtn>Send OTP</MDBBtn>
-      </MDBModalFooter>
-    </MDBModalContent>
-  </MDBModalDialog>
-</MDBModal>
+          <TextField
+            autoFocus
+            margin="dense"
+            label='Enter Confirm password'
+            type="text"
+            value={confirmPass}
+            onChange={(e)=>setConfirmPass(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={SubmitPass} autoFocus>
+           Save
+          </Button>
+        </DialogActions>
+
+      </Dialog>
+    </div>
+{/* ================================================================================================== */}
+
+
+   {/* ===================>MODAL OTP=================*/}
+   
+   <div>
+      
+      <Dialog
+        fullScreen={fullScreen}
+        open={openPas}
+        onClose={handleClosepas}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"OTP Verification"}
+        </DialogTitle>
+        <p style={{color:'red'}}>{errMsg}</p>
+        <DialogContent>
+          <DialogContentText>
+           {text}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label={label1}
+            type="text"
+            value={btnText==='Verify' ? otp : emailOrPhone}
+            onChange={btnText==='Verify' ? (e)=>setOtp(e.target.value) : (e) => setEmailOrPhone(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={btnText==='Verify' ? VerifyOtp: handleVerify} autoFocus>
+           {btnText}
+          </Button>
+        </DialogActions>
+
+      </Dialog>
+    </div>
+
    {/* ======================================== */}
       {/* =======>MODAL<======= */}
       <div>
@@ -320,7 +437,7 @@ const toggleShow = () => setCentredModal(!centredModal);
                   <MDBTypography tag="h5">{studetnData.name }</MDBTypography>
                   {/* <MDBCardText>Web Designer</MDBCardText> */}
                  <Button onClick={ HandleClickOpen}><MDBIcon far icon="edit mb-5" /></Button> <br/>
-                 <Button onClick={toggleShow} className='text-blue psBtn'>Change password?</Button>
+                 <Button onClick={handleClickOpenPas} className='text-blue psBtn'>Change password?</Button>
                 </MDBCol>
                 <MDBCol md="8">
                   <MDBCardBody className="p-4">
