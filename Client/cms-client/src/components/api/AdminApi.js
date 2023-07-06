@@ -408,3 +408,41 @@ export const ApiViewFaculty=async(Dep)=>{
      }
      return data
  }
+ export const  ApiAddClass=async(datas)=>{
+    let {data}=await axios.post('/admin/class',{className:datas.className,department:datas.department},{
+         headers:{'Content-Type':'application/json'},
+         withCredentials:true
+     })
+ 
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+           })
+     }
+     Swal.fire({
+        icon: 'success',
+        text: data
+    })
+     return data
+ }
+ export const  ApiDeleteClass=async(id)=>{
+    let {data}=await axios.get('/admin/deleteClass',{params:{id}},{
+         headers:{'Content-Type':'application/json'},
+         withCredentials:true
+     })
+ 
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+           })
+     }
+     Swal.fire({
+        icon: 'success',
+        text: data
+    })
+     return data
+ }

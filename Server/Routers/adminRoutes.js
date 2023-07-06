@@ -9,7 +9,9 @@ const { adminLogin,addStudent, addFaculty, addClub,
        postupdateFaculty,
        checkAuth,
        logOut,
-       viewClass} = require('../controllers/adminControllers')
+       viewClass,
+       addClass,
+       deleteClass} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 let router=express.Router()
 
@@ -22,6 +24,7 @@ router.post('/department',addDepartment)
 router.post('/semester',addSemester)
 router.post('/Subject',addSubject)
 router.post('/uploadNotice',upload.single('files'),uploadNotice)
+router.post('/class',addClass)
 
 // <====VIEW PAGE API====>
 router.get('/home',dashBord)
@@ -44,6 +47,7 @@ router.get('/deleteFaculty',deleteFaculty)
 router.get('/deleteDepartment',deleteDepartment)
 router.get('/deleteSubject',deleteSubject)
 router.get('/deleteSemester',deleteSemester)
+router.get('/deleteClass',deleteClass)
 
 // <====UPDATE API====>
 router.get('/updateFaculty',updateFaculty)

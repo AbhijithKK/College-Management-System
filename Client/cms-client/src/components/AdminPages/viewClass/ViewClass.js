@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
-import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
+import { ApiAddClass, ApiAddSemester, ApiDeleteClass, ApiDeleteSemester, ApiViewClass, ApiViewDepartment} from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
@@ -53,7 +53,7 @@ export default function ViewClass() {
   
   const [value, useValue] = React.useState([])
   const ApiCall = async () => {
-    let val = await ApiViewSemester()
+    let val = await ApiViewClass()
     useValue(val)
   }
   const Changeval = (event) => {
@@ -63,24 +63,24 @@ export default function ViewClass() {
     className:'',
     department:'hh'
   })
-  const [semester,useSemester]=React.useState([])
+  const [Department,useDepartment]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
-  const ApiSem=async()=>{
+  const ApiDept=async()=>{
     let data=await ApiViewDepartment()
-    useSemester(data)
+    useDepartment(data)
    
   }
   React.useEffect(() => {
     ApiCall()
-    ApiSem()
+    ApiDept()
   }, [refresh])
-const AddSem=()=>{
-  ApiAddSemester(formdata)
+const AddClass=()=>{
+  ApiAddClass(formdata)
   setOpen(false);
   userefresh(!refresh)
 }
-const DeleteSem=(id)=>{
-ApiDeleteSemester(id)
+const DeleteClass=(id)=>{
+ApiDeleteClass(id)
 userefresh(!refresh)
 }
   return (
@@ -119,7 +119,7 @@ userefresh(!refresh)
               
                 <MenuItem hidden value={formdata.department}>Select Department</MenuItem>
               
-              {semester.map((val,index)=>(
+              {Department.map((val,index)=>(
                 <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
               ))}
              
@@ -128,7 +128,7 @@ userefresh(!refresh)
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={AddSem}>Add</Button>
+            <Button onClick={AddClass}>Add</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -147,10 +147,10 @@ userefresh(!refresh)
               <StyledTableRow key={index}>
                
                 <StyledTableCell component="th" scope="row">
-                  {row.semester}
+                  {row.className}
                 </StyledTableCell>
                 <StyledTableCell>{row.department}</StyledTableCell>
-                <StyledTableCell ><Button onClick={()=>DeleteSem(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
+                <StyledTableCell ><Button onClick={()=>DeleteClass(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

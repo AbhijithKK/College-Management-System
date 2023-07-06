@@ -152,6 +152,19 @@ let admin = {
             console.log(err);
         }
     },
+    addClass: (req, res) => {
+        console.log(req.body);
+        try {
+            classScheema.create({
+                department: req.body.department,
+                className: req.body.className,
+                
+            })
+            res.json('Class added')
+        } catch (err) {
+            res.json(false)
+        }
+    },
     // <====VIEW CONTROLLS===>
 
     dashBord: async (req, res) => {
@@ -299,6 +312,17 @@ let admin = {
             let id = req.query.id
             subject.deleteOne({ _id: id }).then( () => {
               res.json('subject deleted')
+            })
+        } catch (err) {
+            res.json(false)
+            console.log(err);
+        }
+    },
+    deleteClass: (req, res) => {
+        try {
+            let id = req.query.id
+            classScheema.deleteOne({ _id: id }).then( () => {
+              res.json('Class deleted')
             })
         } catch (err) {
             res.json(false)
