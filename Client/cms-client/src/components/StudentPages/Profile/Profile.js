@@ -120,14 +120,14 @@ export default function Profile() {
       setErrMsg('')
     }
   }
-  const VerifyOtp = () => {
-    console.log(otp, cameOtp);
-
-    if (parseInt(otp) === cameOtp) {
+  const VerifyOtp = async() => {
+    
+    if (otp === cameOtp) {
+      
       handleClosepas()
       handleClickOpenPas1()
       setErrMsg('')
-
+      
     } else {
 
       setErrMsg('Enter Currect OTP')

@@ -1,10 +1,18 @@
 const bcrypt = require("bcrypt")
 const { studentModel } = require("../models/studentScheema")
 const { jwtSign, jwtVerify } = require("../heplers/jwt")
-const e = require("cors")
+
 const { club } = require("../models/clubScheema")
 const { notice } = require("../models/noticeScheema")
-const { options } = require("../Routers/adminRoutes")
+const Mail = require("../heplers/nodeMailer")
+
+const otpGenerator = require('otp-generator')
+const nodeMail = require("../heplers/nodeMailer")
+
+const OtpGen=()=>{
+    return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
+        specialChars: false ,lowerCaseAlphabets:false});
+}
 
 let student = {
     // ========>LOGIN VERIFY<=========
@@ -165,7 +173,8 @@ let student = {
         try{
         let data=await studentModel.findOne({$or:[{email:req.body.data},{mobNumber:req.body.data}]})
         if (data!==null) {
-            let otp=11111
+            let otp=OtpGen()
+            nodeMail(data.email,otp)
             res.json({otp:otp})
         }else{
             res.json({otp:false,text:'Enter Your Registerd Email or Mobile Number'})
