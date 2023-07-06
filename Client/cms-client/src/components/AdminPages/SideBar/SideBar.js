@@ -111,7 +111,7 @@ const links = [
 const view = [
   { text: 'View Students', link: '/admin/viewstudents', icon: <SchoolSharp /> },
   { text: 'View Facultys', link: '/admin/viewfaculty', icon: <SupervisorAccountSharp /> },
-  { text: 'View Club Requests', link: '/admin/viewclubrequests', icon: <Diversity3Sharp /> },
+  { text: 'View Class', link: '/admin/viewclass', icon: <Diversity3Sharp /> },
   { text: 'View Departments', link: '/admin/viewdepartments', icon: <HomeWorkSharp /> },
   { text: 'View Semesters', link: '/admin/viewsemester', icon: <CalendarViewMonthSharp /> },
   { text: 'View Subjects', link: '/admin/viewsubjects', icon: <LocalLibrarySharp /> },

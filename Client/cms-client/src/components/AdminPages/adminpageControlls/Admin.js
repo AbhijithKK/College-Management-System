@@ -13,6 +13,7 @@ import ViewComplaint from '../ViewComplaint/ViewComplaint';
 import UploadNotice from '../UploadNotice/UploadNotice';
 import Dashboard from '../Dasgboard/DashBoard';
 import Logout from '../../Logout/Logout';
+import ViewClass from '../viewClass/ViewClass';
 
 const Admin = () => {
   
@@ -27,7 +28,7 @@ const Admin = () => {
           <Route path="/viewdepartments" element={<ViewDepartment />} />
           <Route path="/viewstudents" element={<ViewStudents />} />
           <Route path="/viewfaculty" element={<ViewFaculty />} />
-          <Route path="/viewclubrequests" element={<ViewDepartment />} />
+          <Route path="/viewclass" element={<ViewClass />} />
           <Route path="/viewsemester" element={<ViewSemester />} />
           <Route path="/viewsubjects" element={<ViewSubjects />} />
           <Route path="/viewcomplaint" element={<ViewComplaint />} />

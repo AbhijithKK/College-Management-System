@@ -1,4 +1,4 @@
-import './ViewSemester.css'
+import './ViewClass.css'
 // import {Form,Container,Row,Col,Button} from 'react-bootstrap';
 
 import * as React from 'react';
@@ -14,6 +14,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, M
 import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
+import { Container } from 'react-bootstrap';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,7 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
-export default function ViewSemester() {
+export default function ViewClass() {
   const [open, setOpen] = React.useState(false);
   
 
@@ -83,28 +84,45 @@ ApiDeleteSemester(id)
 userefresh(!refresh)
 }
   return (
-    <React.Fragment>
-      <div>
+    <Container>
+         <div>
         <div className="addbtn">
           <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
-            Add Semester
+            Add Class
           </Button>
         </div>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add New Semester</DialogTitle>
+          <DialogTitle>Add New Class</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="Enter Semester"
+              label="Enter Class Name"
               type="text"
               fullWidth
               variant="standard"
-              name='semester'
+              name='Class Name'
               value={formdata.semester}
               onChange={Changeval}
             />
+            <Select
+             
+              onChange={Changeval}
+              fullWidth
+              variant="standard"
+              label="Select Semester"
+              name='semester'
+              value={formdata.department}
+            >
+              
+              
+              {semester.map((val,index)=>(
+              <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
+              ))}
+             
+             
+            </Select>
             <Select
              
               onChange={Changeval}
@@ -134,24 +152,28 @@ userefresh(!refresh)
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
           <TableHead>
             <TableRow>
+              <StyledTableCell>Class</StyledTableCell>
               <StyledTableCell>Semester</StyledTableCell>
               <StyledTableCell>Department</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell >Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {value.map((row, index) => (
               <StyledTableRow key={index}>
+                <StyledTableCell >
+                  
+                </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   {row.semester}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.department}</StyledTableCell>
-                <StyledTableCell align="left"><Button onClick={()=>DeleteSem(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
+                <StyledTableCell>{row.department}</StyledTableCell>
+                <StyledTableCell ><Button onClick={()=>DeleteSem(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </React.Fragment>
+    </Container>
   );
 }
