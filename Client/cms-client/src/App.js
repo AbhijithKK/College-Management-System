@@ -3,7 +3,7 @@ import './App.css';
 import Admin from './components/AdminPages/adminpageControlls/Admin';
 import LoginForm from './components/Login/Login';
 import MainPage from './components/mainpage/MainPage';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, Navigate} from 'react-router-dom';
 import axios from './components/Axios/Axios'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import Student from './components/StudentPages/StudentPageControll/Student';
 function App() {
 
   const dispatch = useDispatch()
-  const { refresh, admin,student } = useSelector((state) => {
+  const { refresh, admin,student,faculty } = useSelector((state) => {
     
     return state
   })
@@ -49,11 +49,23 @@ function App() {
   )} */}
 
   {admin.login === true && (
+    <>
     <Route exact path='/admin/*' element={<Admin />} />
+    <Route exact path='/admin/' element={<Navigate to="/admin/dashboard" />} />
+    </>
   )}
   {student.login === true && (
+    <>
     <Route exact path='/student/*' element={<Student />} />
+    <Route exact path='/student/' element={<Navigate to="/admin/profile" />} />
+   </>
   )}
+  {faculty.login === true && (
+  <>
+    <Route exact path='/faculty/*' element={<Student />} />
+    <Route exact path='/faculty/' element={<Navigate to="/admin/profile" />} />
+    </>
+   )} 
 </Routes>
 
       
