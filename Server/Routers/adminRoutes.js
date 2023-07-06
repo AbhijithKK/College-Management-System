@@ -8,7 +8,8 @@ const { adminLogin,addStudent, addFaculty, addClub,
       postupdateStudent,
        postupdateFaculty,
        checkAuth,
-       logOut} = require('../controllers/adminControllers')
+       logOut,
+       viewClass} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 let router=express.Router()
 
@@ -33,6 +34,7 @@ router.get('/viewComplaints',viewComplaints)
 router.get('/viewClubRequests',viewClubRequests)
 router.get('/viewApproveLists',viewApproveLists)
 router.get('/viewApproveLists',viewApproveLists)
+router.get('/class',viewClass)
 router.get('/checkAuth',checkAuth)
 router.get('/logout',logOut)
 

@@ -392,3 +392,19 @@ export const ApiViewFaculty=async(Dep)=>{
     return data
   
  }
+
+ export const  ApiViewClass=async()=>{
+    let {data}=await axios.get('/admin/class',{
+         headers:{'Content-Type':'application/json'},
+         withCredentials:true
+     })
+ 
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+           })
+     }
+     return data
+ }

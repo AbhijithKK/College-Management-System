@@ -60,8 +60,8 @@ export default function ViewClass() {
     useFormdata(event)
   }
   const [formdata, useFormdata] = useForm({
-    semester:'',
-    department:''
+    className:'',
+    department:'hh'
   })
   const [semester,useSemester]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
@@ -102,27 +102,11 @@ userefresh(!refresh)
               type="text"
               fullWidth
               variant="standard"
-              name='Class Name'
-              value={formdata.semester}
+              name='className'
+              value={formdata.className}
               onChange={Changeval}
             />
-            <Select
-             
-              onChange={Changeval}
-              fullWidth
-              variant="standard"
-              label="Select Semester"
-              name='semester'
-              value={formdata.department}
-            >
-              
-              
-              {semester.map((val,index)=>(
-              <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
-              ))}
-             
-             
-            </Select>
+            
             <Select
              
               onChange={Changeval}
@@ -133,9 +117,10 @@ userefresh(!refresh)
               value={formdata.department}
             >
               
+                <MenuItem hidden value={formdata.department}>Select Department</MenuItem>
               
               {semester.map((val,index)=>(
-              <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
+                <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
               ))}
              
              
@@ -152,8 +137,7 @@ userefresh(!refresh)
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Class</StyledTableCell>
-              <StyledTableCell>Semester</StyledTableCell>
+              <StyledTableCell>Class Name</StyledTableCell>
               <StyledTableCell>Department</StyledTableCell>
               <StyledTableCell >Action</StyledTableCell>
             </TableRow>
@@ -161,9 +145,7 @@ userefresh(!refresh)
           <TableBody>
             {value.map((row, index) => (
               <StyledTableRow key={index}>
-                <StyledTableCell >
-                  
-                </StyledTableCell>
+               
                 <StyledTableCell component="th" scope="row">
                   {row.semester}
                 </StyledTableCell>

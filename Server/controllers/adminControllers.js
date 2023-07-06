@@ -7,6 +7,7 @@ const { semester } = require('../models/semesterScheema')
 const { subject } = require('../models/subjectScheema')
 const bcript = require('bcrypt')
 const { jwtSign, jwtVerify } = require('../heplers/jwt')
+const { classScheema } = require('../models/classScheema')
 let admin = {
 
     // <====LOGIN VERIFY====>
@@ -225,6 +226,15 @@ let admin = {
             res.json(allSemesters)
         } catch (err) {
             console.log(err);
+        }
+    },
+    viewClass: async (req, res) => {
+        try {
+            let allClass = await  classScheema.find().lean()
+            res.json(allClass)
+        } catch (err) {
+            res.json(false)
+            
         }
     },
     viewComplaints: async (req, res) => {
