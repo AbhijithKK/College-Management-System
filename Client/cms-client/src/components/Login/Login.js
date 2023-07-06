@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../Axios/Axios";
 import { useDispatch } from "react-redux";
 import { StudentLoginApi } from "../api/StudentApi";
+import { FacultyLoginApi } from "../api/FacultyApi";
 
 const LoginForm = (props) => {
   const [mail, useMail] = useState('');
@@ -57,7 +58,15 @@ const LoginForm = (props) => {
         dispatch({ type: 'refresh' })
       }
     } else if (props.img === 'faculty') {
+      let data =await FacultyLoginApi(mail,password)
+      if (data===false) {
+        
+        ErrMsg('Invalid username or password')
+      }else{
+        history('/faculty/profile');
 
+        dispatch({ type: 'refresh' })
+      }
     }
   };
   const ErrMsg=(data)=>{

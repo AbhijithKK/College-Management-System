@@ -25,9 +25,9 @@ import {
   CheckCircleSharp,
   HowToRegSharp,
   PendingActionsSharp,
-  CalendarMonthSharp,
+  
   MarkEmailUnreadSharp,
-  PriceCheckSharp
+  
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 
@@ -100,9 +100,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const links = [
   { text: 'Profile', link: '/faculty/profile', icon: <AccountCircleSharp /> },
-  { text: 'Result', link: '/faculty/addresult', icon: <CheckCircleSharp /> },
+  { text: 'Add Result', link: '/faculty/addresult', icon: <CheckCircleSharp /> },
   { text: 'Clubs', link: '/faculty/clubs', icon: <Diversity3Sharp /> },
-  { text: 'Attendance', link: '/faculty/makeattendance', icon: <HowToRegSharp /> },
+  { text: 'Add Attendance', link: '/faculty/makeattendance', icon: <HowToRegSharp /> },
   { text: 'Check Leave Letters', link: '/faculty/Checkleaveletters', icon: <PendingActionsSharp /> },
 ];
 const view = [ 

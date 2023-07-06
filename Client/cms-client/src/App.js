@@ -8,6 +8,7 @@ import axios from './components/Axios/Axios'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Student from './components/StudentPages/StudentPageControll/Student';
+import Faculty from './components/FacultyPages/FacultyControlls';
 function App() {
 
   const dispatch = useDispatch()
@@ -31,6 +32,13 @@ function App() {
       dispatch({ type: 'student', payload: { login: data.data } })
 
     })
+    axios.get('/faculty/checkAuth', {
+      headers: { 'Content-Type': 'application/json' }
+    }).then((data) => {
+      console.log(data.data);
+      dispatch({ type: 'faculty', payload: { login: data.data } })
+
+    })
   }, [refresh, dispatch])
   return (
     <div className="App">
@@ -39,7 +47,7 @@ function App() {
   <Route exact path='/' element={<MainPage />} />
 
   <Route exact path='/student/studentlogin' element={<LoginForm data={"STUDENT LOGIN"} img={'student'} />} />
-  <Route exact path='/facultylogin' element={<LoginForm data={"FACULTY LOGIN"} img={'faculty'} />} />
+  <Route exact path='/faculty/facultylogin' element={<LoginForm data={"FACULTY LOGIN"} img={'faculty'} />} />
   <Route exact path='/admin/adminlogin' element={<LoginForm data={"ADMIN LOGIN"} img={'admin'} />} />
 
   {/* {admin.login === false && (
@@ -57,15 +65,20 @@ function App() {
   {student.login === true && (
     <>
     <Route exact path='/student/*' element={<Student />} />
-    <Route exact path='/student/' element={<Navigate to="/admin/profile" />} />
+    <Route exact path='/student/' element={<Navigate to="/student/profile" />} />
    </>
+  )}
+  {student.login === false&& (
+    
+    <Route exact path='/student/*' element={<Navigate to="/student/studentlogin" />} />
+  
   )}
   {faculty.login === true && (
   <>
-    <Route exact path='/faculty/*' element={<Student />} />
-    <Route exact path='/faculty/' element={<Navigate to="/admin/profile" />} />
+    <Route exact path='/faculty/*' element={<Faculty />} />
+    <Route exact path='/faculty/' element={<Navigate to="/faculty/profile" />} />
     </>
-   )} 
+    )} 
 </Routes>
 
       

@@ -4,7 +4,7 @@ const { jwtSign, jwtVerify } = require("../heplers/jwt")
 
 const { club } = require("../models/clubScheema")
 const { notice } = require("../models/noticeScheema")
-const Mail = require("../heplers/nodeMailer")
+
 
 const otpGenerator = require('otp-generator')
 const nodeMail = require("../heplers/nodeMailer")
