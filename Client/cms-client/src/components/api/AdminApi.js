@@ -59,8 +59,8 @@ export const  ApiAddDepartment=async(datas)=>{
      
      return data
  }
-export const ApiViewSemester=async()=>{
-   let {data}=await axios.get('/admin/semester',{
+export const ApiViewSemester=async(Dep)=>{
+   let {data}=await axios.get('/admin/semester',{params:{Dep}},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -134,8 +134,8 @@ export const ApiViewSubjects=async(dep)=>{
     }
     return data
 }
-export const ApiAddSubjects=async(datas)=>{
-   let {data}=await axios.post('/admin/subject',{datas},{
+export const ApiAddSubjects=async(datas,department,className)=>{
+   let {data}=await axios.post('/admin/subject',{datas,department,className},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })
@@ -393,8 +393,8 @@ export const ApiViewFaculty=async(Dep)=>{
   
  }
 
- export const  ApiViewClass=async()=>{
-    let {data}=await axios.get('/admin/class',{
+ export const  ApiViewClass=async(Dep)=>{
+    let {data}=await axios.get('/admin/class',{params:{Dep}},{
          headers:{'Content-Type':'application/json'},
          withCredentials:true
      })

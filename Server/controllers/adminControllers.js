@@ -143,9 +143,10 @@ let admin = {
         console.log(req.body);
         try {
             subject.create({
-                department: req.body.datas.department,
+                department: req.body.department,
                 subject: req.body.datas.subject,
-                semester:req.body.datas.semester
+                semester:req.body.datas.semester,
+                className:req.body.className
             })
             res.json('subject added')
         } catch (err) {
@@ -219,7 +220,6 @@ let admin = {
     viewSubjects: async (req, res) => {
         try {
             let dep=req.query.dep
-            console.log(dep);
             let allSubjects
             if (dep=='default' ) {
                 
@@ -235,15 +235,27 @@ let admin = {
     },
     viewSemester: async (req, res) => {
         try {
-            let allSemesters = await semester.find()
+            let allSemesters
+            if (req.query.Dep) {
+                allSemesters = await semester.find({department:req.query.Dep}).lean()
+                res.json(allSemesters)
+                return
+            }
+            allSemesters = await semester.find().lean()
             res.json(allSemesters)
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
     },
     viewClass: async (req, res) => {
         try {
-            let allClass = await  classScheema.find().lean()
+            let allClass
+            if (req.query.Dep ) {
+             allClass = await  classScheema.find({department:req.query.Dep}).lean()
+            res.json(allClass)
+            return
+            }
+            allClass = await  classScheema.find().lean()
             res.json(allClass)
         } catch (err) {
             res.json(false)

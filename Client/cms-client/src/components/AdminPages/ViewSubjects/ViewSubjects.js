@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
-import { ApiAddSubjects, ApiDeleteSubjects, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
+import { ApiAddSubjects, ApiDeleteSubjects, ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
 import {  DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
 
@@ -45,29 +45,40 @@ export default function ViewSubjects() {
   const handleClose = () => {
     setOpen(false);
   };
-
+const[department,usedepartment]=React.useState('defaul')
   const [formVal, useForms] = useForm({
     subject: '',
-    department: 'dep',
-    semester: 'sem'
+    
+    semester: 'default'
   })
   const [value, setVal] = React.useState([])
   const SubApi = async (dep) => {
     let data = await ApiViewSubjects(dep)
     setVal(data)
-
   }
   const [Dep, useDep] = React.useState('default')
-  const [department, useDepartment] = React.useState([])
+  const [departmentArr, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
     useDepartment(data)
   }
+  
   React.useEffect(() => {
+    const ApiSem = async () => {
+    
+    let data = await ApiViewSemester(department)
+    
+    useSemester(data)
+  }
+  const GetClass=async()=>{
+    let data=await ApiViewClass(department)
+    setclassNameArr(data)
+  }
     SubApi(Dep)
     DepartmentApi()
     ApiSem()
-  }, [refresh, Dep])
+    GetClass()
+  }, [refresh, Dep,department])
 
   const DeleteSub = (id) => {
     ApiDeleteSubjects(id)
@@ -78,9 +89,9 @@ export default function ViewSubjects() {
     useErroemsg('fill all input fileds')
   }
   const AddSubject = () => {
-    if (formVal.subject.trim() && formVal.department!=='dep' && formVal.semester!=='sem') {
+    if (formVal.subject.trim() && department!=='default' && formVal.semester!=='default' &&className!=='default') {
       
-      ApiAddSubjects(formVal)
+      ApiAddSubjects(formVal,department,className)
       setOpen(false);
     }else{
      ErrormsgFnc()
@@ -90,15 +101,16 @@ export default function ViewSubjects() {
   const FormDatas = (event) => {
     useForms(event)
   }
+ 
+  
   const [semester, useSemester] = React.useState([])
-  const ApiSem = async () => {
-    let data = await ApiViewSemester()
-    useSemester(data)
-  }
+ const[classNameArr,setclassNameArr]=React.useState([])
   const SelectDep = (event) => {
+  
     useDep(event.target.value)
   }
 
+  const [className,setClassName]=React.useState('default')
   return (
     <React.Fragment>
       <div>
@@ -125,15 +137,15 @@ export default function ViewSubjects() {
             />
             <Select
               name='department'
-              value={formVal.department}
-              onChange={FormDatas}
+              value={department}
+              onChange={(e)=>usedepartment(e.target.value)}
               fullWidth
               variant="standard"
               label="Select Department"
 
             >
-              <MenuItem hidden value={formVal.department}>Select Department</MenuItem>
-              {department.map((data, index) => (
+              <MenuItem hidden value={department}>Select Department</MenuItem>
+              {departmentArr.map((data, index) => (
 
                 <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
               ))
@@ -153,6 +165,23 @@ export default function ViewSubjects() {
               {semester.map((data, index) => (
 
                 <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
+              ))
+              }
+
+            </Select>
+            <Select
+              name='Class'
+              value={className}
+              onChange={(e)=>setClassName(e.target.value)}
+              fullWidth
+              variant="standard"
+              label="Select sem"
+
+            >
+              <MenuItem hidden value={className}>Select Class</MenuItem>
+              {classNameArr.map((data, index) => (
+
+                <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
               ))
               }
 
@@ -197,7 +226,7 @@ export default function ViewSubjects() {
                   <MenuItem value={Dep ? 'default' : 'default'}>
                     Department
                   </MenuItem>
-                  {department.map((data, index) => (
+                  {departmentArr.map((data, index) => (
                     <MenuItem key={index} value={data.name}>
                       {data.name}
                     </MenuItem>

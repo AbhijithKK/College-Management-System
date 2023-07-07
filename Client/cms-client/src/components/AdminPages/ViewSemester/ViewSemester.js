@@ -1,5 +1,5 @@
 import './ViewSemester.css'
-// import {Form,Container,Row,Col,Button} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -60,30 +60,36 @@ export default function ViewSemester() {
   }
   const [formdata, useFormdata] = useForm({
     semester:'',
-    department:''
+    department:'default'
   })
   const [semester,useSemester]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
   const ApiSem=async()=>{
     let data=await ApiViewDepartment()
     useSemester(data)
-   
   }
   React.useEffect(() => {
     ApiCall()
     ApiSem()
   }, [refresh])
+  const[errMsg,setErrMsg]=React.useState('')
 const AddSem=()=>{
-  ApiAddSemester(formdata)
-  setOpen(false);
-  userefresh(!refresh)
+  if (formdata.semester.trim()&&formdata.department!=='default') {
+    ApiAddSemester(formdata)
+    setOpen(false);
+    userefresh(!refresh)
+  }else{
+    setErrMsg('Fill the form properly')
+  }
+ 
 }
 const DeleteSem=(id)=>{
 ApiDeleteSemester(id)
 userefresh(!refresh)
 }
   return (
-    <React.Fragment>
+    <Container>
+      <React.Fragment>
       <div>
         <div className="addbtn">
           <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
@@ -93,6 +99,7 @@ userefresh(!refresh)
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Add New Semester</DialogTitle>
           <DialogContent>
+          <p style={{color:'red'}}>{errMsg}</p>
             <TextField
               autoFocus
               margin="dense"
@@ -114,8 +121,7 @@ userefresh(!refresh)
               name='department'
               value={formdata.department}
             >
-              
-              
+              <MenuItem  hidden value={formdata.department}>Select Department</MenuItem>
               {semester.map((val,index)=>(
               <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
               ))}
@@ -153,5 +159,6 @@ userefresh(!refresh)
         </Table>
       </TableContainer>
     </React.Fragment>
+    </Container>
   );
 }
