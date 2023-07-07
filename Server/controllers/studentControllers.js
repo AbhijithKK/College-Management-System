@@ -8,6 +8,7 @@ const { notice } = require("../models/noticeScheema")
 
 const otpGenerator = require('otp-generator')
 const nodeMail = require("../heplers/nodeMailer")
+const { clubRequestScheema } = require("../models/clubRequestsModel")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -184,6 +185,7 @@ let student = {
             res.json(false)
         }
     },
+   
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('studentjwt', '').json(true)

@@ -14,6 +14,7 @@ import {Button,TextField,Dialog,DialogActions,DialogContent,
    DialogTitle} from '@mui/material';
 import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../api/AdminApi';
 import { DeleteForeverSharp } from '@mui/icons-material';
+import { Container } from 'react-bootstrap';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,7 +75,8 @@ const DeleteDepartment=async(id)=>{
  
 }
   return (
-   <React.Fragment>
+   <Container>
+    <React.Fragment>
     
     <div>
     <div className="addbtn">
@@ -131,5 +133,6 @@ const DeleteDepartment=async(id)=>{
         </Table>
       </TableContainer>
    </React.Fragment>
+   </Container>
   );
 }

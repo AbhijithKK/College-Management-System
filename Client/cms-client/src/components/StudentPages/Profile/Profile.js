@@ -176,8 +176,8 @@ export default function Profile() {
           <DialogTitle id="responsive-dialog-title">
             {"OTP Verification"}
           </DialogTitle>
-          <p style={{ color: 'red',marginLeft:'10px' }}>{errMsg}</p>
           <DialogContent>
+          <p style={{ color: 'red',marginLeft:'10px' }}>{errMsg}</p>
             <DialogContentText>
               Change Password
             </DialogContentText>
@@ -225,8 +225,8 @@ export default function Profile() {
           <DialogTitle id="responsive-dialog-title">
             {"OTP Verification"}
           </DialogTitle>
-          <p style={{ color: 'red',marginLeft:'10px' }}>{errMsg}</p>
           <DialogContent>
+          <p style={{ color: 'red',marginLeft:'10px' }}>{errMsg}</p>
             <DialogContentText>
               {text}
             </DialogContentText>

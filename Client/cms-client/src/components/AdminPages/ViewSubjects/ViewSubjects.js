@@ -12,6 +12,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, M
 import { ApiAddSubjects, ApiDeleteSubjects, ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
 import {  DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
+import { Container } from 'react-bootstrap';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -112,7 +113,8 @@ const[department,usedepartment]=React.useState('defaul')
 
   const [className,setClassName]=React.useState('default')
   return (
-    <React.Fragment>
+   <Container>
+     <React.Fragment>
       <div>
         <div className="addbtn">
           <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
@@ -255,5 +257,6 @@ const[department,usedepartment]=React.useState('defaul')
         </Table>
       </TableContainer>
     </React.Fragment>
+   </Container>
   );
 }

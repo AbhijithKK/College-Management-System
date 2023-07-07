@@ -270,14 +270,7 @@ let admin = {
             console.log(err);
         }
     },
-    viewClubRequests: async (req, res) => {
-        try {
-            // let allRequests=await clubRequestsModel.find()
-            // res.json(allRequests)
-        } catch (err) {
-            console.log(err);
-        }
-    },
+   
     viewApproveLists: async (req, res) => {
         try {
             // let allList=await approveListModel.find()

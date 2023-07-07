@@ -67,6 +67,14 @@ let faculty = {
             res.json(false)
         }
     },
+    viewClubRequests: async (req, res) => {
+        try {
+            let allRequests=await clubRequestsModel.find()
+            res.json(allRequests)
+        } catch (err) {
+            console.log(err);
+        }
+    },
     // ======>PROFILE UPDATE<=====
     postProfile: async (req,res) => {
         try {
@@ -130,6 +138,27 @@ let faculty = {
             res.json(false)
         }
     }, 
+    clubRequest:async(req,res)=>{
+        try{
+        let data=await clubRequestScheema.insertOne({
+            studentName:req.body.studentName,
+            department:req.body.department,
+            semester:req.body.semester,
+            clubName:req.body.clubName,
+            status:req.body.status,
+            clubAdminId:req.body.clubAdminId,
+            clubAdminName:req.body.clubAdminName,
+            studentId:req.body.studentId
+        })
+        if (data!==null) {
+            res.json('Club Request send')
+        }else{
+            res.json(false)
+        }
+    }catch(err){
+        res.json(false)
+    }
+    },
      // =======>logout<=======
      logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)
