@@ -68,11 +68,11 @@ function App() {
     <Route exact path='/student/' element={<Navigate to="/student/profile" />} />
    </>
   )}
-  {student.login === false&& (
+  {/* {student.login === false&& (
     
     <Route exact path='/student/*' element={<Navigate to="/student/studentlogin" />} />
   
-  )}
+  )} */}
   {faculty.login === true && (
   <>
     <Route exact path='/faculty/*' element={<Faculty />} />

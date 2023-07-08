@@ -44,7 +44,7 @@ export default function ViewFaculty() {
   const [faculty,useFaculty]=React.useState([])
   const [Dep,setDept]=React.useState('default')
   const [refresh, setRefresh]=React.useState(false)
-
+console.log(Dep);
   const HelperFaculty=(data)=>{
     useFaculty(data);
   }

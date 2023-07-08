@@ -9,6 +9,8 @@ status:{type:String,required:true},
 clubAdminId:{type:String,required:true},
 clubAdminName:{type:String,required:true},
 studentId:{type:String,required:true},
+clubId:{type:String,required:true},
+
 })
 let clubRequestScheema=mongoose.model('clubRequest',clubRequest)
 module.exports={clubRequestScheema}

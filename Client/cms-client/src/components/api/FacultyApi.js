@@ -80,3 +80,30 @@ export const FacultyVerifyMail=async(datas)=>{
               })
         return data
     }
+
+    export const FacultyClubrequestSend=async(studentName, department, semester,
+        clubName,clubAdminId, clubAdminName,studentId,clubId)=>{
+        let {data}=await axios.post('/faculty/clubRequest',{studentName, department, semester,
+            clubName,status:'Request Send', clubAdminId, clubAdminName,studentId,clubId},{
+            headers:{
+                'Content-Type':'application/json'
+            },withCredentials:true
+        })
+        if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+        
+              })
+            }
+            Swal.fire({
+                icon: 'success',
+               
+                text: data
+              })
+           
+        return data
+
+    }
+    

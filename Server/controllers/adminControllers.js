@@ -94,10 +94,12 @@ let admin = {
     },
     addClub: async (req, res) => {
         try {
+            console.log(req.body);
             club.create({
-                name: req.body.names,
-                discription: req.body.discription,
-                clubAdmin:req.body.clubAdmin
+                name: req.body.value.names,
+                discription: req.body.value.discription,
+                clubAdmin:req.body.clubAdmin,
+                clubAdminId:req.body.clubAdminId
             }).then(() => {
                 res.json('club Created')
             })
@@ -197,11 +199,14 @@ let admin = {
         try {
             let Dep=req.query.Dep
             let allFacultys
-            if(Dep=='default'){
-             allFacultys = await facultyModel.find().lean()
-            }else{
+            if(req.query.Dep=='default'){
+                allFacultys = await facultyModel.find().lean()
+            }else if(req.query.id){
+                allFacultys = await facultyModel.findOne({_id:req.query.id})
+            }else if(req.query.Dep){
                 allFacultys = await facultyModel.find({department:Dep}).lean()
-
+            }else{
+                allFacultys = await facultyModel.find().lean()
             }
             res.json(allFacultys)
         } catch (err) {

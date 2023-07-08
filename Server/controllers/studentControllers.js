@@ -88,9 +88,16 @@ let student = {
     ,
     getClubs: async (req,res) => {
         try {
-            let data = await club.find().lean()
-            res.json(data)
+            
+            let clubs = await club.find().lean()
+            
+            let verify = await jwtVerify(req.cookies.studentjwt)
+           
+            let student = await studentModel.findOne({ _id: verify.data })
+            
+            res.json({club:clubs,student:student})
         } catch (err) {
+            console.log(err);
             res.json(false)
         }
     }
@@ -108,6 +115,15 @@ let student = {
     },
     getNotificationCalender: async (req,res) => {
 
+    },
+    getclubStatus:async(req,res)=>{
+        try{
+            let data=await clubRequestScheema.find().lean()
+            
+            res.json(data)
+        }catch(err){
+            res.json(false)
+        }
     },
 
     // ====>CLUB REQUEST SEND>====

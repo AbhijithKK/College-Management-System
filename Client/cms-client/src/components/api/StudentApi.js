@@ -23,6 +23,7 @@ export const studentClubApi=async()=>{
         'Content-Type':'application/json'
     }
   })
+                  
   return data
 }
 
@@ -106,4 +107,43 @@ export const studentSubmitpassApi=async(pass)=>{
     
           })
     return data
+}
+
+export const StudentClubAdminGetApi=async(id)=>{
+  let {data}=await  axios
+      .get('/admin/facultys',{params:{id}}, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (data===false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+          })
+         
+    }
+    return data
+      
+}
+
+
+export const StudentClubStatus=async()=>{
+  let {data}=await axios.get('/student/clubstatus',{
+    headers:{
+    'Content-Type':'application/json'
+    }
+  })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+
+      })
+     
+}
+return data
 }

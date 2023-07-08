@@ -8,6 +8,7 @@ const { notice } = require("../models/noticeScheema")
 
 const otpGenerator = require('otp-generator')
 const nodeMail = require("../heplers/nodeMailer")
+const { clubRequestScheema } = require("../models/clubRequestsModel")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -138,27 +139,32 @@ let faculty = {
             res.json(false)
         }
     }, 
-    clubRequest:async(req,res)=>{
-        try{
-        let data=await clubRequestScheema.insertOne({
-            studentName:req.body.studentName,
-            department:req.body.department,
-            semester:req.body.semester,
-            clubName:req.body.clubName,
-            status:req.body.status,
-            clubAdminId:req.body.clubAdminId,
-            clubAdminName:req.body.clubAdminName,
-            studentId:req.body.studentId
-        })
-        if (data!==null) {
-            res.json('Club Request send')
-        }else{
-            res.json(false)
+    clubRequest: async (req, res) => {
+        try {
+          const data = await clubRequestScheema.create({
+            studentName: req.body.studentName,
+            department: req.body.department,
+            semester: req.body.semester,
+            clubName: req.body.clubName,
+            status: req.body.status,
+            clubAdminId: req.body.clubAdminId,
+            clubAdminName: req.body.clubAdminName,
+            studentId: req.body.studentId,
+            clubId: req.body.clubId
+          });
+      
+      
+          if (data !== null) {
+            res.json('Club Request sent successfully');
+          } else {
+            res.json(false);
+          }
+        } catch (err) {
+          res.json(false);
         }
-    }catch(err){
-        res.json(false)
-    }
-    },
+      }
+      
+    ,
      // =======>logout<=======
      logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)
