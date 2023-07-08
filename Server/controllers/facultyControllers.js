@@ -70,7 +70,8 @@ let faculty = {
     },
     viewClubRequests: async (req, res) => {
         try {
-            let allRequests=await clubRequestsModel.find()
+            let verify = await jwtVerify(req.cookies.facultyjwt)
+            let allRequests=await clubRequestScheema.find({clubAdminId:verify.data}).lean()
             res.json(allRequests)
         } catch (err) {
             console.log(err);
@@ -161,6 +162,14 @@ let faculty = {
           }
         } catch (err) {
           res.json(false);
+        }
+      },
+      clubRequestUpdate:async(req,res)=>{
+        try{
+            await clubRequestScheema.updateOne({_id:req.body.id},{status:req.body.status})
+            res.json(true)
+        }catch(err){
+            res.json(false)
         }
       }
       

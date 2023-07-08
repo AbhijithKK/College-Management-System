@@ -74,7 +74,7 @@ export default function Clubs() {
             </CardContent>
             <CardActions>
               {data.clubStatus ? (
-                <p key={index} style={{ backgroundColor: 'orange' }}>
+                <p key={index} style={{ backgroundColor: data.clubStatus==='Request Send' ?'orange':data.clubStatus==='Now Your a Member' ?'green' : 'red' }}>
                   {data.clubStatus}
                 </p>
               ) : (

@@ -106,4 +106,37 @@ export const FacultyVerifyMail=async(datas)=>{
         return data
 
     }
-    
+    export const FacultyClubStatus=async()=>{
+        let {data}=await axios.get('/faculty/ClubRequests',{
+          headers:{
+          'Content-Type':'application/json'
+          }
+        })
+        if (data===false) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something Wrong',
+      
+            })
+           
+      }
+      return data
+      }
+      export const FacultyClubRequestUpdated=async(id,status)=>{
+        let {data}=await axios.post('/faculty/clubrequestupdate',{id,status},{
+            headers:{
+            'Content-Type':'application/json'
+            }
+          })
+          if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+        
+              })
+             
+        }
+        return data
+      }

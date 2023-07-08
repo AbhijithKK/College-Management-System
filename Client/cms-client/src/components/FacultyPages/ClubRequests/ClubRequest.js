@@ -17,7 +17,10 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './ClubRequest.css';
-
+import { FacultyClubRequestUpdated, FacultyClubStatus } from '../../api/FacultyApi';
+import { Button, Tooltip } from '@mui/material';
+import { Close, Done } from '@mui/icons-material';
+import Swal from "sweetalert2"
 
 
 
@@ -83,42 +86,50 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat,a,b) {
-  return { name, calories, fat,a,b };
-}
-
-const rows = [
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-  createData('abcd', 'EEE', '1','CULTURAL','Accept__Decline'),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 export default function ClubRequest() {
+
+  const [requests,useRequests]=React.useState([])
+  const [refresh,useRefresh]=React.useState(false)
+  const HandleApi=async()=>{
+    let data =await FacultyClubStatus()
+    useRequests(data)
+  }
+  let Accept='Now Your a Member'
+  let Reject='Request Rejected'
+  const Action=async(id,status)=>{
+    let data=await FacultyClubRequestUpdated(id,status)
+    if (data===true) {
+      Swal.fire({
+        icon: 'success',
+        
+        text: status==='Now Your a Member' ? 'Request Accepted' : status
+
+      })
+    }
+    useRefresh(!refresh)
+  }
+  React.useEffect(()=>{
+    HandleApi()
+  },[refresh])
+console.log(requests);
+  //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  // ============================================================================
 
   return (
     <Container>
@@ -131,27 +142,36 @@ export default function ClubRequest() {
               <TableCell style={{fontWeight:"bold"}} >Department</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Semester</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Club Name</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >Status</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Actions</TableCell>
             </TableRow>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow key={row.name}>
+              ? requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : requests
+            ).map((row,index) => (
+              <TableRow key={index}>
                 <TableCell style={{ width: 160 }} >
-                  {row.name}
+                  {row.studentName}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.calories}
+                  {row.department}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.fat}
+                  {row.semester}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.a}
+                  {row.clubName}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.b}
+                  {row.status==='Now Your a Member'?'Request Accepted':row.status==='Request Send' ? 'Requested':row.status}
+                </TableCell>
+                <TableCell style={{ width: 160 }} >
+                 <Tooltip title='Accept'>
+                 <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
+                  </Tooltip> 
+                  <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
+                  <Button><Close/></Button>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
@@ -166,7 +186,7 @@ export default function ClubRequest() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={rows.length}
+                count={requests.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

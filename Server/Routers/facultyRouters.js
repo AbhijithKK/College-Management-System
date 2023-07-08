@@ -13,5 +13,6 @@ router.post('/updateprofile',upload.single('image'), faculty.postProfile)
 router.post('/verifymail',faculty.postMailVerify)
 router.post('/changepassword', faculty.postPassword)
 router.post('/clubRequest',faculty.clubRequest)
+router.post('/clubrequestupdate',faculty.clubRequestUpdate)
 
 module.exports=router
