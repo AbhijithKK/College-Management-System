@@ -142,7 +142,25 @@ export const FacultyVerifyMail=async(datas)=>{
       }
 
       export const FacultyLeaveLettersApi=async()=>{
-        let {data}=await axios.get('/faculty//leaveletters',{
+        let {data}=await axios.get('/faculty/leaveletters',{
+            headers:{
+            'Content-Type':'application/json'
+            }
+          })
+          if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+        
+              })
+             
+        }
+        return data
+      }
+
+      export const FacultyLeaveActionApi=async(id,status)=>{
+        let {data}=await axios.post('/faculty/leaveletterStatus',{id,status},{
             headers:{
             'Content-Type':'application/json'
             }

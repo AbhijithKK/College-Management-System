@@ -191,7 +191,7 @@ let student = {
                 studentName:req.body.name,
                 department:req.body.department,
                 semester:req.body.semester,
-                classId:req.body.classId,
+                className:req.body.className,
                 studentId:id.data,
                 reson:req.body.reason,
                 date:req.body.date,

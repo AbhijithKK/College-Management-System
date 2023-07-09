@@ -16,8 +16,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
-import './ClubRequest.css';
-import { FacultyClubRequestUpdated, FacultyClubStatus } from '../../api/FacultyApi';
+import './CheckLeaveLetter.css';
+import { FacultyLeaveActionApi, FacultyLeaveLettersApi } from '../../api/FacultyApi';
 import { Button, Tooltip } from '@mui/material';
 import { Close, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
@@ -87,24 +87,24 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function ClubRequest() {
+export default function CheckLeaveLetter() {
 
   const [requests,useRequests]=React.useState([])
   const [refresh,useRefresh]=React.useState(false)
   const HandleApi=async()=>{
-    let data =await FacultyClubStatus()
+    let data =await FacultyLeaveLettersApi()
     useRequests(data)
   }
-  let Accept='Now Your a Member'
-  let Reject='Request Rejected'
+  console.log(requests);
+  let Accept='Leave Approved'
+  let Reject='Leave Canceled'
   const Action=async(id,status)=>{
-    let data=await FacultyClubRequestUpdated(id,status)
+    let data=await FacultyLeaveActionApi(id,status)
     if (data===true) {
       Swal.fire({
         icon: 'success',
         
-        text: status==='Now Your a Member' ? 'Request Accepted' : status
-
+        text: status
       })
     }
     useRefresh(!refresh)
@@ -133,7 +133,7 @@ console.log(requests);
 
   return (
     <Container>
-      <h1>Club Requests</h1>
+      <h1>Leave Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
@@ -141,7 +141,7 @@ console.log(requests);
               <TableCell style={{fontWeight:"bold"}}  >Student Name</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Department</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Semester</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Reson</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >Reason</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Date</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Leave Status</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Actions</TableCell>
@@ -161,16 +161,19 @@ console.log(requests);
                   {row.semester}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.clubName}
+                  {row.reson}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.status==='Now Your a Member'?'Request Accepted':row.status==='Request Send' ? 'Requested':row.status}
+                  {new Date(row.date).toLocaleDateString()}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                 <Tooltip title='Accept'>
+                  {row.status}
+                </TableCell>
+                <TableCell style={{ width: 160 }} >
+                 <Tooltip title='Approve'>
                  <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
                   </Tooltip> 
-                  <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
+                  <Tooltip title='Canceled' type='button' onClick={()=>Action(row._id,Reject)}>
                   <Button><Close/></Button>
                   </Tooltip>
                 </TableCell>

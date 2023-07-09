@@ -15,5 +15,6 @@ router.post('/verifymail',faculty.postMailVerify)
 router.post('/changepassword', faculty.postPassword)
 router.post('/clubRequest',faculty.clubRequest)
 router.post('/clubrequestupdate',faculty.clubRequestUpdate)
+router.post('/leaveletterStatus',faculty.LeaveStatusUpdate)
 
-module.exports=router
+module.exports=router 

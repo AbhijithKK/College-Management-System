@@ -8,7 +8,7 @@ import { ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/Admi
 
 const LeaveLetterForm = () => {    
   const [name, setName] = useState("");
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState("dep");
   const [semester, setSemester] = useState("");
   const [classValue, setClassValue] = useState("");
   const [reason, setReason] = useState("");
@@ -45,7 +45,7 @@ const LeaveLetterForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (name.trim() && department.trim() && semester.trim() && classValue.trim() && reason.trim() && selectedDate) {
+    if (name.trim() && department!=='dep' && semester.trim() && classValue.trim() && reason.trim() && selectedDate) {
 
         StudentLeaveApplyApi(name, department, semester, classValue,reason, selectedDate)
      
@@ -103,7 +103,7 @@ ApiHelper()
                 <Form.Group controlId="formDepartment" className="mb-3">
                   <Form.Label>Department</Form.Label>
                   <Form.Control as="select" value={department} onChange={handleDepartmentChange}>
-                    <option value="">Select Department</option>
+                    <option hidden value="">Select Department</option>
                     {
                         dep.map((val,index)=>(
                             <option key={index} value={val.name}>{val.name}</option>
@@ -115,7 +115,7 @@ ApiHelper()
                 <Form.Group controlId="formSemester" className="mb-3">
                   <Form.Label>Semester</Form.Label>
                   <Form.Control as="select" value={semester} onChange={handleSemesterChange}>
-                  <option value="">Select Semester</option>
+                  <option hidden value="">Select Semester</option>
 
                   {
                         sem.map((val,index)=>(
@@ -128,10 +128,10 @@ ApiHelper()
                 <Form.Group controlId="formClass" className="mb-3">
                   <Form.Label>Class</Form.Label>
                   <Form.Control as="select" value={classValue} onChange={handleClassChange}>
-                    <option value="">Select Class</option>
+                    <option hidden value="">Select Class</option>
                     {
                         Class.map((val,index)=>(
-                            <option key={index} value={val._id}>{val.className}</option>
+                            <option key={index} value={val.className}>{val.className}</option>
                         ))
                     }
                   </Form.Control>

@@ -11,6 +11,7 @@ const nodeMail = require("../heplers/nodeMailer")
 const { clubRequestScheema } = require("../models/clubRequestsModel")
 const { leaveApplyScheema } = require("../models/studentLeaveapply")
 const { department } = require("../models/departmentScheema")
+const { classScheema } = require("../models/classScheema")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -83,8 +84,21 @@ let faculty = {
         try{
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let faculty1=await facultyModel.findOne({_id:verify.data})
-            let data =await leaveApplyScheema.find({$and:[{department:faculty1.department},{className:faculty1.teachingArea}]}).lran()
+
+            let allLeaveletters =await leaveApplyScheema.find().lean()
+            
+            let arr=[]
+            if (allLeaveletters!==null) {
+                for (let i = 0; i < allLeaveletters.length; i++) {
+                    if (faculty1.adminOfClass==allLeaveletters[i].className) {
+                        arr.push(allLeaveletters[i])
+                    }
+                }
+            }
+            
+            res.json(arr)
         }catch(err){
+           
             res.json(false)
         }
     },
@@ -182,9 +196,16 @@ let faculty = {
         }catch(err){
             res.json(false)
         }
-      }
-      
-    ,
+      },
+      LeaveStatusUpdate:async(req,res)=>{
+        try{
+            let data=await leaveApplyScheema.updateOne({_id:req.body.id},{status:req.body.status})
+            
+            res.json(true)
+        }catch(err){
+            res.json(false)
+        }
+      },
      // =======>logout<=======
      logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)
