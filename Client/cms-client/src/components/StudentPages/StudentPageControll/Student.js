@@ -6,6 +6,7 @@ import Clubs from '../Clubs/Clubs'
 import Attendance from '../Attendance/Attendance'
 import Result from '../Result/Result'
 import Notice from '../Notice/Notice'
+import LeaveLetterForm from '../LeaveLetter/LeaveLetter'
 
 const Student = () => {
   return (
@@ -17,6 +18,7 @@ const Student = () => {
         <Route path='/attendance' element={<Attendance/>}></Route>
         <Route path='/result' element={<Result/>}></Route>
         <Route path='/notice' element={<Notice/>}></Route>
+        <Route path='/applyleave' element={<LeaveLetterForm/>}></Route>
          
         
 

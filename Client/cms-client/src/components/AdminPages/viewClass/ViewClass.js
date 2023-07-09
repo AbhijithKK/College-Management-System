@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
-import { ApiAddClass, ApiAddSemester, ApiDeleteClass, ApiDeleteSemester, ApiViewClass, ApiViewDepartment} from '../../api/AdminApi';
+import { ApiAddClass,  ApiDeleteClass,  ApiViewClass, ApiViewDepartment} from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
