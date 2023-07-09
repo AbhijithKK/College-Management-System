@@ -17,7 +17,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewDepartment, ApiViewFaculty } from '../../api/AdminApi';
+import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty } from '../../api/AdminApi';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -52,14 +52,21 @@ console.log(Dep);
     let data = await ApiViewFaculty(Dep);
     HelperFaculty(data)
   }, [Dep]);
-
+  const[Class,setClass]=React.useState([])
+  const [department,setdepartment]=React.useState('')
   React.useEffect(() => {
+
     const fetchData = async () => {
       await Facultys();
       HelpDepts();
     };
+    const subjectApi=async()=>{
+      let classes=await ApiViewClass(department)
+      setClass(classes)
+    }
+    subjectApi()
     fetchData();
-  }, [refresh, Dep, Facultys]);
+  }, [refresh, Dep, Facultys,department]);
   // =====>MODAL<=======
   const [open, setOpen] = React.useState(false);
   
@@ -72,7 +79,6 @@ console.log(Dep);
   const [qualifications,setqualifications]=React.useState('')
   const [teachingArea,setteachingArea]=React.useState('')
   const [address,setaddress]=React.useState('')
-  const [department,setdepartment]=React.useState('')
   const [gender,setgender]=React.useState('')
   const [semester,setsemester]=React.useState('')
   const[id,setid]=React.useState('')
@@ -241,19 +247,24 @@ const GetDept=async()=>{
             value={qualifications}
             onChange={(event)=> setqualifications(event.target.value)}
           />
-          <TextField
-            margin="dense"
-            id="guardiannumber"
-            label="Teaching Area"
-            type="tel"
-            fullWidth
-            variant="standard"
-            name="teachingArea"
-            value={teachingArea}
-            onChange={(event)=> setteachingArea(event.target.value)
+          <FormControl margin="dense" fullWidth>
+            <InputLabel id="department-label">Select Teaching Area</InputLabel>
+            <Select
+              labelId="department-label"
+              id="department"
+              variant="standard"
+              fullWidth
              
-            }
-          />
+            value={teachingArea}
+            onChange={(event)=>setteachingArea(event.target.value)}
+            >
+              <MenuItem  value={teachingArea}>{teachingArea}</MenuItem>
+              {Class.map((data, index) => (
+
+                <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField 
             margin="dense"
             id="address"

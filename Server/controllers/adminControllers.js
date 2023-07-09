@@ -85,6 +85,7 @@ let admin = {
                 gender: req.body.gender,
                 address: req.body.address,
                 DOB:req.body.dob,
+                adminOfClass:req.body.adminOfClass,
                 qualifications: req.body.qualification,
                 password: password
             }).then(() => res.json("faculty Added"))
@@ -402,6 +403,7 @@ let admin = {
                 gender: req.body.gender,
                 address: req.body.address,
                 DOB: req.body.dob,
+                adminOfClass:req.body.adminOfClass,
                 qualifications: req.body.qualifications,
                 
             }

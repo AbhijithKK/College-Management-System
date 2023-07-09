@@ -2,7 +2,7 @@ import { Button, Container, Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import './AddFaculty.css'
 import { useForm } from '../../useForm/useForm';
-import { ApiAddFaculty, ApiViewDepartment } from '../../api/AdminApi';
+import { ApiAddFaculty, ApiViewClass, ApiViewDepartment, ApiViewSubjects } from '../../api/AdminApi';
 import { useEffect, useState } from 'react';
 function Addfaculty() {
     const [value,SetValue]=useForm({
@@ -12,7 +12,7 @@ function Addfaculty() {
         dob:'',
         admYear:'',
         department:'',
-        semester:'',
+        adminOfClass:'',
         gender:'',
         qualification:'',
         teachingArea:'',
@@ -26,22 +26,34 @@ function Addfaculty() {
     if (value.names.trim() &&value.email.trim()&&
     value.mobNumber.trim()&&value.dob.trim()&&
     value.admYear.trim()&&
-    value.qualification.trim()&&value.teachingArea.trim()
-    &&value.address.trim()&&value.department.trim()&&value.gender.trim()&&value.semester.trim()) {
+    value.qualification.trim()&&value.teachingArea!=='sub'
+    &&value.address.trim()&&value.department.trim()&&value.gender.trim()) {
       
         ApiAddFaculty(value)
     }else{
       setErrmsg('Fill the Form properly')
     }
   };
+  const [subject,setSubject]=useState([])
+  const [Class,setClass]=useState([])
   const [dept,setDept]=useState([])
+
   const HelpDep=async()=>{
     let data=await ApiViewDepartment()
     setDept(data)
+   
   }
+  
   useEffect(()=>{
+    const subjectFind=async()=>{
+        let subject=await ApiViewSubjects(value.department)
+        setSubject(subject)
+        let classes=await ApiViewClass(value.department)
+        setClass(classes)
+    }
+    subjectFind()
     HelpDep()
-  },[])
+  },[value.department])
     return (
         <Container>
             <Row>
@@ -92,15 +104,14 @@ function Addfaculty() {
                                         </Form.Select>
                                     </Col>
                                     <Col sm={12}  md={6}>
-                                        <Form.Label htmlFor="disabledSelect">Select Semesters</Form.Label>
-                                        <Form.Select id="disabledSelect" value={value.semester} name='semester' onChange={Handlevalue}>
-                                            <option value="">select sem</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
+                                        <Form.Label htmlFor="disabledSelect">Select Teaching Area</Form.Label>
+                                        <Form.Select id="disabledSelect" value={value.teachingArea} name='teachingArea' onChange={Handlevalue}>
+                                        <option hidden value='sub'>Select subject</option>
+                                         {subject.map((data, index) => (
+
+                                         <option key={index} value={data.subject}>{data.subject}</option>
+                                            ))
+                                                  }
                                         </Form.Select>
                                     </Col>
                                 </Row>
@@ -120,8 +131,15 @@ function Addfaculty() {
                                         <Form.Control id="disabledTextInput" type='text' name='qualification' value={value.qualification} onChange={Handlevalue} placeholder="Qualification" />
                                     </Col>
                                     <Col sm={12}  md={6}>
-                                        <Form.Label htmlFor="disabledTextInput"></Form.Label>
-                                        <Form.Control id="disabledTextInput" type='text' name='teachingArea' value={value.teachingArea} onChange={Handlevalue} placeholder="Teaching Area" />
+                                        <Form.Label htmlFor="disabledSelect">Assign as a Class Teacher</Form.Label>
+                                        <Form.Select id="disabledSelect" value={value.adminOfClass} name='adminOfClass' onChange={Handlevalue}>
+                                        <option hidden value='noAdmin'>Select class</option>
+                                         {Class.map((data, index) => (
+
+                                         <option key={index} value={data.className}>{data.className}</option>
+                                            ))
+                                                  }
+                                        </Form.Select>
                                     </Col>
                                 </Row>
                             </Form.Group>
