@@ -9,6 +9,7 @@ const { notice } = require("../models/noticeScheema")
 const otpGenerator = require('otp-generator')
 const nodeMail = require("../heplers/nodeMailer")
 const { clubRequestScheema } = require("../models/clubRequestsModel")
+const { leaveApplyScheema } = require("../models/studentLeaveapply")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -183,8 +184,26 @@ let student = {
     postComplaint: async (req,res) => {
 
     },
-    postLeaveLetter: (req,res) => {
+    postLeaveLetter: async(req,res) => {
+        try{
+            let id = await jwtVerify(req.cookies.studentjwt)
+            let data=await leaveApplyScheema.create({
+                studentName:req.body.name,
+                department:req.body.department,
+                semester:req.body.semester,
+                className:req.body.className,
+                studentId:id.data,
+                reson:req.body.reason,
+                date:req.body.date,
+                status:'Applyed'
 
+            })
+           
+            res.json('Leave letter Applayed Successfully')
+        }catch(err){
+            
+            res.json(false)
+        }
     },
     postMailVerify:async(req,res)=>{
         try{

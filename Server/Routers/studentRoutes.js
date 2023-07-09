@@ -25,4 +25,5 @@ router.post('/addcomplaint', student.postComplaint)
 router.post('/verifymail',student.postMailVerify)
 
 
+
 module.exports = router

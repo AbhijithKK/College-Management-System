@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './LeaveLetter.css';
+import { StudentLeaveApplyApi } from "../../api/StudentApi";
+import { ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 
-const LeaveLetterForm = () => {
+const LeaveLetterForm = () => {    
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");
   const [semester, setSemester] = useState("");
@@ -44,16 +46,10 @@ const LeaveLetterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (name.trim() && department.trim() && semester.trim() && classValue.trim() && reason.trim() && selectedDate) {
-      // Handle form submission here
-      console.log("Submitted:", {
-        name,
-        department,
-        semester,
-        classValue,
-        reason,
-        selectedDate
-      });
-      // Reset the form fields
+
+        StudentLeaveApplyApi(name, department, semester, classValue,reason, selectedDate)
+     
+      
       setName("");
       setDepartment("");
       setSemester("");
@@ -65,6 +61,30 @@ const LeaveLetterForm = () => {
       errorHandler();
     }
   };
+
+// =============================================================================
+
+const[dep,setDep]=useState([])
+const[Class,setClass]=useState([])
+const[sem,setSem]=useState([])
+
+
+
+
+
+useEffect(()=>{
+    const ApiHelper=async()=>{
+        let departments=await ApiViewDepartment()
+        setDep(departments)
+        let classes=await ApiViewClass(department)
+        setClass(classes)
+        let sesms=await ApiViewSemester(department)
+        setSem(sesms)
+    }
+    
+ApiHelper()
+},[department])
+
 
   return (
     <div>
@@ -84,20 +104,24 @@ const LeaveLetterForm = () => {
                   <Form.Label>Department</Form.Label>
                   <Form.Control as="select" value={department} onChange={handleDepartmentChange}>
                     <option value="">Select Department</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Electrical Engineering">Electrical Engineering</option>
-                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    {
+                        dep.map((val,index)=>(
+                            <option key={index} value={val.name}>{val.name}</option>
+                        ))
+                    }
                   </Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId="formSemester" className="mb-3">
                   <Form.Label>Semester</Form.Label>
                   <Form.Control as="select" value={semester} onChange={handleSemesterChange}>
-                    <option value="">Select Semester</option>
-                    <option value="1">1st Semester</option>
-                    <option value="2">2nd Semester</option>
-                    <option value="3">3rd Semester</option>
-                    {/* Add more options for different semesters */}
+                  <option value="">Select Semester</option>
+
+                  {
+                        sem.map((val,index)=>(
+                            <option key={index} value={val.semester}>{val.semester}</option>
+                        ))
+                    }
                   </Form.Control>
                 </Form.Group>
 
@@ -105,10 +129,11 @@ const LeaveLetterForm = () => {
                   <Form.Label>Class</Form.Label>
                   <Form.Control as="select" value={classValue} onChange={handleClassChange}>
                     <option value="">Select Class</option>
-                    <option value="A">Class A</option>
-                    <option value="B">Class B</option>
-                    <option value="C">Class C</option>
-                    {/* Add more options for different classes */}
+                    {
+                        Class.map((val,index)=>(
+                            <option key={index} value={val.className}>{val.className}</option>
+                        ))
+                    }
                   </Form.Control>
                 </Form.Group>
 

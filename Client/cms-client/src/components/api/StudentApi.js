@@ -147,3 +147,27 @@ export const StudentClubStatus=async()=>{
 }
 return data
 }
+
+export const StudentLeaveApplyApi=async(name, department, semester, className,reason, date)=>{
+  
+  let {data}=axios.post('/student/leaveletter',{name, department, semester, className,reason, date},{
+    headers:{
+        'Content-Type':'application/json'
+    },withCredentials:true
+})
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+
+      })
+    }
+    Swal.fire({
+        icon: 'success',
+       
+        text:'Applyed Successfully'
+
+      })
+return data
+}
