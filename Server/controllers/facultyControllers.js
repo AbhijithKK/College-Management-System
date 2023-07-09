@@ -91,6 +91,7 @@ let faculty = {
             if (allLeaveletters!==null) {
                 for (let i = 0; i < allLeaveletters.length; i++) {
                     if (faculty1.adminOfClass==allLeaveletters[i].className) {
+                        allLeaveletters[i].adminName=await faculty1.name
                         arr.push(allLeaveletters[i])
                     }
                 }
@@ -199,8 +200,9 @@ let faculty = {
       },
       LeaveStatusUpdate:async(req,res)=>{
         try{
-            let data=await leaveApplyScheema.updateOne({_id:req.body.id},{status:req.body.status})
-            
+            console.log(req.body);
+            let data=await leaveApplyScheema.updateOne({_id:req.body.id},{status:req.body.status,adminName:req.body.adminName})
+            console.log(data);
             res.json(true)
         }catch(err){
             res.json(false)

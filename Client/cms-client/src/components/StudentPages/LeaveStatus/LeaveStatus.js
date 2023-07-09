@@ -16,11 +16,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
-import './CheckLeaveLetter.css';
-import { FacultyLeaveActionApi, FacultyLeaveLettersApi } from '../../api/FacultyApi';
-import { Button, Tooltip } from '@mui/material';
-import { Close, Done } from '@mui/icons-material';
-import Swal from "sweetalert2"
+import './LaveStatus.css';
+import { StudentLeaveLettersApi } from '../../api/StudentApi';
 
 
 
@@ -87,31 +84,20 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function CheckLeaveLetter() {
+export default function LeaveStatus() {
 
   const [requests,useRequests]=React.useState([])
-  const [refresh,useRefresh]=React.useState(false)
+  
   const HandleApi=async()=>{
-    let data =await FacultyLeaveLettersApi()
+    let data =await StudentLeaveLettersApi()
     useRequests(data)
   }
-  console.log(requests);
-  let Accept='Leave Approved'
-  let Reject='Leave Canceled'
-  const Action=async(id,status,adminName)=>{
-    let data=await FacultyLeaveActionApi(id,status,adminName)
-    if (data===true) {
-      Swal.fire({
-        icon: 'success',
-        
-        text: status
-      })
-    }
-    useRefresh(!refresh)
-  }
+  
+  
+   
   React.useEffect(()=>{
     HandleApi()
-  },[refresh])
+  },[])
 console.log(requests);
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
@@ -133,18 +119,16 @@ console.log(requests);
 
   return (
     <Container>
-      <h1>Leave Requests</h1>
-      <TableContainer component={Paper} className="StudentResultTable">
+      <h1>Leave Status</h1>
+      <TableContainer component={Paper} className="StudentResultTablests">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}  >Student Name</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Department</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Semester</TableCell>
+              <TableCell style={{fontWeight:"bold"}}  >Date</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Reason</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Date</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Leave Status</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Actions</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >Leave Approver</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >Status</TableCell>
+              
             </TableRow>
             {(rowsPerPage > 0
               ? requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -152,31 +136,18 @@ console.log(requests);
             ).map((row,index) => (
               <TableRow key={index}>
                 <TableCell style={{ width: 160 }} >
-                  {row.studentName}
-                </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.department}
-                </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.semester}
+                {new Date(row.date).toLocaleDateString()}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
                   {row.reson}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {new Date(row.date).toLocaleDateString()}
+                  {row.adminName ? row.adminName:'Not Checked'}
                 </TableCell>
-                <TableCell style={{ width: 160 }} >
+                <TableCell style={{ width: 160 }} className={row.status==='Leave Approved' ?'leaveApprove' :row.status==='Applyed' ? 'leaveRequest': 'leaveCancel'} >
                   {row.status}
                 </TableCell>
-                <TableCell style={{ width: 160 }} >
-                 <Tooltip title='Approve'>
-                 <Button type='button' onClick={()=>Action(row._id,Accept,row.adminName)}><Done/></Button>
-                  </Tooltip> 
-                  <Tooltip title='Canceled' type='button' onClick={()=>Action(row._id,Reject,row.adminName)}>
-                  <Button><Close/></Button>
-                  </Tooltip>
-                </TableCell>
+                
               </TableRow>
             ))}
             {emptyRows > 0 && (

@@ -7,6 +7,7 @@ import Attendance from '../Attendance/Attendance'
 import Result from '../Result/Result'
 import Notice from '../Notice/Notice'
 import LeaveLetterForm from '../LeaveLetter/LeaveLetter'
+import LeaveStatus from '../LeaveStatus/LeaveStatus'
 
 const Student = () => {
   return (
@@ -19,6 +20,7 @@ const Student = () => {
         <Route path='/result' element={<Result/>}></Route>
         <Route path='/notice' element={<Notice/>}></Route>
         <Route path='/applyleave' element={<LeaveLetterForm/>}></Route>
+        <Route path='/leaveStatus' element={<LeaveStatus/>}></Route>
          
         
 

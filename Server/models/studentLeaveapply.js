@@ -9,6 +9,7 @@ let leaveLetter=mongoose.Schema({
     reson:{type:String,required:true},
     date:{type:String,required:true},
     status:{type:String,default:''},
+    adminName:{type:String,default:''},
 })
 let leaveApplyScheema=mongoose.model('leaveLetters',leaveLetter)
 module.exports={leaveApplyScheema}

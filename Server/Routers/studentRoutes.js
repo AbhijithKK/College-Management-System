@@ -14,6 +14,7 @@ router.get('/payment',)
 router.get('/checkAuth',student.checkAuth)
 router.get('/logout',student.logOut)
 router.get('/clubstatus',student.getclubStatus)
+router.get('/leaveletters',student.getLeaveletters)
 
 router.post('/login', student.studentLogin)
 router.post('/addcomplaint')

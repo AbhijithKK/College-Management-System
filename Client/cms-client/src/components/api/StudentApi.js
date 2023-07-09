@@ -171,3 +171,21 @@ if (data===false) {
       })
 return data
 }
+
+export const StudentLeaveLettersApi=async()=>{
+  let {data}=await axios.get('/student/leaveletters',{
+      headers:{
+      'Content-Type':'application/json'
+      }
+    })
+    if (data===false) {
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something Wrong',
+  
+        })
+       
+  }
+  return data
+}

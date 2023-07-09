@@ -159,8 +159,8 @@ export const FacultyVerifyMail=async(datas)=>{
         return data
       }
 
-      export const FacultyLeaveActionApi=async(id,status)=>{
-        let {data}=await axios.post('/faculty/leaveletterStatus',{id,status},{
+      export const FacultyLeaveActionApi=async(id,status,adminName)=>{
+        let {data}=await axios.post('/faculty/leaveletterStatus',{id,status,adminName},{
             headers:{
             'Content-Type':'application/json'
             }

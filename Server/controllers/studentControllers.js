@@ -126,6 +126,30 @@ let student = {
             res.json(false)
         }
     },
+    getLeaveletters:async(req,res)=>{
+        try{
+            let verify = await jwtVerify(req.cookies.studentjwt)
+           
+            let student = await studentModel.findOne({ _id: verify.data })
+
+            let allLeaveletters =await leaveApplyScheema.find().lean()
+            
+            let arr=[]
+            if (allLeaveletters!==null) {
+                for (let i = 0; i < allLeaveletters.length; i++) {
+                    if (student._id==allLeaveletters[i].studentId) {
+                        
+                        arr.push(allLeaveletters[i])
+                    }
+                }
+            }
+            
+            res.json(arr)
+        }catch(err){
+           
+            res.json(false)
+        }
+    },
 
     // ====>CLUB REQUEST SEND>====
     postClub: async (req,res) => {
