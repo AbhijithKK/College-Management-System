@@ -131,7 +131,7 @@ ApiHelper()
                     <option value="">Select Class</option>
                     {
                         Class.map((val,index)=>(
-                            <option key={index} value={val.className}>{val.className}</option>
+                            <option key={index} value={val._id}>{val.className}</option>
                         ))
                     }
                   </Form.Control>

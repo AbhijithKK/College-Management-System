@@ -148,9 +148,9 @@ export const StudentClubStatus=async()=>{
 return data
 }
 
-export const StudentLeaveApplyApi=async(name, department, semester, className,reason, date)=>{
+export const StudentLeaveApplyApi=async(name, department, semester, classId,reason, date)=>{
   
-  let {data}=axios.post('/student/leaveletter',{name, department, semester, className,reason, date},{
+  let {data}=axios.post('/student/leaveletter',{name, department, semester, classId,reason, date},{
     headers:{
         'Content-Type':'application/json'
     },withCredentials:true

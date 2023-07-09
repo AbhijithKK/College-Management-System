@@ -9,6 +9,8 @@ const { notice } = require("../models/noticeScheema")
 const otpGenerator = require('otp-generator')
 const nodeMail = require("../heplers/nodeMailer")
 const { clubRequestScheema } = require("../models/clubRequestsModel")
+const { leaveApplyScheema } = require("../models/studentLeaveapply")
+const { department } = require("../models/departmentScheema")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -75,6 +77,15 @@ let faculty = {
             res.json(allRequests)
         } catch (err) {
             console.log(err);
+        }
+    },
+    ViewLeaveLetters:async(req,res)=>{
+        try{
+            let verify = await jwtVerify(req.cookies.facultyjwt)
+            let faculty1=await facultyModel.findOne({_id:verify.data})
+            let data =await leaveApplyScheema.find({$and:[{department:faculty1.department},{className:faculty1.teachingArea}]}).lran()
+        }catch(err){
+            res.json(false)
         }
     },
     // ======>PROFILE UPDATE<=====

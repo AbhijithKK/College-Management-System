@@ -187,11 +187,11 @@ let student = {
     postLeaveLetter: async(req,res) => {
         try{
             let id = await jwtVerify(req.cookies.studentjwt)
-            let data=await leaveApplyScheema.create({
+            await leaveApplyScheema.create({
                 studentName:req.body.name,
                 department:req.body.department,
                 semester:req.body.semester,
-                className:req.body.className,
+                classId:req.body.classId,
                 studentId:id.data,
                 reson:req.body.reason,
                 date:req.body.date,

@@ -6,6 +6,7 @@ const router=express.Router()
 router.get('/ClubRequests',faculty.viewClubRequests)
 router.get('/checkAuth',faculty.checkAuth)
 router.get('/profile',faculty.getProfile)
+router.get('/leaveletters',faculty.ViewLeaveLetters)
 router.get('/logout',faculty.logOut)
 
 router.post('/login', faculty.facultyLogin)
