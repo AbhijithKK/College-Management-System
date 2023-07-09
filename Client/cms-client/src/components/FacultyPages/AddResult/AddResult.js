@@ -4,7 +4,7 @@ import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import './AddResult.css';
 
-import { ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
+import { ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from "../../api/AdminApi";
 import { ApiViewStudents, FacultyResultAddApi } from "../../api/FacultyApi";
 
 const AddResult = () => {    
@@ -15,9 +15,13 @@ const AddResult = () => {
   const [studentId, setStudentId] = useState("");
   const [mark, setMark] = useState("");
   const [grade, setGrade] = useState("");
+  const [subject, setsubject] = useState("");
  
   const [errmsg, setErrmsg] = useState("");
 
+  const handleSubjectChange = (event) => {
+    setsubject(event.target.value);
+  };
   const handleGradeChange = (event) => {
     setGrade(event.target.value);
   };
@@ -44,13 +48,13 @@ const AddResult = () => {
   const errorHandler = () => {
     setErrmsg('Fill All input fields properly');
   };
-
+console.log(subject);
   const handleSubmit = (event) => {
     event.preventDefault();
-    if ( department!=='dep' && semester.trim() && classValue.trim() &&studentId.trim() &&mark.trim() && grade.trim() ) {
+    if ( department!=='dep' && semester.trim() && classValue.trim() &&studentId.trim() &&mark.trim() && grade.trim()&& subject.trim() ) {
 
-        FacultyResultAddApi(department,semester,classValue,studentId,mark,grade)
-     console.log(department,semester,classValue,studentId,mark,grade);
+        FacultyResultAddApi(department,semester,classValue,studentId,mark,grade,subject)
+     
       setDepartment("");
       setSemester("");
       setClassValue("");
@@ -58,6 +62,7 @@ const AddResult = () => {
       setErrmsg("");
       setMark('');
       setGrade('');
+      setsubject('')
     } else {
       errorHandler();
     }
@@ -69,6 +74,7 @@ const[dep,setDep]=useState([])
 const[Class,setClass]=useState([])
 const[sem,setSem]=useState([])
 const[student,setStudent]=useState([])
+const[Subjects,setSubjects]=useState([])
 
 useEffect(()=>{
     const ApiHelper=async()=>{
@@ -80,12 +86,15 @@ useEffect(()=>{
         setSem(sesms)
         let students=await ApiViewStudents(department,semester,classValue)
         setStudent(students)
+        let subject=await ApiViewSubjects(department,semester)
+        setSubjects(subject)
     }
     
-ApiHelper()
+    ApiHelper()
 },[department,semester,classValue])
 
-console.log(student);
+console.log(Subjects);
+// console.log(student);
   return (
     <div>
       <Container>
@@ -128,6 +137,18 @@ console.log(student);
                     {
                         Class.map((val,index)=>(
                             <option key={index} value={val.className}>{val.className}</option>
+                        ))
+                    }
+                  </Form.Control>
+
+                </Form.Group>
+                <Form.Group controlId="formSubject" className="mb-3">
+                  <Form.Label>Subject</Form.Label>
+                  <Form.Control as="select" value={subject} onChange={handleSubjectChange}>
+                    <option hidden value="">Select Subject</option>
+                    {
+                        Subjects.map((val,index)=>(
+                            <option key={index} value={val.subject}>{val.subject}</option>
                         ))
                     }
                   </Form.Control>

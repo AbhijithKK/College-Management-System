@@ -230,9 +230,13 @@ let admin = {
             if (dep=='default' ) {
                 
                 allSubjects = await subject.find().lean()
-            }else{
+            }else if(req.query.dep && req.query.sem){
 
+                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).lean()
+            }else if(req.query.dep){
                 allSubjects = await subject.find({department:dep}).lean()
+            }else{
+                allSubjects = await subject.find().lean()
             }
             res.json(allSubjects)
         } catch (err) {

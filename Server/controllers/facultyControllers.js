@@ -222,13 +222,15 @@ let faculty = {
     },
     PostResult: async (req, res) => {
         try {
+            
             let data = await resultScheema.create({
                 department: req.body.department,
                 semester:req.body.semester ,
                 className:req.body.className ,
                 mark: req.body.mark,
                 grade: req.body.grade,
-                studentId: req.body.studentId
+                studentId: req.body.studentId,
+                subject:req.body.subject
                     
                 })
                 console.log(data);

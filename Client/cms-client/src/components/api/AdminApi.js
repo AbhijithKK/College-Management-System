@@ -119,8 +119,8 @@ export const ApiDeleteSemester=async(id)=>{
       })
     return data
 }
-export const ApiViewSubjects=async(dep)=>{
-   let {data}=await axios.get('/admin/subjects',{params:{dep}},{
+export const ApiViewSubjects=async(dep,sem)=>{
+   let {data}=await axios.get('/admin/subjects',{params:{dep,sem}},{
         headers:{'Content-Type':'application/json'},
         withCredentials:true
     })

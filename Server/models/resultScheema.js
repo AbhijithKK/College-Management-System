@@ -8,6 +8,7 @@ studentName:{type:String,},
 mark:{type:String,required:true},
 grade:{type:String,required:true},
 studentId:{type:String,required:true},
+subject:{type:String,required:true},
 
 })
 let resultScheema=mongoose.model('result',addMark)

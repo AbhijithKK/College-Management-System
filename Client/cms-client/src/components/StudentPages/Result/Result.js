@@ -21,6 +21,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button } from '@mui/material';
+import { StudentResultGetApi } from '../../api/StudentApi';
 
 
 
@@ -85,33 +86,26 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
 
-const rows = [
-  createData('20/06/2023', '95', 'A+'),
-  createData('21/06/2023', '95', 'A+'),
-  createData('22/06/2023', '95', 'A+'),
-  createData('23/06/2023', '95', 'A+'),
-  createData('24/06/2023', '95', 'A+'),
-  createData('25/06/2023', '95', 'A+'),
-  createData('26/06/2023', '95', 'A+'),
-  createData('27/06/2023', '95', 'A+'),
-  createData('28/06/2023', '95', 'A+'),
-  createData('29/06/2023', '95', 'A+'),
-  createData('30/06/2023', '95', 'A+'),
-  createData('01/07/2023', '95', 'A+'),
-  createData('03/07/2023', '95', 'A+'),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 export default function Result() {
+const [result ,setResult]=React.useState([])
+console.log(result);
+const ApiHelper=async()=>{
+  let data=await StudentResultGetApi()
+  setResult(data)
+}
+
+React.useEffect(()=>{
+  ApiHelper()
+},[])
+  // =======================>TABLE<============================
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - result.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -199,19 +193,20 @@ const handleClose = () => {
               <TableCell style={{fontWeight:"bold"}} align="right">Grade</TableCell>
             </TableRow>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow key={row.name}>
+              ? result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : result
+            ).map((row,i) => (
+              <TableRow key={i}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.subject}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="right">
-                  {row.calories}
+                  {row.mark}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="right">
-                  {row.fat}
+                  {row.grade}
                 </TableCell>
+                
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -225,7 +220,7 @@ const handleClose = () => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={rows.length}
+                count={result.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

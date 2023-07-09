@@ -195,8 +195,8 @@ export const FacultyVerifyMail=async(datas)=>{
         return data
       }
       
-      export const FacultyResultAddApi=async(department,semester,className,studentId,mark,grade)=>{
-        let {data}=await axios.post('/faculty/result',{department,semester,className,studentId,mark,grade},{
+      export const FacultyResultAddApi=async(department,semester,className,studentId,mark,grade,subject)=>{
+        let {data}=await axios.post('/faculty/result',{department,semester,className,studentId,mark,grade,subject},{
             headers:{
             'Content-Type':'application/json'
             }

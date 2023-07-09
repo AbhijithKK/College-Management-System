@@ -189,3 +189,12 @@ export const StudentLeaveLettersApi=async()=>{
   }
   return data
 }
+
+export const StudentResultGetApi=async()=>{
+  let {data}=await axios.get('/student/result',{
+      headers:{
+          'Content-Type':'application/json'
+      }
+  })
+  return data
+}
