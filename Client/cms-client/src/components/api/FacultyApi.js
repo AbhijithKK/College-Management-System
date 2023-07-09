@@ -176,3 +176,45 @@ export const FacultyVerifyMail=async(datas)=>{
         }
         return data
       }
+
+      export const ApiViewStudents=async(dep,sem,cls)=>{
+        let {data}=await axios.get('/faculty/studentlist',{params:{dep,sem}},{
+            headers:{
+            'Content-Type':'application/json'
+            }
+          })
+          if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+        
+              })
+             
+        }
+        return data
+      }
+      
+      export const FacultyResultAddApi=async(department,semester,className,studentId,mark,grade)=>{
+        let {data}=await axios.post('/faculty/result',{department,semester,className,studentId,mark,grade},{
+            headers:{
+            'Content-Type':'application/json'
+            }
+          })
+          if (data===false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Wrong',
+        
+              })
+             
+        }
+        Swal.fire({
+            icon: 'success',
+           
+            text: 'Result Added',
+    
+          })
+        return data
+      }

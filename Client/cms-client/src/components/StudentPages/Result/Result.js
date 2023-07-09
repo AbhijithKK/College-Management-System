@@ -90,19 +90,19 @@ function createData(name, calories, fat) {
 }
 
 const rows = [
-  createData('20/06/2023', 'rahul', 'present'),
-  createData('21/06/2023', 'rahul', 'present'),
-  createData('22/06/2023', 'rahul', 'present'),
-  createData('23/06/2023', 'rahul', 'present'),
-  createData('24/06/2023', 'rahul', 'present'),
-  createData('25/06/2023', 'rahul', 'present'),
-  createData('26/06/2023', 'rahul', 'present'),
-  createData('27/06/2023', 'rahul', 'present'),
-  createData('28/06/2023', 'rahul', 'present'),
-  createData('29/06/2023', 'rahul', 'present'),
-  createData('30/06/2023', 'rahul', 'present'),
-  createData('01/07/2023', 'rahul', 'present'),
-  createData('03/07/2023', 'rahul', 'present'),
+  createData('20/06/2023', '95', 'A+'),
+  createData('21/06/2023', '95', 'A+'),
+  createData('22/06/2023', '95', 'A+'),
+  createData('23/06/2023', '95', 'A+'),
+  createData('24/06/2023', '95', 'A+'),
+  createData('25/06/2023', '95', 'A+'),
+  createData('26/06/2023', '95', 'A+'),
+  createData('27/06/2023', '95', 'A+'),
+  createData('28/06/2023', '95', 'A+'),
+  createData('29/06/2023', '95', 'A+'),
+  createData('30/06/2023', '95', 'A+'),
+  createData('01/07/2023', '95', 'A+'),
+  createData('03/07/2023', '95', 'A+'),
 ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 export default function Result() {

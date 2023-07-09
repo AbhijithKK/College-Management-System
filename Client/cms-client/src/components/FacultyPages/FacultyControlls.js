@@ -5,6 +5,7 @@ import SideBarFaculty from './SideBar/SideBarFaculty'
 import Profile from './Profile/Profile'
 import ClubRequest from './ClubRequests/ClubRequest'
 import CheckLeaveLetter from './CheckLeaveLetter/CheckLeaveLetter'
+import AddResult from './AddResult/AddResult'
 
 const Faculty = () => {
   return (
@@ -14,7 +15,7 @@ const Faculty = () => {
         <Route path='/profile' element={<Profile/>}></Route>
         <Route path='/clubs' element={<ClubRequest/>}></Route>
         <Route path='/Checkleaveletters' element={<CheckLeaveLetter/>}></Route>
-        {/* <Route path='/result' element={<Result/>}></Route> */}
+        <Route path='/addresult' element={<AddResult/>}></Route>
         {/* <Route path='/notice' element={<Notice/>}></Route> */}
          
         

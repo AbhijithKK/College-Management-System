@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const { facultyModel} = require("../models/facultyScheema")
+const { facultyModel } = require("../models/facultyScheema")
 const { jwtSign, jwtVerify } = require("../heplers/jwt")
 
 const { club } = require("../models/clubScheema")
@@ -12,10 +12,14 @@ const { clubRequestScheema } = require("../models/clubRequestsModel")
 const { leaveApplyScheema } = require("../models/studentLeaveapply")
 const { department } = require("../models/departmentScheema")
 const { classScheema } = require("../models/classScheema")
+const { studentModel } = require("../models/studentScheema")
+const { resultScheema } = require("../models/resultScheema")
 
-const OtpGen=()=>{
-    return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
-        specialChars: false ,lowerCaseAlphabets:false});
+const OtpGen = () => {
+    return otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+        specialChars: false, lowerCaseAlphabets: false
+    });
 }
 
 let faculty = {
@@ -42,7 +46,7 @@ let faculty = {
 
     },
     // ======>AUTHENDICATION CHECK<========
-    checkAuth: async (req,res) => {
+    checkAuth: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             console.log(verify);
@@ -58,7 +62,7 @@ let faculty = {
 
     },
     // =====>GET APIS<======
-    getProfile: async (req,res) => {
+    getProfile: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let data = await facultyModel.findOne({ _id: verify.data })
@@ -74,40 +78,48 @@ let faculty = {
     viewClubRequests: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let allRequests=await clubRequestScheema.find({clubAdminId:verify.data}).lean()
+            let allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).lean()
             res.json(allRequests)
         } catch (err) {
-            console.log(err);
+            res.json(false)
         }
     },
-    ViewLeaveLetters:async(req,res)=>{
-        try{
+    ViewLeaveLetters: async (req, res) => {
+        try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let faculty1=await facultyModel.findOne({_id:verify.data})
+            let faculty1 = await facultyModel.findOne({ _id: verify.data })
 
-            let allLeaveletters =await leaveApplyScheema.find().lean()
-            
-            let arr=[]
-            if (allLeaveletters!==null) {
+            let allLeaveletters = await leaveApplyScheema.find().lean()
+
+            let arr = []
+            if (allLeaveletters !== null) {
                 for (let i = 0; i < allLeaveletters.length; i++) {
-                    if (faculty1.adminOfClass==allLeaveletters[i].className) {
-                        allLeaveletters[i].adminName=await faculty1.name
+                    if (faculty1.adminOfClass == allLeaveletters[i].className) {
+                        allLeaveletters[i].adminName = await faculty1.name
                         arr.push(allLeaveletters[i])
                     }
                 }
             }
-            
+
             res.json(arr)
-        }catch(err){
-           
+        } catch (err) {
+
+            res.json(false)
+        }
+    },
+    ViewStudents: async (req, res) => {
+        try {
+            let data = await studentModel.find({ $and: [{ department: req.query.dep }, { semester: req.query.sem }] }).lean()
+            res.json(data)
+        } catch (err) {
             res.json(false)
         }
     },
     // ======>PROFILE UPDATE<=====
-    postProfile: async (req,res) => {
+    postProfile: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-                let id=verify.data
+            let id = verify.data
 
             let updateData = {
                 name: req.body.name,
@@ -123,12 +135,12 @@ let faculty = {
                 address: req.body.address,
             };
 
-            if (req.file!==undefined) {
-               
-                updateData.image =await req.file.filename;
-                
+            if (req.file !== undefined) {
+
+                updateData.image = await req.file.filename;
+
             }
-          
+
             let data = await facultyModel.updateOne({ _id: id }, updateData);
 
             console.log(data);
@@ -139,79 +151,97 @@ let faculty = {
             res.json(false);
         }
     },
-    postMailVerify:async(req,res)=>{
-        try{
-        let data=await facultyModel.findOne({$or:[{email:req.body.data},{mobNumber:req.body.data}]})
-        if (data!==null) {
-            let otp=OtpGen()
-            nodeMail(data.email,otp)
-            res.json({otp:otp})
-        }else{
-            res.json({otp:false,text:'Enter Your Registerd Email or Mobile Number'})
-        }
-        console.log(data);
-        }catch(err){
+    postMailVerify: async (req, res) => {
+        try {
+            let data = await facultyModel.findOne({ $or: [{ email: req.body.data }, { mobNumber: req.body.data }] })
+            if (data !== null) {
+                let otp = OtpGen()
+                nodeMail(data.email, otp)
+                res.json({ otp: otp })
+            } else {
+                res.json({ otp: false, text: 'Enter Your Registerd Email or Mobile Number' })
+            }
+            console.log(data);
+        } catch (err) {
             res.json(false)
         }
     },
-    postPassword: async (req,res) => {
+    postPassword: async (req, res) => {
         try {
-            
+
             let data = await jwtVerify(req.cookies.facultyjwt)
-            let newPassword =await bcrypt.hash(req.body.pass, 10)
-             await facultyModel.updateOne({ _id: data.data }, { password: newPassword })
-            
-           req.json('password updated')
+            let newPassword = await bcrypt.hash(req.body.pass, 10)
+            await facultyModel.updateOne({ _id: data.data }, { password: newPassword })
+
+            req.json('password updated')
         } catch (err) {
             res.json(false)
         }
-    }, 
+    },
     clubRequest: async (req, res) => {
         try {
-          const data = await clubRequestScheema.create({
-            studentName: req.body.studentName,
-            department: req.body.department,
-            semester: req.body.semester,
-            clubName: req.body.clubName,
-            status: req.body.status,
-            clubAdminId: req.body.clubAdminId,
-            clubAdminName: req.body.clubAdminName,
-            studentId: req.body.studentId,
-            clubId: req.body.clubId
-          });
-      
-      
-          if (data !== null) {
-            res.json('Club Request sent successfully');
-          } else {
-            res.json(false);
-          }
+            const data = await clubRequestScheema.create({
+                studentName: req.body.studentName,
+                department: req.body.department,
+                semester: req.body.semester,
+                clubName: req.body.clubName,
+                status: req.body.status,
+                clubAdminId: req.body.clubAdminId,
+                clubAdminName: req.body.clubAdminName,
+                studentId: req.body.studentId,
+                clubId: req.body.clubId
+            });
+
+
+            if (data !== null) {
+                res.json('Club Request sent successfully');
+            } else {
+                res.json(false);
+            }
         } catch (err) {
-          res.json(false);
+            res.json(false);
         }
-      },
-      clubRequestUpdate:async(req,res)=>{
-        try{
-            await clubRequestScheema.updateOne({_id:req.body.id},{status:req.body.status})
+    },
+    clubRequestUpdate: async (req, res) => {
+        try {
+            await clubRequestScheema.updateOne({ _id: req.body.id }, { status: req.body.status })
             res.json(true)
-        }catch(err){
+        } catch (err) {
             res.json(false)
         }
-      },
-      LeaveStatusUpdate:async(req,res)=>{
-        try{
+    },
+    LeaveStatusUpdate: async (req, res) => {
+        try {
             console.log(req.body);
-            let data=await leaveApplyScheema.updateOne({_id:req.body.id},{status:req.body.status,adminName:req.body.adminName})
+            let data = await leaveApplyScheema.updateOne({ _id: req.body.id }, { status: req.body.status, adminName: req.body.adminName })
             console.log(data);
             res.json(true)
-        }catch(err){
+        } catch (err) {
             res.json(false)
         }
-      },
-     // =======>logout<=======
-     logOut: (req, res) => {
+    },
+    PostResult: async (req, res) => {
+        try {
+            let data = await resultScheema.create({
+                department: req.body.department,
+                semester:req.body.semester ,
+                className:req.body.className ,
+                mark: req.body.mark,
+                grade: req.body.grade,
+                studentId: req.body.studentId
+                    
+                })
+                console.log(data);
+                res.json(true)
+        } catch (err) {
+            console.log(err);
+            res.json(false)
+        }
+    },
+    // =======>logout<=======
+    logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)
     }
 }
 
-module.exports=faculty
+module.exports = faculty
