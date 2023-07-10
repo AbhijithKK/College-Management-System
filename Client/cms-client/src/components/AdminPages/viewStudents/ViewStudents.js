@@ -122,13 +122,21 @@ const [totalDepartment,setDep]=React.useState([])
   const SetStudentdata = (data) => {
     useStudent(data);
   };
- 
+ const [ErrMsg,setErrmsg]=React.useState('')
  const HandlSave=()=>{
+  if (id.trim()&&name.trim()&&email.trim()&&mobNumber.trim()&&address.trim()&&department.trim()&&
+    dob.trim()&&admYear.trim()&&semester.trim()&&gender.trim()&&guardianName.trim()&&
+    guardianNumber.trim()&&className) {
+    
+  
   ApiStudentUpdatePost(id,name,email,mobNumber,address,department,
     dob,admYear,semester,gender,guardianName,
     guardianNumber,className)
     setRefresh(!refresh)
     setOpen(false);
+  }else{
+    setErrmsg('Fill All The Fields')
+  }
  }
  const DeleteStudent=(id)=>{
   ApiStudentDelete(id)
@@ -147,6 +155,7 @@ const [totalDepartment,setDep]=React.useState([])
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Student Details</DialogTitle>
         <DialogContent>
+          <p style={{color:'red'}}>{ErrMsg}</p>
           <TextField
             autoFocus
             margin="dense"
