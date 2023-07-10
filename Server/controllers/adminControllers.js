@@ -379,6 +379,7 @@ let admin = {
               guardianName: req.body.guardianName,
               guardianNumber: req.body.guardianNumber,
               semester: req.body.semester,
+              className:req.body.className
             };
           
             if (req.file) {

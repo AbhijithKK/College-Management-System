@@ -18,7 +18,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
+import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -58,6 +58,7 @@ export default function ViewStudents() {
   const [gender,setgender]=React.useState('')
   const [semester,setsemester]=React.useState('')
   const[id,setid]=React.useState('')
+  const[className,setsClass]=React.useState('')
   
                
   const HandleClickOpen =async (id) => { 
@@ -76,22 +77,18 @@ export default function ViewStudents() {
     setdepartment(data.department)
     setgender(data.gender)
     setsemester(data.semester)
-    GetDept()
-    GetSem()
+    setsClass(data.className)
+   console.log(data);
+    
   }
   const handleClose = () => {
     setOpen(false);
   };
+  const [AllClass,setAllClass]=React.useState([])
 const [totalDepartment,setDep]=React.useState([])
-const GetDept=async()=>{
-  let data=await ApiViewDepartment()
-  setDep(data)
-}
+
  const[totalSem,setSem]=React.useState([])
- const GetSem=async()=>{
-  let data=await ApiViewSemester()
-  setSem(data)
- }
+ 
   const [refresh, setRefresh]=React.useState(false)
 //  console.log(semester);
   // ===================
@@ -110,7 +107,18 @@ const GetDept=async()=>{
         SetStudentdata(data.data);
       });
       HelpDepts()
-  }, [refresh,Dep]);
+
+
+      const GetApi=async()=>{
+        let data=await ApiViewDepartment()
+        setDep(data)
+        let sem=await ApiViewSemester(department)
+        setSem(sem)
+        let cls=await ApiViewClass(department,semester)
+        setAllClass(cls)
+      }
+      GetApi()
+  }, [refresh,Dep,department,semester]);
   const SetStudentdata = (data) => {
     useStudent(data);
   };
@@ -118,7 +126,7 @@ const GetDept=async()=>{
  const HandlSave=()=>{
   ApiStudentUpdatePost(id,name,email,mobNumber,address,department,
     dob,admYear,semester,gender,guardianName,
-    guardianNumber,)
+    guardianNumber,className)
     setRefresh(!refresh)
     setOpen(false);
  }
@@ -230,6 +238,25 @@ const GetDept=async()=>{
              {totalSem.map((data, index) => (
 
             <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl margin="dense" fullWidth>
+            <InputLabel id="semester-label">Select Class</InputLabel>
+            <Select
+              labelId="semester-label"
+              id="semester"
+              variant="standard"
+              fullWidth
+              
+              value={className}
+            onChange={(event)=>  setsClass(event.target.value)
+            }
+            >
+              
+             {AllClass.map((data, index) => (
+
+            <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
               ))}
             </Select>
           </FormControl>
