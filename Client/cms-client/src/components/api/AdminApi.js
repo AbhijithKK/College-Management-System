@@ -409,7 +409,7 @@ export const ApiViewFaculty=async(Dep)=>{
      return data
  }
  export const  ApiAddClass=async(datas)=>{
-    let {data}=await axios.post('/admin/class',{className:datas.className,department:datas.department},{
+    let {data}=await axios.post('/admin/class',{className:datas.className,department:datas.department,semester:datas.semester},{
          headers:{'Content-Type':'application/json'},
          withCredentials:true
      })

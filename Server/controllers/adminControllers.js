@@ -162,6 +162,7 @@ let admin = {
             classScheema.create({
                 department: req.body.department,
                 className: req.body.className,
+                semester:req.body.semester
                 
             })
             res.json('Class added')

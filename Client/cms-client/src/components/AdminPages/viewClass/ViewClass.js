@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
-import { ApiAddClass,  ApiDeleteClass,  ApiViewClass, ApiViewDepartment} from '../../api/AdminApi';
+import { ApiAddClass,  ApiDeleteClass,  ApiViewClass, ApiViewDepartment, ApiViewSemester} from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
@@ -61,23 +61,34 @@ export default function ViewClass() {
   }
   const [formdata, useFormdata] = useForm({
     className:'',
-    department:'hh'
+    department:'hh',
+    semester:'hh'
   })
   const [Department,useDepartment]=React.useState([])
+  const [Semester,useSemester]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
-  const ApiDept=async()=>{
-    let data=await ApiViewDepartment()
-    useDepartment(data)
-   
-  }
+  
   React.useEffect(() => {
+    const ApiDept=async()=>{
+      let data=await ApiViewDepartment()
+      let sem=await ApiViewSemester(formdata.department)
+      useDepartment(data)
+     useSemester(sem)
+    }
     ApiCall()
     ApiDept()
-  }, [refresh])
+  }, [refresh,formdata.department])
+  console.log(formdata);
+  const [errMsg,setErrmsg]=React.useState('')
 const AddClass=()=>{
-  ApiAddClass(formdata)
-  setOpen(false);
-  userefresh(!refresh)
+  if (formdata.department!=='hh' && formdata.semester!=='hh' && formdata.className.trim()) {
+    
+    ApiAddClass(formdata)
+    setOpen(false);
+    userefresh(!refresh)
+  }else{
+    setErrmsg('Fill all fields')
+  }
 }
 const DeleteClass=(id)=>{
 ApiDeleteClass(id)
@@ -94,21 +105,10 @@ userefresh(!refresh)
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Add New Class</DialogTitle>
           <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Enter Class Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              name='className'
-              value={formdata.className}
-              onChange={Changeval}
-            />
+            <p style={{color:'red'}}>{errMsg}</p>
+            
             
             <Select
-             
               onChange={Changeval}
               fullWidth
               variant="standard"
@@ -125,6 +125,35 @@ userefresh(!refresh)
              
              
             </Select>
+            <Select
+              onChange={Changeval}
+              fullWidth
+              variant="standard"
+              label="Select Semester"
+              name='semester'
+              value={formdata.semester}
+            >
+              
+                <MenuItem hidden value={formdata.semester}>Select Semester</MenuItem>
+              
+              {Semester.map((val,index)=>(
+                <MenuItem key={index} value={val.semester}>{val.semester}</MenuItem>
+              ))}
+             
+             
+            </Select>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Enter Class Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              name='className'
+              value={formdata.className}
+              onChange={Changeval}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

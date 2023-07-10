@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './AddAttendance.css';
 import { HourglassBottom, HourglassDisabled, HourglassFull } from '@mui/icons-material';
+import { Button, Tooltip } from '@mui/material';
 
 
 
@@ -152,10 +153,10 @@ React.useEffect(()=>{
             {(rowsPerPage > 0
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
-            ).map((row) => (
-              <TableRow key={row.name}>
+            ).map((row,i) => (
+              <TableRow key={i}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {currentDate}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="right">
                   {row.calories}
