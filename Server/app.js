@@ -9,7 +9,8 @@ const student=require('./Routers/studentRoutes')
 const faculty=require('./Routers/facultyRouters')
 const db=require('./config/config')
 const bodyparser=require('body-parser')
-
+const sanitize=require('express-mongo-sanitize')
+const xss=require('xss-clean')
 
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(cors({origin:['http://localhost:3000'], credentials: true }))
@@ -17,6 +18,10 @@ app.use(morgan("dev"))
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname,'public')))
+
+app.use(sanitize())
+app.use(xss())
+
 db()
 app.use('/admin',admin)
 app.use('/student',student)
