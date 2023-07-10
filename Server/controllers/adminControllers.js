@@ -261,12 +261,14 @@ let admin = {
     viewClass: async (req, res) => {
         try {
             let allClass
-            if (req.query.Dep ) {
-             allClass = await  classScheema.find({department:req.query.Dep}).lean()
-            res.json(allClass)
-            return
+            if (req.query.Dep &&req.query.Sem ) {
+                allClass = await  classScheema.find({$and:[{department:req.query.Dep},{semester:req.query.Sem}]}).lean()
+            }else if (req.query.Dep  ){
+                allClass = await  classScheema.find({department:req.query.Dep}).lean()
+            }else{
+
+                allClass = await  classScheema.find().lean()
             }
-            allClass = await  classScheema.find().lean()
             res.json(allClass)
         } catch (err) {
             res.json(false)

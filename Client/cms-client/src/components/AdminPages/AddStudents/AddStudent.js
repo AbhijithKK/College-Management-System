@@ -4,7 +4,7 @@ import "./AddStudent.css";
 import { useForm } from "../../useForm/useForm";
 
 import { useEffect, useState } from "react";
-import { ApiAddStudent, ApiViewDepartment } from "../../api/AdminApi";
+import { ApiAddStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 
 function AddStudent() {
   const [value, SetValue] = useForm({
@@ -16,9 +16,10 @@ function AddStudent() {
     guardianName: "",
     guardianNumber: "",
     address: "",
-    department: "",
+    department: "def",
     gender: "",
     semester: "",
+    className:''
   });
   const ValueHandle = (event) => {
     SetValue(event);
@@ -26,7 +27,7 @@ function AddStudent() {
 const [errmsg,setErrmsg]=useState('')
   const SubmitForm = () => {
     if (value.names.trim() &&value.email.trim()&&value.mobNumber.trim()&&value.dob.trim()&&value.admYear.trim()&&value.guardianName.trim()&&value.guardianNumber.trim()
-    &&value.address.trim()&&value.department.trim()&&value.gender.trim()&&value.semester.trim()) {
+    &&value.address.trim()&&value.department!=='def'&&value.gender.trim()&&value.semester.trim()&& value.className.trim()) {
       
       ApiAddStudent(value)
     }else{
@@ -36,13 +37,20 @@ const [errmsg,setErrmsg]=useState('')
 
   };
   const [dept,setDept]=useState([])
-  const HelpDep=async()=>{
-    let data=await ApiViewDepartment()
-    setDept(data)
-  }
+  const[AllSem,setAllSem]=useState([])
+  const[AllClass,setAllClass]=useState([])
+
   useEffect(()=>{
+    const HelpDep=async()=>{
+      let data=await ApiViewDepartment()
+      let sem=await ApiViewSemester(value.department)
+      let cls=await ApiViewClass(value.department,value.semester)
+      setDept(data)
+      setAllSem(sem)
+      setAllClass(cls)
+    }
     HelpDep()
-  },[])
+  },[value.department,value.semester])
   return (
     <Container>
       <Row>
@@ -132,24 +140,39 @@ const [errmsg,setErrmsg]=useState('')
                   <Col sm={12} md={6}>
                     <Form.Label htmlFor="">Select Semesters</Form.Label>
                     <Form.Select id="" name="semester" onChange={ValueHandle}>
-                      <option value="">Select sem</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
+                    <option hidden value={value.semester}>Select Semester</option>
+              {AllSem.map((data, index) => (
+
+                <option key={index} value={data.semester}>{data.semester}</option>
+              ))
+              }
                     </Form.Select>
                   </Col>
                 </Row>
               </Form.Group>
               <Form.Group className="mb-3">
+              <Row>
+              
+                  <Col sm={12} md={6}>
+                    <Form.Label htmlFor="">Select Class</Form.Label>
+                    <Form.Select id="" name="className" onChange={ValueHandle}>
+                    <option hidden value={value.className}>Select Class</option>
+              {AllClass.map((data, index) => (
+
+                <option key={index} value={data.className}>{data.className}</option>
+              ))
+              }
+                    </Form.Select>
+                  </Col>
+              <Col sm={12} md={6}>
                 <Form.Label htmlFor="">Select gender</Form.Label>
                 <Form.Select id="" value={value.gender} name="gender" onChange={ValueHandle}>
                   <option hidden value="">Select Gender</option>
                   <option value="m">male</option>
                   <option value="f">female</option>
                 </Form.Select>
+                </Col>
+                </Row>
               </Form.Group>
               <Form.Group>
                 <Row>

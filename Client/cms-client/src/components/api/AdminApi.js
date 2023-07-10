@@ -393,8 +393,8 @@ export const ApiViewFaculty=async(Dep)=>{
   
  }
 
- export const  ApiViewClass=async(Dep)=>{
-    let {data}=await axios.get('/admin/class',{params:{Dep}},{
+ export const  ApiViewClass=async(Dep,Sem)=>{
+    let {data}=await axios.get('/admin/class',{params:{Dep,Sem}},{
          headers:{'Content-Type':'application/json'},
          withCredentials:true
      })
