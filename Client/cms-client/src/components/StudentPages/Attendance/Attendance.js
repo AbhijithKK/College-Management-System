@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './Attendance.css';
 import { Chart } from "react-google-charts";
+import { StudentAttendencegetApi } from '../../api/StudentApi';
 
 
 // =================>PIE CHART<===================
@@ -95,33 +96,15 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData('20/06/2023', 'rahul', 'present'),
-  createData('21/06/2023', 'rahul', 'present'),
-  createData('22/06/2023', 'rahul', 'present'),
-  createData('23/06/2023', 'rahul', 'present'),
-  createData('24/06/2023', 'rahul', 'present'),
-  createData('25/06/2023', 'rahul', 'present'),
-  createData('26/06/2023', 'rahul', 'present'),
-  createData('27/06/2023', 'rahul', 'present'),
-  createData('28/06/2023', 'rahul', 'present'),
-  createData('29/06/2023', 'rahul', 'present'),
-  createData('30/06/2023', 'rahul', 'present'),
-  createData('01/07/2023', 'rahul', 'present'),
-  createData('03/07/2023', 'rahul', 'present'),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 export default function Attendance() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
+  const [Attendance,setAttendence]=React.useState([])
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Attendance.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -131,7 +114,44 @@ export default function Attendance() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  // ===================================================================
+  const [pie,setpie]=React.useState([])
 
+
+
+
+React.useEffect(()=>{
+  const pieHelper= async()=>{
+    let PresentCount=0;
+let AbsentCount=0;
+let Halfdaycount=0;
+    for(let i=0;i<Attendance.length;i++){
+      if(Attendance[i].status==='Present'){
+        PresentCount=PresentCount+1
+      }else if(Attendance[i].status==='Absent'){
+       AbsentCount=AbsentCount+1
+      }else{
+        Halfdaycount=Halfdaycount+1
+      }
+    }
+    let data = [
+      ["Task", "month"],
+      ["Present", PresentCount],
+      ["Absent", AbsentCount],
+      ["Half Day", Halfdaycount],
+
+      
+    ];
+    setpie(data)
+  }
+  const ApiHelper=async()=>{
+    let data=await StudentAttendencegetApi()
+    setAttendence(data)
+    pieHelper()
+  }
+ApiHelper()
+},[Attendance])
+// ===================================================================
   return (
     <Container>
       <h1>Attendance</h1>
@@ -139,23 +159,23 @@ export default function Attendance() {
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}>Date</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Attendance By</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Status</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Date</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Attendance By</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Status</TableCell>
             </TableRow>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
+              ? Attendance.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : Attendance
+            ).map((row,i) => (
+              <TableRow key={i}>
+                <TableCell align="center" >
+                  {row.date}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.calories}
+                <TableCell  align="center">
+                  {row.facultyName}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.fat}
+                <TableCell  align="center">
+                  {row.status}
                 </TableCell>
               </TableRow>
             ))}
@@ -168,9 +188,9 @@ export default function Attendance() {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[6, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={rows.length}
+                count={Attendance.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
@@ -190,7 +210,7 @@ export default function Attendance() {
       {/* =================>pie Chart<============ */}
       <Chart
       chartType="PieChart"
-      data={data}
+      data={pie}
       options={options}
       width={"100%"}
       height={"400px"}

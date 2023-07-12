@@ -75,7 +75,7 @@ let faculty = {
                 res.json(false)
             }
             // ==============================================================
-              
+
 
         } catch (err) {
             res.json(false)
@@ -122,39 +122,85 @@ let faculty = {
         }
     },
     getAttendance: async (req, res) => {
-        try{
-        let verify = await jwtVerify(req.cookies.facultyjwt)
+        try {
+            let verify = await jwtVerify(req.cookies.facultyjwt)
             let data = await facultyModel.findOne({ _id: verify.data })
-        let stdnt=await studentModel.find({$and:[{department:data.department},{className:data.adminOfClass}]}).lean()
-        let Array=[]   
-        if (stdnt.length==0) {
-            res.json(Array)
-        }else{
-        for (let i = 0; i < stdnt.length; i++) {
-                let stdnts={
-                    date:new Date().toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                      }),
-                    studentName:stdnt[i].name,
-                    studentId:stdnt[i]._id,
-                    facultyName:data.name,
-                    facultyId:data._id,
-                    className:data.adminOfClass,
-                    department:data.department,
-                    status:'Not Marked'
-                }
-                Array.push(stdnts)
+            let todayDate=new Date().toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            })
+            let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId:data._id  }, { className:data.adminOfClass }] }).lean()
                 
+                if (temp.length == 0) {
+            let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }] }).lean()
+            let Array = []
+            if (stdnt.length == 0) {
+                res.json(Array)
+            } else {
+                for (let i = 0; i < stdnt.length; i++) {
+                    let stdnts = {
+                        date: new Date().toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                        }),
+                        studentName: stdnt[i].name,
+                        studentId: stdnt[i]._id,
+                        facultyName: data.name,
+                        facultyId: data._id,
+                        className: data.adminOfClass,
+                        department: data.department,
+                        status: 'Not Marked'
+                    }
+                    Array.push(stdnts)
+
+                }
+                console.log('kk', Array);
+                res.json(Array)
             }
-            console.log('kk',Array);
-            res.json(Array)
+        }else{
+            let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }] }).lean()
+            let Array = []
+            if (stdnt.length == 0) {
+                res.json(Array)
+            } else {
+                for (let i = 0; i < stdnt.length; i++) {
+                    let status='Not Marked'
+                    let stdnts = {
+                        date: new Date().toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                        }),
+                        studentName: stdnt[i].name,
+                        studentId: stdnt[i]._id,
+                        facultyName: data.name,
+                        facultyId: data._id,
+                        className: data.adminOfClass,
+                        department: data.department,
+                        status: status
+                    }
+                    Array.push(stdnts)
+                }
+                for(let j=0;j<temp.length;j++){
+                    for(let k=0;k<Array.length;k++){
+                        if (temp[j].studentId==Array[k].studentId) {
+                            Array[k].status=temp[j].status
+                        }
+                    
+                    }
+                }
+            }
+                console.log('kk', Array);
+                res.json(Array)
+            }  
+            
+        } catch (Err) {
+            console.log(Err);
+            res.json(false)
         }
-}catch(Err){
-console.log(Err);
-res.json(false)
-}}
+    }
     ,
     // ======>PROFILE UPDATE<=====
     postProfile: async (req, res) => {
@@ -276,6 +322,35 @@ res.json(false)
             })
             console.log(data);
             res.json(true)
+        } catch (err) {
+            console.log(err);
+            res.json(false)
+        }
+    },
+    postAttendance: async (req, res) => {
+        try {
+            let details = req.body.details
+                let temp = await attendenceScheema.find({ $and: [{ date: req.body.details.date }, { studentId: req.body.details.studentId }, { className: req.body.details.className }] }).lean()
+                
+                if (temp.length == 0) {
+
+                    let data = await attendenceScheema.create(details)
+                    console.log('created', data);
+                }else{
+                    let update=await attendenceScheema.updateOne({_id:temp[0]._id},{
+                        date: req.body.details.date ,
+                        studentName: req.body.details.studentName ,
+                        studentId: req.body.details.studentId ,
+                        facultyName: req.body.details.facultyName ,
+                        facultyId: req.body.details. facultyId,
+                        className: req.body.details.className ,
+                        department: req.body.details. department,
+                        status: req.body.details. status,
+                    })
+                    console.log('ntgggggggggggggg',update);
+                }
+           
+
         } catch (err) {
             console.log(err);
             res.json(false)

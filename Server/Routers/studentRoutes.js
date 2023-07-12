@@ -4,7 +4,7 @@ const upload = require('../heplers/multer')
 const router = express.Router()
 
 router.get('/profile', student.getProfile)
-router.get('/attendance', student.getAttendance)
+router.get('/attendence', student.getAttendance)
 router.get('/result', student.getResult)
 router.get('/clubs', student.getClubs)
 router.get('/checknotice', student.getNotice)

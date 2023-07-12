@@ -11,6 +11,7 @@ const nodeMail = require("../heplers/nodeMailer")
 const { clubRequestScheema } = require("../models/clubRequestsModel")
 const { leaveApplyScheema } = require("../models/studentLeaveapply")
 const { resultScheema } = require("../models/resultScheema")
+const { attendenceScheema } = require("../models/attendance")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -73,7 +74,8 @@ let student = {
     getAttendance: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
-            res.json('attendance')
+            let data=await attendenceScheema.find({studentId:verify.data}).lean()
+            res.json(data)
         } catch (err) {
             res.json(false)
         }

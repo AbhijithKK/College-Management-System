@@ -18,7 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './AddAttendance.css';
 
-import { FacultyAttendenceApi } from '../../api/FacultyApi';
+import { FacultyAttendenceApi, FacultyAttendencePostApi } from '../../api/FacultyApi';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -114,9 +114,12 @@ function AddAttendanceTable() {
     setPage(0);
   };
 
-  const Action = (status) => {
+  const Action = async(status) => {
     studentDetail.status = status;
     console.log(studentDetail);
+
+
+   FacultyAttendencePostApi(studentDetail)
     if (status==='Present') {
       
       enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'success' })
@@ -126,7 +129,7 @@ function AddAttendanceTable() {
       enqueueSnackbar(`${studentDetail.studentName} is taiken ${status} leave`, { variant: 'info' })
 
     }
-    
+
     handleClose();
   };
 

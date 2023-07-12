@@ -196,5 +196,32 @@ export const StudentResultGetApi=async()=>{
           'Content-Type':'application/json'
       }
   })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+  
+      })
+     
+  }
   return data
+}
+
+export const StudentAttendencegetApi=async()=>{
+ let {data}=await axios.get('/student/attendence',{
+  headers:{
+    "Content-Type":'application/json'
+  }
+ })
+ if (data===false) {
+  Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+   
+}
+return data
 }
