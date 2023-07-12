@@ -166,12 +166,24 @@ console.log(requests);
                   {row.status==='Now Your a Member'?'Request Accepted':row.status==='Request Send' ? 'Requested':row.status}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                 <Tooltip title='Accept'>
+                  {row.status==='Now Your a Member'?
+                  <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
+                  <Button><Close/></Button>
+                  </Tooltip>
+                  :row.status===Reject ?
+                  <Tooltip title='Accept'>
+                  <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
+                   </Tooltip> :
+                   <>
+                   <Tooltip title='Accept'>
                  <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
                   </Tooltip> 
                   <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
                   <Button><Close/></Button>
                   </Tooltip>
+                   </>
+                }
+                 
                 </TableCell>
               </TableRow>
             ))}

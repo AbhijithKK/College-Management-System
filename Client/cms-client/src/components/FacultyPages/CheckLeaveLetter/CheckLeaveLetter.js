@@ -170,12 +170,24 @@ console.log(requests);
                   {row.status}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                 <Tooltip title='Approve'>
+                 {
+                  row.status===Accept ?
+                   <Tooltip title='Canceled' type='button' onClick={()=>Action(row._id,Reject,row.adminName)}>
+                   <Button><Close/></Button>
+                   </Tooltip> 
+                   : row.status===Reject ?
+                   <Tooltip title='Approve'>
+                   <Button type='button' onClick={()=>Action(row._id,Accept,row.adminName)}><Done/></Button>
+                    </Tooltip>
+                  :<>
+                  <Tooltip title='Approve'>
                  <Button type='button' onClick={()=>Action(row._id,Accept,row.adminName)}><Done/></Button>
                   </Tooltip> 
                   <Tooltip title='Canceled' type='button' onClick={()=>Action(row._id,Reject,row.adminName)}>
                   <Button><Close/></Button>
                   </Tooltip>
+                  </>
+                 }
                 </TableCell>
               </TableRow>
             ))}
