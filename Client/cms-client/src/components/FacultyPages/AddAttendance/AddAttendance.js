@@ -17,12 +17,12 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './AddAttendance.css';
-import { HourglassBottom, HourglassDisabled, HourglassFull } from '@mui/icons-material';
-import { Button, Tooltip } from '@mui/material';
 
-
-
-
+import { FacultyAttendenceApi } from '../../api/FacultyApi';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -85,33 +85,25 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
 
-const rows = [
-  createData('20/06/2023', 'rahul', 'present'),
-  createData('21/06/2023', 'rahul', 'present'),
-  createData('22/06/2023', 'rahul', 'present'),
-  createData('23/06/2023', 'rahul', 'present'),
-  createData('24/06/2023', 'rahul', 'present'),
-  createData('25/06/2023', 'rahul', 'present'),
-  createData('26/06/2023', 'rahul', 'present'),
-  createData('27/06/2023', 'rahul', 'present'),
-  createData('28/06/2023', 'rahul', 'present'),
-  createData('29/06/2023', 'rahul', 'present'),
-  createData('30/06/2023', 'rahul', 'present'),
-  createData('01/07/2023', 'rahul', 'present'),
-  createData('03/07/2023', 'rahul', 'present'),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
-export default function AddAttendance() {
+function AddAttendanceTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [studentDetail, setStudentDetail] = React.useState({});
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClick = (event, row) => {
+    setStudentDetail(row);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -121,23 +113,35 @@ export default function AddAttendance() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-// ================================================================
 
-let present='Present';
-let absent='Absent';
-let halfDay='Half Day';
-const [currentDate,setCurrentDate]=React.useState(new Date().toLocaleDateString())
+  const Action = (status) => {
+    studentDetail.status = status;
+    console.log(studentDetail);
+    if (status==='Present') {
+      
+      enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'success' })
+    }else if(status==='Absent'){
+    enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'error' })
+    }else{
+      enqueueSnackbar(`${studentDetail.studentName} is taiken ${status} leave`, { variant: 'info' })
 
-const HandleApi=async()=>{
+    }
+    
+    handleClose();
+  };
 
-}
-const Action=(id,status,studentId)=>{
+  const [Student, SetAllStudents] = React.useState([]);
+  React.useEffect(() => {
+    const handleApi = async () => {
+      let data = await FacultyAttendenceApi();
+      console.log(data);
+      SetAllStudents(data);
+    };
+    handleApi();
+  }, []);
 
-}
-React.useEffect(()=>{
-    setCurrentDate(new Date().toLocaleDateString())
-    HandleApi()
-},[])
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Student.length) : 0;
+
   return (
     <Container>
       <h1>Attendance</h1>
@@ -145,41 +149,56 @@ React.useEffect(()=>{
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}>Date</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Attendance By</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Status</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Actions</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Date</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Student Name</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Actions</TableCell>
             </TableRow>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row,i) => (
+              ? Student.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : Student
+            ).map((row, i) => (
               <TableRow key={i}>
-                <TableCell component="th" scope="row">
-                  {currentDate}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.calories}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.fat}
-                </TableCell>
-                <TableCell style={{ width: 160 }} >
-                 <Tooltip title='Present'>
-                 <Button type='button' onClick={()=>Action(row._id,present,row.adminName)}><HourglassFull/></Button>
-                  </Tooltip> 
-                  <Tooltip title='HalfDay' type='button' onClick={()=>Action(row._id,halfDay,row.adminName)}>
-                  <Button><HourglassBottom/></Button>
-                  </Tooltip>
-                  <Tooltip title='Absent' type='button' onClick={()=>Action(row._id,absent,row.adminName)}>
-                  <Button><HourglassDisabled/></Button>
-                  </Tooltip>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.studentName}</TableCell>
+                <TableCell>{row.status}</TableCell>
+                <TableCell>
+                  <div>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? 'long-menu' : undefined}
+                      aria-expanded={open ? 'true' : undefined}
+                      aria-haspopup="true"
+                      onClick={(e) => handleClick(e, row)}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="long-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'long-button',
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      PaperProps={{
+                        style: {
+                          width: '20ch',
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={() => Action('Present')}>Present</MenuItem>
+                      <MenuItem onClick={() => Action('Absent')}>Absent</MenuItem>
+                      <MenuItem onClick={() => Action('Half Day')}>Half Day</MenuItem>
+                    </Menu>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={3} />
+                <TableCell colSpan={4} />
               </TableRow>
             )}
           </TableBody>
@@ -187,8 +206,8 @@ React.useEffect(()=>{
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={rows.length}
+                colSpan={4}
+                count={Student.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
@@ -205,7 +224,14 @@ React.useEffect(()=>{
           </TableFooter>
         </Table>
       </TableContainer>
-      
     </Container>
+  );
+}
+
+export default function AddAttendance() {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <AddAttendanceTable />
+    </SnackbarProvider>
   );
 }

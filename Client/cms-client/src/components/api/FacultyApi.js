@@ -218,3 +218,21 @@ export const FacultyVerifyMail=async(datas)=>{
           })
         return data
       }
+
+      export const FacultyAttendenceApi=async()=>{
+        let {data}=await axios.get('/faculty/attendence',{
+          headers:{
+          'Content-Type':'application/json'
+          }
+        })
+        if (data===false) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something Wrong',
+      
+            })
+             
+      }
+      return data
+      }

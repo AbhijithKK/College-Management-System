@@ -14,6 +14,9 @@ const { department } = require("../models/departmentScheema")
 const { classScheema } = require("../models/classScheema")
 const { studentModel } = require("../models/studentScheema")
 const { resultScheema } = require("../models/resultScheema")
+const student = require("./studentControllers")
+const { array } = require("../heplers/multer")
+const { attendenceScheema } = require("../models/attendance")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
@@ -71,6 +74,9 @@ let faculty = {
             } else {
                 res.json(false)
             }
+            // ==============================================================
+              
+
         } catch (err) {
             res.json(false)
         }
@@ -115,6 +121,41 @@ let faculty = {
             res.json(false)
         }
     },
+    getAttendance: async (req, res) => {
+        try{
+        let verify = await jwtVerify(req.cookies.facultyjwt)
+            let data = await facultyModel.findOne({ _id: verify.data })
+        let stdnt=await studentModel.find({$and:[{department:data.department},{className:data.adminOfClass}]}).lean()
+        let Array=[]   
+        if (stdnt.length==0) {
+            res.json(Array)
+        }else{
+        for (let i = 0; i < stdnt.length; i++) {
+                let stdnts={
+                    date:new Date().toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                      }),
+                    studentName:stdnt[i].name,
+                    studentId:stdnt[i]._id,
+                    facultyName:data.name,
+                    facultyId:data._id,
+                    className:data.adminOfClass,
+                    department:data.department,
+                    status:'Not Marked'
+                }
+                Array.push(stdnts)
+                
+            }
+            console.log('kk',Array);
+            res.json(Array)
+        }
+}catch(Err){
+console.log(Err);
+res.json(false)
+}}
+    ,
     // ======>PROFILE UPDATE<=====
     postProfile: async (req, res) => {
         try {
@@ -222,19 +263,19 @@ let faculty = {
     },
     PostResult: async (req, res) => {
         try {
-            
+
             let data = await resultScheema.create({
                 department: req.body.department,
-                semester:req.body.semester ,
-                className:req.body.className ,
+                semester: req.body.semester,
+                className: req.body.className,
                 mark: req.body.mark,
                 grade: req.body.grade,
                 studentId: req.body.studentId,
-                subject:req.body.subject
-                    
-                })
-                console.log(data);
-                res.json(true)
+                subject: req.body.subject
+
+            })
+            console.log(data);
+            res.json(true)
         } catch (err) {
             console.log(err);
             res.json(false)

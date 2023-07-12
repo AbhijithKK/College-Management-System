@@ -63,7 +63,8 @@ let admin = {
                 address: req.body.address,
                 DOB: req.body.dob,
                 semester: req.body.semester,
-                password: password
+                password: password,
+                className:req.body.className
             }).then(() => res.json('Student Added'))
         } catch (err) {
            res.json(false)
@@ -400,6 +401,7 @@ let admin = {
     },
     postupdateFaculty: async(req, res) => {
         try {
+            console.log(req.body);
             let id = req.body.id
             const datas={
                 name: req.body.name,
@@ -411,8 +413,9 @@ let admin = {
                 gender: req.body.gender,
                 address: req.body.address,
                 DOB: req.body.dob,
-                adminOfClass:req.body.adminOfClass,
+                adminOfClass:req.body.className,
                 qualifications: req.body.qualifications,
+                
                 
             }
             if (req.file) {

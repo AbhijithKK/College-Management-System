@@ -8,6 +8,7 @@ router.get('/checkAuth',faculty.checkAuth)
 router.get('/profile',faculty.getProfile)
 router.get('/leaveletters',faculty.ViewLeaveLetters)
 router.get('/studentlist',faculty.ViewStudents)
+router.get('/attendence',faculty.getAttendance)
 router.get('/logout',faculty.logOut)
 
 router.post('/login', faculty.facultyLogin)

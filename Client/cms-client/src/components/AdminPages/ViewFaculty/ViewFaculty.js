@@ -17,7 +17,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty } from '../../api/AdminApi';
+import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty, ApiViewSubjects } from '../../api/AdminApi';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -53,6 +53,7 @@ console.log(Dep);
     HelperFaculty(data)
   }, [Dep]);
   const[Class,setClass]=React.useState([])
+  const [semester,setsemester]=React.useState('')
   const [department,setdepartment]=React.useState('')
   React.useEffect(() => {
 
@@ -61,12 +62,22 @@ console.log(Dep);
       HelpDepts();
     };
     const subjectApi=async()=>{
-      let classes=await ApiViewClass(department)
+      let classes=await ApiViewSubjects(department)
       setClass(classes)
     }
     subjectApi()
     fetchData();
-  }, [refresh, Dep, Facultys,department]);
+
+
+
+    const GetDept=async()=>{
+      let data=await ApiViewDepartment()
+      setDep(data)
+      let cls=await ApiViewClass(department,semester)
+      setCls(cls)
+    }
+    GetDept()
+  }, [refresh, Dep, Facultys,department,semester]);
   // =====>MODAL<=======
   const [open, setOpen] = React.useState(false);
   
@@ -80,8 +91,8 @@ console.log(Dep);
   const [teachingArea,setteachingArea]=React.useState('')
   const [address,setaddress]=React.useState('')
   const [gender,setgender]=React.useState('')
-  const [semester,setsemester]=React.useState('')
   const[id,setid]=React.useState('')
+  const [className,setClassName]=React.useState('')
   
                
   const HandleClickOpen =async (id) => { 
@@ -100,17 +111,16 @@ console.log(Dep);
     setdepartment(data.department)
     setgender(data.gender)
     setsemester(data.semester)
-    GetDept()
+    setClassName(data.adminOfClass)
+   
    
   }
   const handleClose = () => {
     setOpen(false);
   };
 const [totalDepartment,setDep]=React.useState([])
-const GetDept=async()=>{
-  let data=await ApiViewDepartment()
-  setDep(data)
-}
+const [totalClass,setCls]=React.useState([])
+
 
  
 //  console.log(semester);
@@ -119,12 +129,20 @@ const GetDept=async()=>{
     ApiDeleteFaculty(id)
     setRefresh(!refresh)
   }
+  const[errMsg,setErrmsg]=React.useState('')
   const HandlSave=()=>{
-    ApiFacultyUpdatePost(id,name,email,mobNumber,address,department,
-      dob,admYear,semester,gender,teachingArea,
-      qualifications,)
-      setRefresh(!refresh)
-      setOpen(false);
+    if (id.trim()&&name.trim()&&email.trim()&&mobNumber.trim()&&address.trim()&&department.trim()&&
+      dob.trim()&&admYear.trim()&&gender.trim()&&teachingArea.trim()&&
+      qualifications.trim()&&className) {
+      
+        ApiFacultyUpdatePost(id,name,email,mobNumber,address,department,
+          dob,admYear,semester,gender,teachingArea,
+          qualifications,className)
+          setRefresh(!refresh)
+          setOpen(false);
+        }else{
+          setErrmsg('Fill All Fields')
+        }
    }
 
 
@@ -143,6 +161,7 @@ const GetDept=async()=>{
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Student Details</DialogTitle>
         <DialogContent>
+          <p style={{color:'red'}}>{errMsg}</p>
           <TextField
             autoFocus
             margin="dense"
@@ -219,6 +238,23 @@ const GetDept=async()=>{
               ))}
             </Select>
           </FormControl>
+          <FormControl margin="dense" fullWidth>
+            <InputLabel id="department-label">Select Class</InputLabel>
+            <Select
+              labelId="department-label"
+              id="department"
+              variant="standard"
+              fullWidth
+             
+            value={className}
+            onChange={(event)=>setClassName(event.target.value)}
+            >
+              {totalClass.map((data, index) => (
+
+                <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl  margin="dense" fullWidth>
             <InputLabel id="gender-label">Select Gender</InputLabel>
             <Select
@@ -258,10 +294,10 @@ const GetDept=async()=>{
             value={teachingArea}
             onChange={(event)=>setteachingArea(event.target.value)}
             >
-              <MenuItem  value={teachingArea}>{teachingArea}</MenuItem>
+              <MenuItem hidden value={teachingArea}>{teachingArea}</MenuItem>
               {Class.map((data, index) => (
 
-                <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
+                <MenuItem key={index} value={data.subject}>{data.subject}</MenuItem>
               ))}
             </Select>
           </FormControl>

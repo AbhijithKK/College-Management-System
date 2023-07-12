@@ -332,9 +332,9 @@ export const ApiUploadNotice=async(files,title)=>{
  }
 
  export const ApiFacultyUpdatePost=async(id,name,email,mobNumber,address,department,
-    dob,admYear,semester,gender,teachingArea,qualifications)=>{
+    dob,admYear,semester,gender,teachingArea,qualifications,className)=>{
     let {data}=await axios.post('/admin/updateFaculty',{id,name,email,mobNumber,address,department,
-       dob,admYear, semester,gender,teachingArea,qualifications},
+       dob,admYear, semester,gender,teachingArea,qualifications,className},
         {headers:{
             'Content-Type':'application/json'
         }})
