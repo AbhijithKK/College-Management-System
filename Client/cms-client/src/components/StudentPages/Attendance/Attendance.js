@@ -121,36 +121,38 @@ export default function Attendance() {
 
 
 React.useEffect(()=>{
-  const pieHelper= async()=>{
-    let PresentCount=0;
-let AbsentCount=0;
-let Halfdaycount=0;
-    for(let i=0;i<Attendance.length;i++){
-      if(Attendance[i].status==='Present'){
-        PresentCount=PresentCount+1
-      }else if(Attendance[i].status==='Absent'){
-       AbsentCount=AbsentCount+1
-      }else{
-        Halfdaycount=Halfdaycount+1
-      }
-    }
-    let data = [
-      ["Task", "month"],
-      ["Present", PresentCount],
-      ["Absent", AbsentCount],
-      ["Half Day", Halfdaycount],
-
-      
-    ];
-    setpie(data)
-  }
+ 
   const ApiHelper=async()=>{
     let data=await StudentAttendencegetApi()
     setAttendence(data)
-    pieHelper()
   }
 ApiHelper()
-},[Attendance])
+},[ ])
+React.useEffect(() => {
+  let presentCount = 0;
+  let absentCount = 0;
+  let halfDayCount = 0;
+
+  for (let i = 0; i < Attendance.length; i++) {
+    if (Attendance[i].status === 'Present') {
+      presentCount++;
+    } else if (Attendance[i].status === 'Absent') {
+      absentCount++;
+    } else {
+      halfDayCount++;
+    }
+  }
+
+  const data = [
+    ['Task', 'month'],
+    ['Present', presentCount],
+    ['Absent', absentCount],
+    ['Half Day', halfDayCount],
+  ];
+
+  setpie(data);
+}, [Attendance]);
+
 // ===================================================================
   return (
     <Container>

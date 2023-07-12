@@ -214,12 +214,15 @@ let student = {
     },
     postLeaveLetter: async(req,res) => {
         try{
+            
+           
             let id = await jwtVerify(req.cookies.studentjwt)
+            let student = await studentModel.findOne({ _id:id.data })
             await leaveApplyScheema.create({
-                studentName:req.body.name,
-                department:req.body.department,
-                semester:req.body.semester,
-                className:req.body.className,
+                studentName:student.name,
+                department:student.department,
+                semester:student.semester,
+                className:student.className,
                 studentId:id.data,
                 reson:req.body.reason,
                 date:req.body.date,
