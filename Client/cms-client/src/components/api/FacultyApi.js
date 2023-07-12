@@ -258,3 +258,22 @@ export const FacultyAttendencePostApi = async (details) => {
   }
   return data
 }
+
+export const FacultyCompliantPostApi=async(title,content)=>{
+  let {data}=await axios.post('/faculty/addcomplaint',{title,content},{
+   headers:{
+     "Content-Type":'application/json'
+   }
+  })
+  if (data===false) {
+   Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something Wrong',
+ 
+     })
+     
+    
+ }
+ return data
+ }

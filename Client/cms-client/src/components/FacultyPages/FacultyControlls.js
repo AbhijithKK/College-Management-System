@@ -7,6 +7,7 @@ import ClubRequest from './ClubRequests/ClubRequest'
 import CheckLeaveLetter from './CheckLeaveLetter/CheckLeaveLetter'
 import AddResult from './AddResult/AddResult'
 import AddAttendance from './AddAttendance/AddAttendance'
+import AddComplaint from './AddComplaint/AddComplaint'
 
 const Faculty = () => (
   <div>
@@ -17,6 +18,7 @@ const Faculty = () => (
       <Route path='/Checkleaveletters' element={<CheckLeaveLetter />}></Route>
       <Route path='/addresult' element={<AddResult />}></Route>
       <Route path='/makeattendance' element={<AddAttendance/>}></Route>
+      <Route path='/addComplaint' element={<AddComplaint/>}></Route>
 
 
 

@@ -17,6 +17,7 @@ const { resultScheema } = require("../models/resultScheema")
 const student = require("./studentControllers")
 const { array } = require("../heplers/multer")
 const { attendenceScheema } = require("../models/attendance")
+const { complaintScheema } = require("../models/complaintMode")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
