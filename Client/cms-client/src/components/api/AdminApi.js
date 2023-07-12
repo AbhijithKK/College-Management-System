@@ -446,3 +446,36 @@ export const ApiViewFaculty=async(Dep)=>{
     })
      return data
  }
+ export const  ApiViewComplaint=async()=>{
+    let {data}=await axios.get('/admin/complaints',{
+         headers:{'Content-Type':'application/json'},
+         withCredentials:true
+     })
+ 
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+           })
+     }
+     
+     return data
+ }
+
+ export const  ApiDeleteComplaint=async(id)=>{
+    let {data}=await axios.get('/admin/deleteComplaint',{params:{id}},{
+         headers:{'Content-Type':'application/json'},
+         withCredentials:true
+     })
+ 
+     if (data===false) {
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: 'Something Wrong',
+           })
+     }
+     
+     return data
+ }

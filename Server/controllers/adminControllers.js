@@ -8,6 +8,7 @@ const { subject } = require('../models/subjectScheema')
 const bcript = require('bcrypt')
 const { jwtSign, jwtVerify } = require('../heplers/jwt')
 const { classScheema } = require('../models/classScheema')
+const { complaintScheema } = require('../models/complaintMode')
 let admin = {
 
     // <====LOGIN VERIFY====>
@@ -278,8 +279,8 @@ let admin = {
     },
     viewComplaints: async (req, res) => {
         try {
-            // let allCompliants=await complaintModel.find()
-            // res.json(allCompliants)
+            let allCompliants=await complaintScheema.find().sort({ _id: -1 }).exec();
+            res.json(allCompliants)
         } catch (err) {
             console.log(err);
         }
@@ -359,7 +360,14 @@ let admin = {
            res.json(false)
         }
     },
-
+deleteComplaint:async(req,res)=>{
+    try{
+        await complaintScheema.deleteOne({_id:req.query.id})
+        res.json(true)
+    }catch(err){
+        res.json(false)
+    }
+},
     // <====UPDATE CONTROLLS====>
 
     postupdateStudent: async(req, res) => {
