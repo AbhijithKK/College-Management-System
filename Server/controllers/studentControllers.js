@@ -226,6 +226,9 @@ let student = {
                 }),
                 who:'Student',
                 complainterId:student._id,
+                department:student.department,
+                className:student.className,
+                semester:student.semester
             })
             console.log('dsfg',dataa);
             res.json(true)

@@ -373,6 +373,9 @@ let faculty = {
                 }),
                 who:'Faculty',
                 complainterId:faculty._id,
+                department:faculty.department,
+                className:faculty.adminOfClass,
+                teachingArea:faculty.teachingArea
             })
             res.json(true)
 
