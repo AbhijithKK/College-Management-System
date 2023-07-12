@@ -12,6 +12,7 @@ const { clubRequestScheema } = require("../models/clubRequestsModel")
 const { leaveApplyScheema } = require("../models/studentLeaveapply")
 const { resultScheema } = require("../models/resultScheema")
 const { attendenceScheema } = require("../models/attendance")
+const { complaintScheema } = require("../models/complaintMode")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -210,7 +211,29 @@ let student = {
         }
     }, 
     postComplaint: async (req,res) => {
+        try{
+            let data = await jwtVerify(req.cookies.studentjwt)
+            let student = await studentModel.findOne({ _id: data.data })
+            console.log(req.body);
+           let dataa= await complaintScheema.create({
+                title:req.body.title,
+                content:req.body.content,
+                name:student.name,
+                date: new Date().toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                }),
+                who:'Student',
+                complainterId:student._id,
+            })
+            console.log('dsfg',dataa);
+            res.json(true)
 
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
     },
     postLeaveLetter: async(req,res) => {
         try{

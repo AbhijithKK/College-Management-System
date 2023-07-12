@@ -225,3 +225,21 @@ export const StudentAttendencegetApi=async()=>{
 }
 return data
 }
+export const StudentCompliantPostApi=async(title,content)=>{
+ let {data}=await axios.post('/student/addcomplaint',{title,content},{
+  headers:{
+    "Content-Type":'application/json'
+  }
+ })
+ if (data===false) {
+  Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+    
+   
+}
+return data
+}

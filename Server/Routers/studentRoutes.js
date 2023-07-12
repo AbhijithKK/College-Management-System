@@ -17,7 +17,7 @@ router.get('/clubstatus',student.getclubStatus)
 router.get('/leaveletters',student.getLeaveletters)
 
 router.post('/login', student.studentLogin)
-router.post('/addcomplaint')
+
 router.post('/clubs', student.postClub)
 router.post('/updateprofile',upload.single('image'), student.postProfile)
 router.post('/changepassword', student.postPassword)

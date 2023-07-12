@@ -20,5 +20,6 @@ router.post('/clubrequestupdate',faculty.clubRequestUpdate)
 router.post('/leaveletterStatus',faculty.LeaveStatusUpdate)
 router.post('/result',faculty.PostResult)
 router.post('/attendence',faculty.postAttendance)
+router.post('/addcomplaint', faculty.postComplaint)
 
 module.exports=router 

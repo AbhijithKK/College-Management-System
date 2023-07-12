@@ -29,12 +29,9 @@ const LeaveLetterForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (reason.trim() && selectedDate) {
+    if (reason.trim() && selectedDate!=null) {
 
-        StudentLeaveApplyApi(reason, selectedDate!==null)
-     
-      
-      
+        StudentLeaveApplyApi(reason, selectedDate)
       setReason("");
       setSelectedDate(null);
       setErrmsg("");
@@ -42,7 +39,7 @@ const LeaveLetterForm = () => {
       errorHandler();
     }
   };
-
+console.log(selectedDate);
 // =============================================================================
   return (
     <div>

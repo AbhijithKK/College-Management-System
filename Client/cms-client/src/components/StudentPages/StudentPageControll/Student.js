@@ -8,6 +8,7 @@ import Result from '../Result/Result'
 import Notice from '../Notice/Notice'
 import LeaveLetterForm from '../LeaveLetter/LeaveLetter'
 import LeaveStatus from '../LeaveStatus/LeaveStatus'
+import AddComplaint from '../AddComplaint/AddComplaint'
 
 const Student = () => {
   return (
@@ -21,6 +22,7 @@ const Student = () => {
         <Route path='/notice' element={<Notice/>}></Route>
         <Route path='/applyleave' element={<LeaveLetterForm/>}></Route>
         <Route path='/leaveStatus' element={<LeaveStatus/>}></Route>
+        <Route path='/addComplaint' element={<AddComplaint/>}></Route>
          
         
 

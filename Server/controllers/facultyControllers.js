@@ -356,6 +356,30 @@ let faculty = {
             res.json(false)
         }
     },
+    postComplaint: async (req,res) => {
+        try{
+            let data = await jwtVerify(req.cookies.facultyjwt)
+            let faculty = await facultyModel.findOne({ _id: data.data })
+
+            await complaintScheema.create({
+                title:req.body.title,
+                content:req.body.content,
+                name:faculty.name,
+                date: new Date().toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                }),
+                who:'Faculty',
+                complainterId:faculty._id,
+            })
+            res.json(true)
+
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)
