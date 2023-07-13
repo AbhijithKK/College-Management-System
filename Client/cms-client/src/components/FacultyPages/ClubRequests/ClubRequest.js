@@ -17,7 +17,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './ClubRequest.css';
-import { FacultyClubRequestUpdated, FacultyClubStatus } from '../../api/FacultyApi';
+import { FacultyClubRequestUpdated, FacultyClubStatus, FacultyDeleteClubRequest } from '../../api/FacultyApi';
 import { Button,  Tooltip } from '@mui/material';
 import { Close, Delete, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
@@ -110,7 +110,32 @@ export default function ClubRequest() {
     
     useRefresh(!refresh)
   }
+  const RefreshHelper=()=>{
+    useRefresh(!refresh);
+  }
   const DeleteRequest=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this complaint!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#dc3545',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = await FacultyDeleteClubRequest(id);
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            text: 'Deleted Successfully',
+          });
+          RefreshHelper()
+        }
+      }
+    });
+    useRefresh(!refresh);
+    
 
   }
   React.useEffect(()=>{

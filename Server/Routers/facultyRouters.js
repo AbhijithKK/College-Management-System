@@ -13,6 +13,7 @@ router.get('/logout',faculty.logOut)
 router.get('/studentdepwise',faculty.getDepWiseStudents)
 router.get('/clubs',faculty.getAdminClubs)
 router.get('/deleteclubs',faculty.DeleteClubs)
+router.get('/deleteclubRequest',faculty.DeleteClubRequest)
 
 router.post('/login', faculty.facultyLogin)
 router.post('/updateprofile',upload.single('image'), faculty.postProfile)

@@ -332,3 +332,21 @@ export const FacultyCompliantPostApi=async(title,content)=>{
   }
   return data
  }
+ export const FacultyDeleteClubRequest=async(id)=>{
+ let {data}=await axios.get('/faculty/deleteclubRequest',{params:{id}},{
+    headers:{
+      'Content-Type':'application/json'
+    },withCredentials:true
+  })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+  
+      })
+      
+     
+  }
+  return data
+ }

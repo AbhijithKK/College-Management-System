@@ -11,6 +11,7 @@ import AddComplaint from './AddComplaint/AddComplaint'
 import Logout from '../Logout/Logout'
 import ViewClubs from './ViewClubs/ViewClubs'
 import ViewStudents from './ViewStudents/ViewStudents'
+import Notice from './Notice/Notice'
 
 const Faculty = () => (
   <div>
@@ -24,6 +25,7 @@ const Faculty = () => (
       <Route path='/addComplaint' element={<AddComplaint/>}></Route>
       <Route path='/clubmanage' element={<ViewClubs/>}></Route>
       <Route path='/allstudents' element={<ViewStudents/>}></Route>
+      <Route path='/notice' element={<Notice/>}></Route>
       <Route path="/logout" element={<Logout data={{logout:'/faculty'}} />} />
 
 

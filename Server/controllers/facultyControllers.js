@@ -231,6 +231,14 @@ let faculty = {
             res.json(false)
         }
     },
+    DeleteClubRequest:async(req,res)=>{
+        try{
+        await clubRequestScheema.deleteOne({_id:req.query.id})
+        res.json(true)
+        }catch(err){
+            res.json(false)
+        }
+    },
     // ======>PROFILE UPDATE<=====
     postProfile: async (req, res) => {
         try {
