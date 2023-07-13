@@ -1,0 +1,13 @@
+.complientMain{
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width:767px) {
+    .complientMain{
+        display: flex;
+        justify-content: center;
+       margin-left: 25px;
+       margin-bottom: 5px;
+    }
+}

@@ -277,3 +277,58 @@ export const FacultyCompliantPostApi=async(title,content)=>{
  }
  return data
  }
+
+ export const FacultyGetDepStudents=async()=>{
+ let {data}=await axios.get('/faculty/studentdepwise',{
+    headers:{
+      'Content-Type':'application/json'
+    },withCredentials:true
+  })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+  
+      })
+      
+     
+  }
+  return data
+ }
+ export const FacultyGetClubs=async()=>{
+ let {data}=await axios.get('/faculty/clubs',{
+    headers:{
+      'Content-Type':'application/json'
+    },withCredentials:true
+  })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+  
+      })
+      
+     
+  }
+  return data
+ }
+ export const FacultyDeleteClubs=async(id)=>{
+ let {data}=await axios.get('/faculty/deleteclubs',{params:{id}},{
+    headers:{
+      'Content-Type':'application/json'
+    },withCredentials:true
+  })
+  if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+  
+      })
+      
+     
+  }
+  return data
+ }

@@ -9,6 +9,8 @@ import AddResult from './AddResult/AddResult'
 import AddAttendance from './AddAttendance/AddAttendance'
 import AddComplaint from './AddComplaint/AddComplaint'
 import Logout from '../Logout/Logout'
+import ViewClubs from './ViewClubs/ViewClubs'
+import ViewStudents from './ViewStudents/ViewStudents'
 
 const Faculty = () => (
   <div>
@@ -20,6 +22,8 @@ const Faculty = () => (
       <Route path='/addresult' element={<AddResult />}></Route>
       <Route path='/makeattendance' element={<AddAttendance/>}></Route>
       <Route path='/addComplaint' element={<AddComplaint/>}></Route>
+      <Route path='/clubmanage' element={<ViewClubs/>}></Route>
+      <Route path='/allstudents' element={<ViewStudents/>}></Route>
       <Route path="/logout" element={<Logout data={{logout:'/faculty'}} />} />
 
 

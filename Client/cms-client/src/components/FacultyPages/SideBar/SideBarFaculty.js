@@ -27,6 +27,7 @@ import {
   PendingActionsSharp,
   
   MarkEmailUnreadSharp,
+  PeopleAltSharp,
   
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
@@ -102,7 +103,9 @@ const links = [
   { text: 'Profile', link: '/faculty/profile', icon: <AccountCircleSharp /> },
   { text: 'Add Result', link: '/faculty/addresult', icon: <CheckCircleSharp /> },
   { text: 'Clubs', link: '/faculty/clubs', icon: <Diversity3Sharp /> },
+  { text: 'Your Clubs', link: '/faculty/clubmanage', icon: <Diversity3Sharp /> },
   { text: 'Add Attendance', link: '/faculty/makeattendance', icon: <HowToRegSharp /> },
+  { text: 'View Students', link: '/faculty/allstudents', icon: <PeopleAltSharp /> },
   { text: 'Check Leave Letters', link: '/faculty/Checkleaveletters', icon: <PendingActionsSharp /> },
 ];
 const view = [ 

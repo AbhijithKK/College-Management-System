@@ -202,6 +202,35 @@ let faculty = {
         }
     }
     ,
+    getDepWiseStudents:async(req,res)=>{
+        try{
+            let verify = await jwtVerify(req.cookies.facultyjwt)
+            let faculty=await facultyModel.findOne({_id:verify.data})
+            let data=await studentModel.find({department:faculty.department}).sort({name:1}).exec()
+            console.log(data);
+            res.json(data)
+        }catch(err){
+            res.json(false)
+        }
+    },
+    getAdminClubs:async(req,res)=>{
+        try{
+            let verify = await jwtVerify(req.cookies.facultyjwt)
+            
+            let clubs=await club.find({clubAdminId:verify.data}).sort({_id:-1}).exec()
+            res.json(clubs)
+        }catch(err){
+            res.json(false)
+        }
+    },
+    DeleteClubs:async(req,res)=>{
+        try{
+        await club.deleteOne({_id:req.query.id})
+        res.json(true)
+        }catch(err){
+            res.json(false)
+        }
+    },
     // ======>PROFILE UPDATE<=====
     postProfile: async (req, res) => {
         try {

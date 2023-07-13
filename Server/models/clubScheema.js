@@ -5,6 +5,8 @@ name:{type:String,required:true},
 discription:{type:String,required:true},
 clubAdmin:{type:String,required:true},
 clubAdminId:{type:String,required:true},
+date:{type:String},
+notification:{type:String},
 
 })
 let club=mongoose.model('clubs',addClub)

@@ -1,3 +1,5 @@
+import './ViewStudents.css'
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
@@ -16,11 +18,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
-import './ClubRequest.css';
-import { FacultyClubRequestUpdated, FacultyClubStatus } from '../../api/FacultyApi';
-import { Button,  Tooltip } from '@mui/material';
-import { Close, Delete, Done } from '@mui/icons-material';
-import Swal from "sweetalert2"
+import { FacultyGetDepStudents } from '../../api/FacultyApi';
 
 
 
@@ -87,43 +85,28 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function ClubRequest() {
+export default function ViewStudents() {
 
-  const [requests,useRequests]=React.useState([])
-  const [refresh,useRefresh]=React.useState(false)
+  const [AllStudents,SetAllStudents]=React.useState([])
+  
   const HandleApi=async()=>{
-    let data =await FacultyClubStatus()
-    useRequests(data)
+    let data =await FacultyGetDepStudents()
+    SetAllStudents(data)
   }
-  let Accept='Now Your a Member'
-  let Reject='Request Rejected'
-  const Action=async(id,status)=>{
-    let data=await FacultyClubRequestUpdated(id,status)
-    if (data===true) {
-      Swal.fire({
-        icon: 'success',
-        
-        text: status==='Now Your a Member' ? 'Request Accepted' : status
-
-      })
-    }
-    
-    useRefresh(!refresh)
-  }
-  const DeleteRequest=(id)=>{
-
-  }
+  
+  
+   
   React.useEffect(()=>{
     HandleApi()
-  },[refresh])
-console.log(requests);
+  },[])
+
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - AllStudents.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -137,59 +120,39 @@ console.log(requests);
 
   return (
     <Container>
-      <h1>Club Requests</h1>
-      <TableContainer component={Paper} className="StudentResultTable">
+      <h1>All Students</h1>
+      <TableContainer component={Paper} className="StudentResultTablests">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}  >Student Name</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Department</TableCell>
+              <TableCell style={{fontWeight:"bold"}}  >Name</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >Email</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Semester</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Club Name</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Status</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Actions</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >guardian Name</TableCell>
+              <TableCell style={{fontWeight:"bold"}} >guardian Number</TableCell>
+              
             </TableRow>
             {(rowsPerPage > 0
-              ? requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : requests
+              ? AllStudents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : AllStudents
             ).map((row,index) => (
               <TableRow key={index}>
                 <TableCell style={{ width: 160 }} >
-                  {row.studentName}
+                {row.name}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
-                  {row.department}
+                  {row.email}
                 </TableCell>
                 <TableCell style={{ width: 160 }} >
                   {row.semester}
                 </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.clubName}
+                <TableCell style={{ width: 160 }}  >
+                  {row.guardianName}
                 </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.status==='Now Your a Member'?'Request Accepted':row.status==='Request Send' ? 'Requested':row.status}
+                <TableCell style={{ width: 160 }}  >
+                  {row.guardianNo}
                 </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.status==='Now Your a Member'?
-                  <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
-                  <Button><Close/></Button>
-                  </Tooltip>
-                  :row.status===Reject ?
-                  <Tooltip title='Accept'>
-                  <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
-                   </Tooltip> :
-                   <>
-                   <Tooltip title='Accept'>
-                 <Button type='button' onClick={()=>Action(row._id,Accept)}><Done/></Button>
-                  </Tooltip> 
-                  <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
-                  <Button><Close/></Button>
-                  </Tooltip>
-                   </>
-                }
-                <Tooltip title='delete request'><Button type='button' onClick={()=>DeleteRequest(row._id)}><Delete/></Button></Tooltip>
-                 
-                </TableCell>
+                
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -201,9 +164,9 @@ console.log(requests);
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={requests.length}
+                count={AllStudents.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
