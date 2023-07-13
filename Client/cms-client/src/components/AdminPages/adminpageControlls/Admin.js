@@ -33,7 +33,7 @@ const Admin = () => {
           <Route path="/viewsubjects" element={<ViewSubjects />} />
           <Route path="/viewcomplaint" element={<ViewComplaint />} />
           <Route path="/uploadnotice" element={<UploadNotice />} />
-          <Route path="/logout" element={<Logout/>} />
+          <Route path="/logout" element={<Logout data={{logout:'/admin'}} />} />
 
         </Routes>
       </div>

@@ -12,9 +12,9 @@ router.get('/leaveStatus',student.getLeaveLetterStatus)
 router.get('/notificationCalander',student.getNotificationCalender)
 router.get('/payment',)
 router.get('/checkAuth',student.checkAuth)
-router.get('/logout',student.logOut)
 router.get('/clubstatus',student.getclubStatus)
 router.get('/leaveletters',student.getLeaveletters)
+router.get('/logout',student.logOut)
 
 router.post('/login', student.studentLogin)
 

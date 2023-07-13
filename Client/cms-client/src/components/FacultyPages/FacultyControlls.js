@@ -8,6 +8,7 @@ import CheckLeaveLetter from './CheckLeaveLetter/CheckLeaveLetter'
 import AddResult from './AddResult/AddResult'
 import AddAttendance from './AddAttendance/AddAttendance'
 import AddComplaint from './AddComplaint/AddComplaint'
+import Logout from '../Logout/Logout'
 
 const Faculty = () => (
   <div>
@@ -19,6 +20,7 @@ const Faculty = () => (
       <Route path='/addresult' element={<AddResult />}></Route>
       <Route path='/makeattendance' element={<AddAttendance/>}></Route>
       <Route path='/addComplaint' element={<AddComplaint/>}></Route>
+      <Route path="/logout" element={<Logout data={{logout:'/faculty'}} />} />
 
 
 

@@ -75,7 +75,7 @@ let student = {
     getAttendance: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
-            let data=await attendenceScheema.find({studentId:verify.data}).lean()
+            let data=await attendenceScheema.find({studentId:verify.data}).sort({_id:-1}).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -85,7 +85,7 @@ let student = {
     getResult: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
-            let data=await resultScheema.find({studentId:verify.data}).lean()
+            let data=await resultScheema.find({studentId:verify.data}).sort({_id:-1}).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -95,7 +95,7 @@ let student = {
     getClubs: async (req,res) => {
         try {
             
-            let clubs = await club.find().lean()
+            let clubs = await club.find().sort({_id:-1}).exec()
             
             let verify = await jwtVerify(req.cookies.studentjwt)
            
@@ -110,7 +110,7 @@ let student = {
     ,
     getNotice: async (req,res) => {
         try {
-            let data = await notice.find().lean()
+            let data = await notice.find().sort({_id:-1}).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -124,7 +124,7 @@ let student = {
     },
     getclubStatus:async(req,res)=>{
         try{
-            let data=await clubRequestScheema.find().lean()
+            let data=await clubRequestScheema.find().sort({_id:-1}).exec()
             
             res.json(data)
         }catch(err){
@@ -137,7 +137,7 @@ let student = {
            
             let student = await studentModel.findOne({ _id: verify.data })
 
-            let allLeaveletters =await leaveApplyScheema.find().lean()
+            let allLeaveletters =await leaveApplyScheema.find().sort({_id:-1}).exec()
             
             let arr=[]
             if (allLeaveletters!==null) {

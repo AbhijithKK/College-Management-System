@@ -4,12 +4,12 @@ import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import './AddResult.css';
 
-import { ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from "../../api/AdminApi";
-import { ApiViewStudents, FacultyResultAddApi } from "../../api/FacultyApi";
+import { ApiViewClass, ApiViewSemester, ApiViewSubjects } from "../../api/AdminApi";
+import { ApiViewStudents, FacultyProfileApi, FacultyResultAddApi } from "../../api/FacultyApi";
 
 const AddResult = () => {    
   
-  const [department, setDepartment] = useState("dep");
+  const [department, setDepartment] = useState("");
   const [semester, setSemester] = useState("");
   const [classValue, setClassValue] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -28,9 +28,9 @@ const AddResult = () => {
   const handleMarkChange = (event) => {
     setMark(event.target.value);
   };
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
-  };
+ 
+   
+ 
 
   const handleSemesterChange = (event) => {
     setSemester(event.target.value);
@@ -51,11 +51,11 @@ const AddResult = () => {
 console.log(subject);
   const handleSubmit = (event) => {
     event.preventDefault();
-    if ( department!=='dep' && semester.trim() && classValue.trim() &&studentId.trim() &&mark.trim() && grade.trim()&& subject.trim() ) {
+    if ( semester.trim() && classValue.trim() &&studentId.trim() &&mark.trim() && grade.trim()&& subject.trim() ) {
 
         FacultyResultAddApi(department,semester,classValue,studentId,mark,grade,subject)
      
-      setDepartment("");
+      
       setSemester("");
       setClassValue("");
       setStudentId("");
@@ -70,7 +70,7 @@ console.log(subject);
 
 // =============================================================================
 
-const[dep,setDep]=useState([])
+
 const[Class,setClass]=useState([])
 const[sem,setSem]=useState([])
 const[student,setStudent]=useState([])
@@ -78,8 +78,8 @@ const[Subjects,setSubjects]=useState([])
 
 useEffect(()=>{
     const ApiHelper=async()=>{
-        let departments=await ApiViewDepartment()
-        setDep(departments)
+      let data = await FacultyProfileApi()
+      setDepartment(data.department);
         let classes=await ApiViewClass(department)
         setClass(classes)
         let sesms=await ApiViewSemester(department)
@@ -105,17 +105,7 @@ console.log(Subjects);
                 <h1>ADD RESULT</h1>
                 <p style={{ color: 'red' }}>{errmsg}</p>
 
-                <Form.Group controlId="formDepartment" className="mb-3">
-                  <Form.Label>Department</Form.Label>
-                  <Form.Control as="select" value={department} onChange={handleDepartmentChange}>
-                    <option hidden value="">Select Department</option>
-                    {
-                        dep.map((val,index)=>(
-                            <option key={index} value={val.name}>{val.name}</option>
-                        ))
-                    }
-                  </Form.Control>
-                </Form.Group>
+               
 
                 <Form.Group controlId="formSemester" className="mb-3">
                   <Form.Label>Semester</Form.Label>

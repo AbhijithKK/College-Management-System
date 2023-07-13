@@ -189,9 +189,9 @@ let admin = {
             let Dep=req.query.Dep
             let allStudents 
             if(Dep=='default'){
-                 allStudents = await studentModel.find().lean()
+                 allStudents = await studentModel.find().sort({_id:-1}).exec()
             }else{
-                allStudents = await studentModel.find({department:Dep}).lean()
+                allStudents = await studentModel.find({department:Dep}).sort({_id:-1}).exec()
             }
             
             res.json(allStudents)
@@ -204,13 +204,13 @@ let admin = {
             let Dep=req.query.Dep
             let allFacultys
             if(req.query.Dep=='default'){
-                allFacultys = await facultyModel.find().lean()
+                allFacultys = await facultyModel.find().sort({_id:-1}).exec()
             }else if(req.query.id){
                 allFacultys = await facultyModel.findOne({_id:req.query.id})
             }else if(req.query.Dep){
-                allFacultys = await facultyModel.find({department:Dep}).lean()
+                allFacultys = await facultyModel.find({department:Dep}).sort({_id:-1}).exec()
             }else{
-                allFacultys = await facultyModel.find().lean()
+                allFacultys = await facultyModel.find().sort({_id:-1}).exec()
             }
             res.json(allFacultys)
         } catch (err) {
@@ -219,7 +219,7 @@ let admin = {
     },
     viewDepartment: async (req, res) => {
         try {
-            let allDepartments = await department.find().lean()
+            let allDepartments = await department.find().sort({_id:-1}).exec()
             res.json(allDepartments)
             
         } catch (err) {
@@ -232,14 +232,14 @@ let admin = {
             let allSubjects
             if (dep=='default' ) {
                 
-                allSubjects = await subject.find().lean()
+                allSubjects = await subject.find().sort({_id:-1}).exec()
             }else if(req.query.dep && req.query.sem){
 
-                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).lean()
+                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
             }else if(req.query.dep){
-                allSubjects = await subject.find({department:dep}).lean()
+                allSubjects = await subject.find({department:dep}).sort({_id:-1}).exec()
             }else{
-                allSubjects = await subject.find().lean()
+                allSubjects = await subject.find().sort({_id:-1}).exec()
             }
             res.json(allSubjects)
         } catch (err) {

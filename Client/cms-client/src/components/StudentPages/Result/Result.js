@@ -185,25 +185,25 @@ const handleClose = () => {
       {/* ===================================================== */}
 
 
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+        <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
-              <TableCell style={{fontWeight:"bold"}}>Subject</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Mark</TableCell>
-              <TableCell style={{fontWeight:"bold"}} align="right">Grade</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Subject</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Mark</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Grade</TableCell>
             </TableRow>
             {(rowsPerPage > 0
               ? result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : result
             ).map((row,i) => (
               <TableRow key={i}>
-                <TableCell component="th" scope="row">
+                <TableCell align="center">
                   {row.subject}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell align="center">
                   {row.mark}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell align="center">
                   {row.grade}
                 </TableCell>
                 

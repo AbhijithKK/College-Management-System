@@ -85,7 +85,7 @@ let faculty = {
     viewClubRequests: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).lean()
+            let allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).sort({_id:-1}).exec()
             res.json(allRequests)
         } catch (err) {
             res.json(false)
@@ -96,8 +96,7 @@ let faculty = {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let faculty1 = await facultyModel.findOne({ _id: verify.data })
 
-            let allLeaveletters = await leaveApplyScheema.find().lean()
-
+            let allLeaveletters = await leaveApplyScheema.find().sort({_id:-1}).exec()
             let arr = []
             if (allLeaveletters !== null) {
                 for (let i = 0; i < allLeaveletters.length; i++) {
