@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Student from './components/StudentPages/StudentPageControll/Student';
 import Faculty from './components/FacultyPages/FacultyControlls';
+import Fpage from './components/404page';
 function App() {
 
   const dispatch = useDispatch()
@@ -79,6 +80,11 @@ function App() {
     <Route exact path='/faculty/' element={<Navigate to="/faculty/profile" />} />
     </>
     )} 
+    <Route  path='/404' element={<Fpage />} />
+    <Route
+  path="*"
+  element={<Navigate to="/404" replace />} // Replace "/404" with the actual path to your 404 page
+/>
 </Routes>
 
       
