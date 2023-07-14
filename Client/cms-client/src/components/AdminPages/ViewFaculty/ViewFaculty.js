@@ -17,6 +17,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import SideBar from '../SideBar/SideBar';
+
 import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty, ApiViewSubjects } from '../../api/AdminApi';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -156,6 +158,7 @@ const [totalClass,setCls]=React.useState([])
   }
   return (
     <>
+    <SideBar/>
     {/* =======>MODAL<======= */}
     <div>
       <Dialog open={open} onClose={handleClose}>

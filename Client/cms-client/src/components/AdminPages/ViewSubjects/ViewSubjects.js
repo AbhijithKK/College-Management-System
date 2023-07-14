@@ -13,6 +13,8 @@ import { ApiAddSubjects, ApiDeleteSubjects, ApiViewClass, ApiViewDepartment, Api
 import {  DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
 import { Container } from 'react-bootstrap';
+import SideBar from '../SideBar/SideBar';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -113,6 +115,8 @@ const[department,usedepartment]=React.useState('defaul')
 
   const [className,setClassName]=React.useState('default')
   return (
+    <>
+    <SideBar/>
    <Container>
      <React.Fragment>
       <div>
@@ -258,5 +262,6 @@ const[department,usedepartment]=React.useState('defaul')
       </TableContainer>
     </React.Fragment>
    </Container>
+   </>
   );
 }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./UploadNotice.css";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import { ApiUploadNotice } from "../../api/AdminApi";
+import SideBar from '../SideBar/SideBar';
+
 const UploadNotice = () => {
   const [title ,useTitle]=useState('')
   const [file,useFile]=useState('')
@@ -26,6 +28,7 @@ const UploadNotice = () => {
   console.log(file);
   return (
     <div>
+      <SideBar/>
       <Container>
         <Row>
           <Col>

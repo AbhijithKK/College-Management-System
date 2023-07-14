@@ -31,7 +31,8 @@ import {
   LogoutSharp,
   VerifiedSharp,
   UploadFileSharp,
-  MailSharp
+  MailSharp,
+ 
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 
@@ -253,7 +254,9 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph></Typography>
+        <Typography paragraph>
+         
+        </Typography>
       </Box>
     </Box>
   );

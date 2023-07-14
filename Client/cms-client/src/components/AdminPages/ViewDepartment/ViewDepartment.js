@@ -15,7 +15,7 @@ import {Button,TextField,Dialog,DialogActions,DialogContent,
 import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../api/AdminApi';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
-
+import SideBar from '../SideBar/SideBar';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -75,6 +75,8 @@ const DeleteDepartment=async(id)=>{
  
 }
   return (
+    <>
+    <SideBar/>
    <Container>
     <React.Fragment>
     
@@ -134,5 +136,6 @@ const DeleteDepartment=async(id)=>{
       </TableContainer>
    </React.Fragment>
    </Container>
+   </>
   );
 }

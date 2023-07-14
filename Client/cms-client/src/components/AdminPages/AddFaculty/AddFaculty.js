@@ -4,7 +4,12 @@ import './AddFaculty.css'
 import { useForm } from '../../useForm/useForm';
 import { ApiAddFaculty, ApiViewClass, ApiViewDepartment, ApiViewSubjects } from '../../api/AdminApi';
 import { useEffect, useState } from 'react';
+import SideBar from '../SideBar/SideBar';
+import { useDispatch } from 'react-redux';
+
 function Addfaculty() {
+   let dispatch= useDispatch()
+  
     const [value,SetValue]=useForm({
         names:'',
         email:'',
@@ -53,8 +58,11 @@ function Addfaculty() {
     }
     subjectFind()
     HelpDep()
-  },[value.department])
+    dispatch({ type: 'refresh' })
+  },[value.department,dispatch])
     return (
+        <>
+        <SideBar/>
         <Container>
             <Row>
                 <Col sm={12}>
@@ -154,6 +162,7 @@ function Addfaculty() {
                 </Col>
             </Row>
         </Container>
+        </>
     );
 }
 

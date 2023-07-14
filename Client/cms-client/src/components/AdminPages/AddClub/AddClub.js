@@ -5,7 +5,7 @@ import axios from '../../Axios/Axios';
 import { useForm } from '../../useForm/useForm';
 import Swal from "sweetalert2"
 import { StudentClubAdminGetApi } from '../../api/StudentApi';
-
+import SideBar from '../SideBar/SideBar';
 function AddClub() {
   const [faculty, setFaculty] = useState([{ name: '' }]);
 const[clubAdminId,setClubAdminId]=useState('')
@@ -60,6 +60,7 @@ setErrMsg('Fill the Form Properly')
 }
   return (
     <div>
+      <SideBar/>
       <Container>
         <Row>
           <Col sm={12}>

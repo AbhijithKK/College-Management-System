@@ -15,7 +15,7 @@ import { ApiAddClass,  ApiDeleteClass,  ApiViewClass, ApiViewDepartment, ApiView
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
-
+import SideBar from '../SideBar/SideBar';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -95,6 +95,7 @@ ApiDeleteClass(id)
 userefresh(!refresh)
 }
   return (
+    <><SideBar/>
     <Container>
          <div>
         <div className="addbtn">
@@ -186,5 +187,6 @@ userefresh(!refresh)
         </Table>
       </TableContainer>
     </Container>
+    </>
   );
 }

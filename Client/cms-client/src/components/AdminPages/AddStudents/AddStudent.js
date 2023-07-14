@@ -2,7 +2,7 @@ import { Button, Container, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./AddStudent.css";
 import { useForm } from "../../useForm/useForm";
-
+import SideBar from '../SideBar/SideBar';
 import { useEffect, useState } from "react";
 import { ApiAddStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 
@@ -52,6 +52,8 @@ const [errmsg,setErrmsg]=useState('')
     HelpDep()
   },[value.department,value.semester])
   return (
+    <>
+   <SideBar/>
     <Container>
       <Row>
         <Col sm={12}>
@@ -222,6 +224,7 @@ const [errmsg,setErrmsg]=useState('')
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 

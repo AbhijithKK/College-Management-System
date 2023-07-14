@@ -14,6 +14,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, M
 import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
+import SideBar from '../SideBar/SideBar';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -88,6 +89,8 @@ ApiDeleteSemester(id)
 userefresh(!refresh)
 }
   return (
+    <>
+    <SideBar/>
     <Container>
       <React.Fragment>
       <div>
@@ -160,5 +163,6 @@ userefresh(!refresh)
       </TableContainer>
     </React.Fragment>
     </Container>
+    </>
   );
 }

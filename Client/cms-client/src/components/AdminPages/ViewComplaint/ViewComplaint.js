@@ -11,6 +11,7 @@ import { ApiDeleteComplaint, ApiViewComplaint } from '../../api/AdminApi';
 import { Delete } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import Swal from 'sweetalert2';
+import SideBar from '../SideBar/SideBar';
 
 export default function ViewComplaint() {
   const [allCompliant, setAllComplaint] = useState([]);
@@ -50,6 +51,8 @@ export default function ViewComplaint() {
   }, [refresh]);
 
   return (
+    <>
+    <SideBar/>
     <Container>
       {allCompliant.map((data, index) => (
         <Box key={index} className='Clubcard'>
@@ -75,5 +78,6 @@ export default function ViewComplaint() {
         </Box>
       ))}
     </Container>
+    </>
   );
 }

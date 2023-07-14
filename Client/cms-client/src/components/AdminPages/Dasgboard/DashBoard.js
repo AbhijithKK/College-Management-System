@@ -3,6 +3,7 @@ import "./DashBoard.css";
 import { Paper } from "@mui/material";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from '../../Axios/Axios'
+import SideBar from '../SideBar/SideBar';
 const DashBoard = () => {
   const [data,useData]=useState({})
   useEffect(()=>{
@@ -21,6 +22,7 @@ function  DataHandle(data){
 
   return (
     <div>
+      <SideBar />
       <Container fluid>
         <Row>
           <div className="mainpaperdiv">
