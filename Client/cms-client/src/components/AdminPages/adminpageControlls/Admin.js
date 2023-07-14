@@ -1,5 +1,5 @@
 import React from 'react';
-import {   Navigate, Route, Routes,} from 'react-router-dom';
+import { Navigate, Route, Routes, } from 'react-router-dom';
 // import SideBar from '../SideBar/SideBar';
 import AddStudent from '../AddStudents/AddStudent';
 import AddClub from '../AddClub/AddClub';
@@ -17,13 +17,16 @@ import DashBoard from '../Dasgboard/DashBoard';
 import Addfaculty from '../AddFaculty/AddFaculty';
 import PrivateRoutes from '../../../Utils/PrivateRoutes';
 
+
 const Admin = () => {
-  
+
+
   return (
-    <div> 
-          <Routes>
+    <div>
+      <Routes>
+
         <Route element={<PrivateRoutes role={'admin'} route={'/admin/adminlogin'} />} >
-        <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/addstudent" element={<AddStudent />} />
           <Route path="/addfaculty" element={<Addfaculty />} />
           <Route path="/addclub" element={<AddClub />} />
@@ -35,15 +38,16 @@ const Admin = () => {
           <Route path="/viewsubjects" element={<ViewSubjects />} />
           <Route path="/viewcomplaint" element={<ViewComplaint />} />
           <Route path="/uploadnotice" element={<UploadNotice />} />
-          <Route path="/logout" element={<Logout data={{logout:'/admin'}} />} />
-          </Route>
+          <Route path="/logout" element={<Logout data={{ logout: '/admin' }} />} />
+        </Route>
 
-          <Route  path="/*"  element={<Navigate to="/404" />} />
-          <Route  path="/admin/adminlogin"  element={<Navigate to="/admin/adminlogin" />} />
-          </Routes>
-       
-      </div>
-    
+        <Route path="/*" element={<Navigate to="/404" />} />
+
+        <Route path="/admin/adminlogin" element={<Navigate to="/admin/adminlogin" />} />
+      </Routes>
+
+    </div>
+
   );
 };
 

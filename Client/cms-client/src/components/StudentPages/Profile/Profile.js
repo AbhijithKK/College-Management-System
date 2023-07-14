@@ -9,6 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
+import SideBarStudent from '../SideBar/SideBarStudent';
 export default function Profile() {
   const [studetnData, setStudetnData] = useState({})
   const ApiHelper = async () => {
@@ -162,7 +163,7 @@ export default function Profile() {
   // ======================================================================
   return (
     <>
-
+<SideBarStudent/>
 
       {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
       <div>

@@ -9,6 +9,7 @@ import './Clubs.css';
 import { Container } from 'react-bootstrap';
 import { StudentClubStatus, studentClubApi } from '../../api/StudentApi';
 import { FacultyClubrequestSend } from '../../api/FacultyApi';
+import SideBarStudent from '../SideBar/SideBarStudent';
 
 export default function Clubs() {
   const [studentData, setStudentData] = useState({});
@@ -59,6 +60,7 @@ export default function Clubs() {
   };
 
   return (
+    <><SideBarStudent/>
     <Container>
       {clubs.length===0 ?<h1>No Clubs Created</h1>:<h1>Your Clubs</h1>}
       {clubss.map((data, index) => (
@@ -91,5 +93,6 @@ export default function Clubs() {
         </Box>
       ))}
     </Container>
+    </>
   );
 }

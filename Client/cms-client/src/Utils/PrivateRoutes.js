@@ -8,11 +8,11 @@ const PrivateRoutes = ({ role, route }) => {
 
   const dispatch = useDispatch()
   let navigate = useNavigate()
-  const { refresh, admin, student, faculty } = useSelector((state) => {
+  const { refresh } = useSelector((state) => {
 
     return state
   })
- 
+
   const [auth, setAuth] = useState(null)
 
   console.log(role);
@@ -34,7 +34,11 @@ const PrivateRoutes = ({ role, route }) => {
       axios.get('/student/checkAuth', {
         headers: { 'Content-Type': 'application/json' }
       }).then((data) => {
-        console.log(data.data);
+        if (data.data === true) {
+          setAuth(true)
+        } else {
+          setAuth(false)
+        }
         dispatch({ type: 'student', payload: { login: data.data } })
 
       })

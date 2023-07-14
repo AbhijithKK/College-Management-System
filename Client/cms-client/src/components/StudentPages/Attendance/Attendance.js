@@ -19,6 +19,7 @@ import { Container } from 'react-bootstrap';
 import './Attendance.css';
 import { Chart } from "react-google-charts";
 import { StudentAttendencegetApi } from '../../api/StudentApi';
+import SideBarStudent from '../SideBar/SideBarStudent';
 
 
 // =================>PIE CHART<===================
@@ -155,6 +156,7 @@ React.useEffect(() => {
 
 // ===================================================================
   return (
+    <><SideBarStudent/>
     <Container>
       <h1>Attendance</h1>
       <TableContainer component={Paper} className="StudentResultTable">
@@ -219,5 +221,6 @@ React.useEffect(() => {
     />
     {/* =============================================== */}
     </Container>
+    </>
   );
 }

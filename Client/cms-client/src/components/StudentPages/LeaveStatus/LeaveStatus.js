@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './LaveStatus.css';
 import { StudentLeaveLettersApi } from '../../api/StudentApi';
+import SideBarStudent from '../SideBar/SideBarStudent';
 
 
 
@@ -118,6 +119,8 @@ console.log(requests);
   // ============================================================================
 
   return (
+    <>
+    <SideBarStudent/>
     <Container>
       <h1>Leave Status</h1>
       <TableContainer component={Paper} className="StudentResultTablests">
@@ -180,5 +183,6 @@ console.log(requests);
       </TableContainer>
       
     </Container>
+    </>
   );
 }

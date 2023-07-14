@@ -22,6 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button } from '@mui/material';
 import { StudentResultGetApi } from '../../api/StudentApi';
+import SideBarStudent from '../SideBar/SideBarStudent';
 
 
 
@@ -133,6 +134,7 @@ const handleClose = () => {
 
 
   return (
+    <><SideBarStudent/>
     <Container>
          <h1>Result</h1>
         {/* ===========================DROP DOWN======================
@@ -239,5 +241,6 @@ const handleClose = () => {
       </TableContainer>
       
     </Container>
+    </>
   );
 }

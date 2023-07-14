@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './LeaveLetter.css';
 import { StudentLeaveApplyApi } from "../../api/StudentApi";
+import SideBarStudent from "../SideBar/SideBarStudent";
 
 const LeaveLetterForm = () => {    
   
@@ -43,6 +44,7 @@ console.log(selectedDate);
 // =============================================================================
   return (
     <div>
+      <SideBarStudent/>
       <Container>
         <Row>
           <Col>
