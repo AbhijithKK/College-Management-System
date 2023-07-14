@@ -24,16 +24,13 @@ font-weight: bold;
 .departmentAddBtn:hover{
     color: rgb(0, 0, 0) !important;
 background-color: rgb(255, 255, 255) !important;
-/* font-family: 'Courier New', Courier, monospace; */
+
 border-color: rgb(0, 0, 0) !important;
 }
 .tables .MuiTableCell-root {
-    width: 0%; /* Adjust the width as per your requirement */
+    width: 0%; 
   }
-.tableContainer{
-   /* max-width: 50%; */
-  
-}
+
 @media (max-width:600px) {
     .tables{
         margin-left: 71px;

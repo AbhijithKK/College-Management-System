@@ -20,10 +20,7 @@ import PrivateRoutes from '../../../Utils/PrivateRoutes';
 const Admin = () => {
   
   return (
-    <div>
-
-        
-          
+    <div> 
           <Routes>
         <Route element={<PrivateRoutes role={'admin'} route={'/admin/adminlogin'} />} >
         <Route path="/dashboard" element={<DashBoard />} />
