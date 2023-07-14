@@ -243,3 +243,36 @@ export const StudentCompliantPostApi=async(title,content)=>{
 }
 return data
 }
+
+export const ApiViewSemester=async(Dep)=>{
+  let {data}=await axios.get('/student/semester',{params:{Dep}},{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+ 
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+           
+         })
+   }
+   return data
+}
+
+export const  ApiViewDepartment=async()=>{
+  let {data}=await axios.get('/student/department',{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+         })
+   }
+   return data
+}

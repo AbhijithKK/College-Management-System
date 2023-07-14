@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
 import './Profile.css'
-import { StudentProfileApi, StudentProfileUpdateApi, StudentVerifyMail, studentSubmitpassApi } from '../../api/StudentApi';
+import { StudentProfileApi, StudentProfileUpdateApi, StudentVerifyMail, studentSubmitpassApi ,ApiViewDepartment,ApiViewSemester} from '../../api/StudentApi';
 import { Button, DialogContentText, FormControl, InputLabel, MenuItem, Select, useMediaQuery, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
 import SideBarStudent from '../SideBar/SideBarStudent';
 export default function Profile() {
   const [studetnData, setStudetnData] = useState({})

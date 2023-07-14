@@ -18,6 +18,7 @@ const student = require("./studentControllers")
 const { array } = require("../heplers/multer")
 const { attendenceScheema } = require("../models/attendance")
 const { complaintScheema } = require("../models/complaintMode")
+const { subject } = require("../models/subjectScheema")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
@@ -236,6 +237,66 @@ let faculty = {
         await clubRequestScheema.deleteOne({_id:req.query.id})
         res.json(true)
         }catch(err){
+            res.json(false)
+        }
+    },
+    viewClass: async (req, res) => {
+        try {
+            let allClass
+            if (req.query.Dep &&req.query.Sem ) {
+                allClass = await  classScheema.find({$and:[{department:req.query.Dep},{semester:req.query.Sem}]}).lean()
+            }else if (req.query.Dep  ){
+                allClass = await  classScheema.find({department:req.query.Dep}).lean()
+            }else{
+
+                allClass = await  classScheema.find().lean()
+            }
+            res.json(allClass)
+        } catch (err) {
+            res.json(false)
+            
+        }
+    },
+    viewSubjects: async (req, res) => {
+        try {
+            let dep=req.query.dep
+            let allSubjects
+            if (dep=='default' ) {
+                
+                allSubjects = await subject.find().sort({_id:-1}).exec()
+            }else if(req.query.dep && req.query.sem){
+
+                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
+            }else if(req.query.dep){
+                allSubjects = await subject.find({department:dep}).sort({_id:-1}).exec()
+            }else{
+                allSubjects = await subject.find().sort({_id:-1}).exec()
+            }
+            res.json(allSubjects)
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    viewSemester: async (req, res) => {
+        try {
+            let allSemesters
+            if (req.query.Dep) {
+                allSemesters = await semester.find({department:req.query.Dep}).lean()
+                res.json(allSemesters)
+                return
+            }
+            allSemesters = await semester.find().lean()
+            res.json(allSemesters)
+        } catch (err) {
+            res.json(false)
+        }
+    },
+    viewDepartment: async (req, res) => {
+        try {
+            let allDepartments = await department.find().sort({_id:-1}).exec()
+            res.json(allDepartments)
+            
+        } catch (err) {
             res.json(false)
         }
     },

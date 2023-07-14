@@ -7,11 +7,13 @@ const facultyAuth = async (req, res, next) => {
         console.log(verify);
         let data = await facultyModel.findOne({ _id: verify.data })
         if (data !== null) {
+
             next()
         } else {
             res.json(false)
         }
     } catch (err) {
+        console.log(err);
         res.json(false)
     }
 }

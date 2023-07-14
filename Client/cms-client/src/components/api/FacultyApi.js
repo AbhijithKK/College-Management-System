@@ -350,3 +350,67 @@ export const FacultyCompliantPostApi=async(title,content)=>{
   }
   return data
  }
+
+ export const  ApiViewClass=async(Dep,Sem)=>{
+  let {data}=await axios.get('/faculty/class',{params:{Dep,Sem}},{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+         })
+   }
+   return data
+}
+export const ApiViewSubjects=async(dep,sem)=>{
+  let {data}=await axios.get('/faculty/subjects',{params:{dep,sem}},{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+
+         })
+   }
+   return data
+}
+
+export const ApiViewSemester=async(Dep)=>{
+  let {data}=await axios.get('/faculty/semester',{params:{Dep}},{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+ 
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+           
+         })
+   }
+   return data
+}
+
+export const  ApiViewDepartment=async()=>{
+  let {data}=await axios.get('/faculty/department',{
+       headers:{'Content-Type':'application/json'},
+       withCredentials:true
+   })
+
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+         })
+   }
+   return data
+}

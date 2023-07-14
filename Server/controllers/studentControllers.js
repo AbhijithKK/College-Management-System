@@ -155,7 +155,29 @@ let student = {
             res.json(false)
         }
     },
-
+    viewSemester: async (req, res) => {
+        try {
+            let allSemesters
+            if (req.query.Dep) {
+                allSemesters = await semester.find({department:req.query.Dep}).lean()
+                res.json(allSemesters)
+                return
+            }
+            allSemesters = await semester.find().lean()
+            res.json(allSemesters)
+        } catch (err) {
+            res.json(false)
+        }
+    },
+    viewDepartment: async (req, res) => {
+        try {
+            let allDepartments = await department.find().sort({_id:-1}).exec()
+            res.json(allDepartments)
+            
+        } catch (err) {
+            res.json(false)
+        }
+    },
     // ====>CLUB REQUEST SEND>====
     postClub: async (req,res) => {
 

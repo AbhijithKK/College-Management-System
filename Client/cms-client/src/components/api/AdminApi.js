@@ -479,3 +479,5 @@ export const ApiViewFaculty=async(Dep)=>{
      
      return data
  }
+
+ 

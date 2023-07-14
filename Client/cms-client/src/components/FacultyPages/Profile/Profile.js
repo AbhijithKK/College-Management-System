@@ -7,8 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ApiViewDepartment } from '../../api/AdminApi';
-import { FacultyProfileApi, FacultyProfileUpdateApi, FacultySubmitpassApi, FacultyVerifyMail } from '../../api/FacultyApi';
+import { FacultyProfileApi, FacultyProfileUpdateApi, FacultySubmitpassApi, FacultyVerifyMail,ApiViewDepartment } from '../../api/FacultyApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
 export default function Profile() {
   const [FacultyData, setFacultyData] = useState({})

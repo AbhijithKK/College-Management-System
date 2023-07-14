@@ -14,7 +14,10 @@ router.get('/notificationCalander',studentAuth,student.getNotificationCalender)
 router.get('/payment',)
 router.get('/clubstatus',studentAuth,student.getclubStatus)
 router.get('/leaveletters',studentAuth,student.getLeaveletters)
-router.get('/logout',studentAuth,student.logOut)
+router.get('/semester',student.viewSemester)
+router.get('/department',student.viewDepartment)
+
+router.get('/logout',student.logOut)
 
 router.get('/checkAuth',student.checkAuth)
 router.post('/login', student.studentLogin)

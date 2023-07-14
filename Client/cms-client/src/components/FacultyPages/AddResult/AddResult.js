@@ -3,9 +3,7 @@ import { Button, Container, Row, Col, Form } from "react-bootstrap";
 
 import "react-datepicker/dist/react-datepicker.css";
 import './AddResult.css';
-
-import { ApiViewClass, ApiViewSemester, ApiViewSubjects } from "../../api/AdminApi";
-import { ApiViewStudents, FacultyProfileApi, FacultyResultAddApi } from "../../api/FacultyApi";
+import { ApiViewStudents, FacultyProfileApi, FacultyResultAddApi,ApiViewClass,ApiViewSemester,ApiViewSubjects } from "../../api/FacultyApi";
 import SideBarFaculty from "../SideBar/SideBarFaculty";
 
 const AddResult = () => {    
