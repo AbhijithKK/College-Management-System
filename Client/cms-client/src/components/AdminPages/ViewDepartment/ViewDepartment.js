@@ -96,9 +96,9 @@ const DeleteDepartment=async(id)=>{
     }
   });
   
- 
- 
+  
 }
+console.log('kk',departments);
   return (
     <>
     <SideBar/>
@@ -148,7 +148,7 @@ const DeleteDepartment=async(id)=>{
             </TableRow>
           </TableHead>
           <TableBody>
-            {departments.map((row,index) => (
+            {departments.length>0 ? departments.map((row,index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell  component="th" scope="row">
                   {row.name}
@@ -156,7 +156,12 @@ const DeleteDepartment=async(id)=>{
                 <StyledTableCell   align="left"><Button onClick={()=>DeleteDepartment(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
                
               </StyledTableRow>
-            ))}
+            ))
+            : (
+              // Render a message or placeholder when the array is empty
+              <div>No departments found.</div>
+            )
+          }
           </TableBody>
         </Table>
       </TableContainer>

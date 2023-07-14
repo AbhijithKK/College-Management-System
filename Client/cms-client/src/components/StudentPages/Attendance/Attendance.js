@@ -167,7 +167,7 @@ React.useEffect(() => {
               <TableCell style={{fontWeight:"bold"}} align="center">Attendance By</TableCell>
               <TableCell style={{fontWeight:"bold"}} align="center">Status</TableCell>
             </TableRow>
-            {(rowsPerPage > 0
+            {Attendance.length>0 ? (rowsPerPage > 0
               ? Attendance.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : Attendance
             ).map((row,i) => (
@@ -182,7 +182,7 @@ React.useEffect(() => {
                   {row.status}
                 </TableCell>
               </TableRow>
-            ))}
+            )):<div>Attendance not found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={3} />

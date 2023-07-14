@@ -247,10 +247,10 @@ const [totalDepartment,setDep]=React.useState([])
             value={department}
             onChange={(event)=>setdepartment(event.target.value)}
             >
-              {totalDepartment.map((data, index) => (
+              {totalDepartment.length>0 ? totalDepartment.map((data, index) => (
 
                 <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
-              ))}
+              )) :''}
             </Select>
           </FormControl>
           <FormControl margin="dense" fullWidth>
@@ -265,10 +265,10 @@ const [totalDepartment,setDep]=React.useState([])
             onChange={(event)=>  setsemester(event.target.value)
             }
             >
-             {totalSem.map((data, index) => (
+             {totalSem.length>0 ? totalSem.map((data, index) => (
 
             <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
-              ))}
+              )):''}
             </Select>
           </FormControl>
           <FormControl margin="dense" fullWidth>
@@ -284,10 +284,10 @@ const [totalDepartment,setDep]=React.useState([])
             }
             >
               
-             {AllClass.map((data, index) => (
+             {AllClass.length>0 ? AllClass.map((data, index) => (
 
             <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
-              ))}
+              )):''}
             </Select>
           </FormControl>
           <FormControl margin="dense" fullWidth>
@@ -391,11 +391,11 @@ const [totalDepartment,setDep]=React.useState([])
                   <MenuItem value={Dep ? 'default' : 'default'}>
                     Department
                   </MenuItem>
-                  {allDept.map((data, index) => (
+                  {allDept.length>0 ? allDept.map((data, index) => (
                     <MenuItem key={index} value={data.name}>
                       {data.name}
                     </MenuItem>
-                  ))}
+                  )):''}
                 </Select>
 
 
@@ -410,7 +410,7 @@ const [totalDepartment,setDep]=React.useState([])
             </TableRow>
           </TableHead>
           <TableBody>
-            {student.map((row, index) => (
+            {student.length>0 ? student.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {row.regNumber}
@@ -433,7 +433,7 @@ const [totalDepartment,setDep]=React.useState([])
                     <DeleteForeverSharp /></Button>
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
+            )):<div>There is no Students Found</div>}
           </TableBody>
         </Table>
       </TableContainer>

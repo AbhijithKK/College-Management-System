@@ -194,7 +194,7 @@ const handleClose = () => {
               <TableCell style={{fontWeight:"bold"}} align="center">Mark</TableCell>
               <TableCell style={{fontWeight:"bold"}} align="center">Grade</TableCell>
             </TableRow>
-            {(rowsPerPage > 0
+            {result.length>0 ? (rowsPerPage > 0
               ? result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : result
             ).map((row,i) => (
@@ -210,7 +210,7 @@ const handleClose = () => {
                 </TableCell>
                 
               </TableRow>
-            ))}
+            )):<div>Result not found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={3} />

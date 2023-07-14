@@ -158,9 +158,9 @@ function AddAttendanceTable() {
               <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
               <TableCell style={{ fontWeight: 'bold' }}>Actions</TableCell>
             </TableRow>
-            {(rowsPerPage > 0
-              ? Student.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : Student
+            {Student.length>0 ? (rowsPerPage > 0
+              ?  Student.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              :  Student 
             ).map((row, i) => (
               <TableRow key={i}>
                 <TableCell>{row.date}</TableCell>
@@ -199,7 +199,7 @@ function AddAttendanceTable() {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+            )) :<div>Attends Not found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={4} />

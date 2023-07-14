@@ -133,7 +133,7 @@ console.log(requests);
               <TableCell style={{fontWeight:"bold"}} >Status</TableCell>
               
             </TableRow>
-            {(rowsPerPage > 0
+            {requests.length>0 ? (rowsPerPage > 0
               ? requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : requests
             ).map((row,index) => (
@@ -152,7 +152,7 @@ console.log(requests);
                 </TableCell>
                 
               </TableRow>
-            ))}
+            )):<div>Leave Status not found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={3} />

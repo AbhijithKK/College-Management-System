@@ -135,7 +135,7 @@ export default function ViewStudents() {
               <TableCell style={{fontWeight:"bold"}} >guardian Number</TableCell>
               
             </TableRow>
-            {(rowsPerPage > 0
+            {AllStudents.length>0 ? (rowsPerPage > 0
               ? AllStudents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : AllStudents
             ).map((row,index) => (
@@ -157,7 +157,7 @@ export default function ViewStudents() {
                 </TableCell>
                 
               </TableRow>
-            ))}
+            )):<div>Students Not Found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={3} />

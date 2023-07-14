@@ -148,7 +148,7 @@ console.log(requests);
               <TableCell style={{fontWeight:"bold"}} >Leave Status</TableCell>
               <TableCell style={{fontWeight:"bold"}} >Actions</TableCell>
             </TableRow>
-            {(rowsPerPage > 0
+            {requests.length>0 ? (rowsPerPage > 0
               ? requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : requests
             ).map((row,index) => (
@@ -192,7 +192,7 @@ console.log(requests);
                  }
                 </TableCell>
               </TableRow>
-            ))}
+            )):<div>No leaveletters found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={3} />

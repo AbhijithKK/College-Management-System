@@ -328,10 +328,11 @@ export default function Profile() {
                 value={department}
                 onChange={(event) => setdepartment(event.target.value)}
               >
-                {totalDepartment.map((data, index) => (
+                {totalDepartment.length>0 ?
+                totalDepartment.map((data, index) => (
 
                   <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
-                ))}
+                )):''}
               </Select>
             </FormControl>
             {/* <FormControl margin="dense" fullWidth>

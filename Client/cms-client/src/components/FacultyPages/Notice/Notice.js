@@ -25,7 +25,7 @@ export default function Notice() {
     <SideBarFaculty/>
     <Container  >
         <div className='d-flex justify-content-between'>
-       {
+       {notice.length>0 ?
         notice.map((data,index)=>(
             <Card key={index} sx={{ maxWidth: 345 }} style={{marginTop:'10px'}}>
             <CardMedia
@@ -47,7 +47,7 @@ export default function Notice() {
             
           </Card>
         ))
-       }
+       :<div>Notice not Found</div>}
        </div>
     </Container> 
     </>

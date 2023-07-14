@@ -55,7 +55,7 @@ export default function ViewClubs() {
     <SideBarFaculty/>
     <Container>
         {allClubs.length===0 ? <h1>You are Not An Admin of Clubs</h1>:<h1>Your Clubs</h1>}
-      {allClubs.map((data, index) => (
+      {allClubs.length>0 ? allClubs.map((data, index) => (
         <Box key={index} className='Clubcard'>
           <Card variant='outlined' className='clubcard'>
             <CardContent>
@@ -77,7 +77,7 @@ export default function ViewClubs() {
             <CardActions></CardActions>
           </Card>
         </Box>
-      ))}
+      )):<div>clubs not Found</div>}
     </Container>
     </>
   );

@@ -63,7 +63,7 @@ export default function Clubs() {
     <><SideBarStudent/>
     <Container>
       {clubs.length===0 ?<h1>No Clubs Created</h1>:<h1>Your Clubs</h1>}
-      {clubss.map((data, index) => (
+      {clubs.length>0 ? clubss.map((data, index) => (
         <Box key={index} className='Clubcard'>
           <Card variant='outlined' className='clubcard'>
             <CardContent>
@@ -91,7 +91,7 @@ export default function Clubs() {
             </CardActions>
           </Card>
         </Box>
-      ))}
+      )):<div>Clubs not found</div>}
     </Container>
     </>
   );

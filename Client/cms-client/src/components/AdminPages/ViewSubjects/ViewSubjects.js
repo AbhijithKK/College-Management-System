@@ -174,11 +174,11 @@ const RefreshHelper=()=>{
 
             >
               <MenuItem hidden value={department}>Select Department</MenuItem>
-              {departmentArr.map((data, index) => (
+              {departmentArr.length>0 ? departmentArr.map((data, index) => (
 
                 <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
               ))
-              }
+              :''}
 
             </Select>
             <Select
@@ -191,11 +191,11 @@ const RefreshHelper=()=>{
 
             >
               <MenuItem hidden value={formVal.semester}>Select Semester</MenuItem>
-              {semester.map((data, index) => (
+              {semester.length>0 ? semester.map((data, index) => (
 
                 <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
               ))
-              }
+              :''}
 
             </Select>
             <Select
@@ -208,11 +208,11 @@ const RefreshHelper=()=>{
 
             >
               <MenuItem hidden value={className}>Select Class</MenuItem>
-              {classNameArr.map((data, index) => (
+              {classNameArr.length>0 ? classNameArr.map((data, index) => (
 
                 <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
               ))
-              }
+              :""}
 
             </Select>
           </DialogContent>
@@ -255,11 +255,11 @@ const RefreshHelper=()=>{
                   <MenuItem value={Dep ? 'default' : 'default'}>
                     Department
                   </MenuItem>
-                  {departmentArr.map((data, index) => (
+                  {departmentArr.length>0 ? departmentArr.map((data, index) => (
                     <MenuItem key={index} value={data.name}>
                       {data.name}
                     </MenuItem>
-                  ))}
+                  )):''}
                 </Select>
 
 
@@ -270,7 +270,7 @@ const RefreshHelper=()=>{
             </TableRow>
           </TableHead>
           <TableBody>
-            {value.map((row, index) => (
+            {value.length>0 ? value.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {row.subject}
@@ -279,7 +279,7 @@ const RefreshHelper=()=>{
                 <StyledTableCell align="left">{row.semester}</StyledTableCell>
                 <StyledTableCell align="left"><Button onClick={() => DeleteSub(row._id)}><DeleteForeverSharp /></Button></StyledTableCell>
               </StyledTableRow>
-            ))}
+            )):<div>There is no Subject Found</div>}
           </TableBody>
         </Table>
       </TableContainer>

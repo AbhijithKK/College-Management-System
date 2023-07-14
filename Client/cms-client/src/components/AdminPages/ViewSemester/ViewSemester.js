@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
-import { DeleteForeverSharp } from '@mui/icons-material';
+import { DeleteForeverSharp, Segment } from '@mui/icons-material';
 import SideBar from '../SideBar/SideBar';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -145,9 +145,9 @@ const DeleteSem=(id)=>{
               value={formdata.department}
             >
               <MenuItem  hidden value={formdata.department}>Select Department</MenuItem>
-              {semester.map((val,index)=>(
+              {Segment.length>0 ? semester.map((val,index)=>(
               <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
-              ))}
+              )):''}
              
              
             </Select>
@@ -169,7 +169,7 @@ const DeleteSem=(id)=>{
             </TableRow>
           </TableHead>
           <TableBody>
-            {value.map((row, index) => (
+            {value.length>0 ? value.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {row.semester}
@@ -177,7 +177,7 @@ const DeleteSem=(id)=>{
                 <StyledTableCell align="left">{row.department}</StyledTableCell>
                 <StyledTableCell align="left"><Button onClick={()=>DeleteSem(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
               </StyledTableRow>
-            ))}
+            )) :<div>There is no Semester found</div>}
           </TableBody>
         </Table>
       </TableContainer>

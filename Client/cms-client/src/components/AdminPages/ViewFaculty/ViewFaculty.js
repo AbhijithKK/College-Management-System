@@ -259,10 +259,10 @@ const [totalClass,setCls]=React.useState([])
             value={department}
             onChange={(event)=>setdepartment(event.target.value)}
             >
-              {totalDepartment.map((data, index) => (
+              {totalDepartment.length>0 ? totalDepartment.map((data, index) => (
 
                 <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
-              ))}
+              )):''}
             </Select>
           </FormControl>
           <FormControl margin="dense" fullWidth>
@@ -276,10 +276,10 @@ const [totalClass,setCls]=React.useState([])
             value={className}
             onChange={(event)=>setClassName(event.target.value)}
             >
-              {totalClass.map((data, index) => (
+              {totalClass.length>0 ? totalClass.map((data, index) => (
 
                 <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
-              ))}
+              )) :''}
             </Select>
           </FormControl>
           <FormControl  margin="dense" fullWidth>
@@ -322,10 +322,10 @@ const [totalClass,setCls]=React.useState([])
             onChange={(event)=>setteachingArea(event.target.value)}
             >
               <MenuItem hidden value={teachingArea}>{teachingArea}</MenuItem>
-              {Class.map((data, index) => (
+              { Class.length>0 ? Class.map((data, index) => (
 
                 <MenuItem key={index} value={data.subject}>{data.subject}</MenuItem>
-              ))}
+              )):''}
             </Select>
           </FormControl>
           <TextField 
@@ -383,11 +383,11 @@ const [totalClass,setCls]=React.useState([])
                   <MenuItem value={Dep ? 'default' : 'default'}>
                     Department
                   </MenuItem>
-                  {allDept.map((data, index) => (
+                  {allDept.length>0 ? allDept.map((data, index) => (
                     <MenuItem key={index} value={data.name}>
                       {data.name}
                     </MenuItem>
-                  ))}
+                  )):''}
                 </Select>
                
             </StyledTableCell>
@@ -400,7 +400,7 @@ const [totalClass,setCls]=React.useState([])
           </TableRow>
         </TableHead>
         <TableBody>
-          {faculty.map((row,index) => (
+          {faculty.length>0 ? faculty.map((row,index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
                 {row.regNumber}
@@ -419,7 +419,7 @@ const [totalClass,setCls]=React.useState([])
                     <DeleteForeverSharp /></Button>
               </StyledTableCell>
             </StyledTableRow>
-          ))}
+          )):<div>There is no Facultys Found</div>}
         </TableBody>
       </Table>
     </TableContainer>

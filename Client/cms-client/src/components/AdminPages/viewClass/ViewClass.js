@@ -143,9 +143,9 @@ const DeleteClass=(id)=>{
               
                 <MenuItem hidden value={formdata.department}>Select Department</MenuItem>
               
-              {Department.map((val,index)=>(
+              {Department.length>0 ? Department.map((val,index)=>(
                 <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
-              ))}
+              )) :''}
              
              
             </Select>
@@ -160,9 +160,9 @@ const DeleteClass=(id)=>{
               
                 <MenuItem hidden value={formdata.semester}>Select Semester</MenuItem>
               
-              {Semester.map((val,index)=>(
+              {Semester.length>0 ? Semester.map((val,index)=>(
                 <MenuItem key={index} value={val.semester}>{val.semester}</MenuItem>
-              ))}
+              )) :''}
              
              
             </Select>
@@ -196,7 +196,7 @@ const DeleteClass=(id)=>{
             </TableRow>
           </TableHead>
           <TableBody>
-            {value.map((row, index) => (
+            {value.length>0 ? value.map((row, index) => (
               <StyledTableRow key={index}>
                
                 <StyledTableCell component="th" scope="row">
@@ -205,7 +205,7 @@ const DeleteClass=(id)=>{
                 <StyledTableCell>{row.department}</StyledTableCell>
                 <StyledTableCell ><Button onClick={()=>DeleteClass(row._id)}><DeleteForeverSharp/></Button></StyledTableCell>
               </StyledTableRow>
-            ))}
+            )):<div>There is no class found</div>}
           </TableBody>
         </Table>
       </TableContainer>

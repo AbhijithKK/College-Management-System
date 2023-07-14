@@ -114,11 +114,11 @@ console.log(Subjects);
                   <Form.Control as="select" value={semester} onChange={handleSemesterChange}>
                   <option hidden value="">Select Semester</option>
 
-                  {
+                  {sem.length>0 ?
                         sem.map((val,index)=>(
                             <option key={index} value={val.semester}>{val.semester}</option>
                         ))
-                    }
+                  :''  }
                   </Form.Control>
                 </Form.Group>
 
@@ -126,11 +126,11 @@ console.log(Subjects);
                   <Form.Label>Class</Form.Label>
                   <Form.Control as="select" value={classValue} onChange={handleClassChange}>
                     <option hidden value="">Select Class</option>
-                    {
+                    {Class.length>0 ?
                         Class.map((val,index)=>(
                             <option key={index} value={val.className}>{val.className}</option>
                         ))
-                    }
+                    :''}
                   </Form.Control>
 
                 </Form.Group>
@@ -138,11 +138,11 @@ console.log(Subjects);
                   <Form.Label>Subject</Form.Label>
                   <Form.Control as="select" value={subject} onChange={handleSubjectChange}>
                     <option hidden value="">Select Subject</option>
-                    {
+                    {Subjects.length>0 ?
                         Subjects.map((val,index)=>(
                             <option key={index} value={val.subject}>{val.subject}</option>
                         ))
-                    }
+                      :'' }
                   </Form.Control>
 
                 </Form.Group>
@@ -151,11 +151,11 @@ console.log(Subjects);
                   <Form.Label>Name</Form.Label>
                   <Form.Control as="select" value={studentId} onChange={handleStudentChange}>
                     <option hidden value="">Select Student</option>
-                    {
+                    {student.length>0 ?
                         student.map((val,index)=>(
                             <option key={index} value={val._id}>{val.name}</option>
                         ))
-                    }
+                   :'' }
                   </Form.Control>
                 </Form.Group>
 

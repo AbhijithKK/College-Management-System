@@ -55,7 +55,7 @@ export default function ViewComplaint() {
     <SideBar/>
     <Container>
     <h1 style={{fontWeight:'bold'}}>VIEW COMPLAINTS</h1>
-      {allCompliant.map((data, index) => (
+      {allCompliant.length>0 ? allCompliant.map((data, index) => (
         <Box key={index} className='Clubcard'>
           <Card variant='outlined' className='clubcard'>
             <CardContent>
@@ -77,7 +77,7 @@ export default function ViewComplaint() {
             <CardActions></CardActions>
           </Card>
         </Box>
-      ))}
+      )): <div>There is no Comlaint Found</div>}
     </Container>
     </>
   );
