@@ -1,7 +1,7 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
-import SideBarFaculty from './SideBar/SideBarFaculty'
+
 import Profile from './Profile/Profile'
 import ClubRequest from './ClubRequests/ClubRequest'
 import CheckLeaveLetter from './CheckLeaveLetter/CheckLeaveLetter'
@@ -12,11 +12,14 @@ import Logout from '../Logout/Logout'
 import ViewClubs from './ViewClubs/ViewClubs'
 import ViewStudents from './ViewStudents/ViewStudents'
 import Notice from './Notice/Notice'
+import PrivateRoutes from '../../Utils/PrivateRoutes'
 
 const Faculty = () => (
   <div>
-    <SideBarFaculty />
+    
     <Routes>
+
+      <Route element={<PrivateRoutes role={'faculty'} route={'/faculty/facultylogin'} />}>
       <Route path='/profile' element={<Profile />}></Route>
       <Route path='/clubs' element={<ClubRequest />}></Route>
       <Route path='/Checkleaveletters' element={<CheckLeaveLetter />}></Route>
@@ -28,8 +31,9 @@ const Faculty = () => (
       <Route path='/notice' element={<Notice/>}></Route>
       <Route path="/logout" element={<Logout data={{logout:'/faculty'}} />} />
 
-
-
+      </Route>
+      <Route  path="/*"  element={<Navigate to="/404" />} />
+          <Route  path="/faculty/facultylogin"  element={<Navigate to="/faculty/facultylogin" />} />
     </Routes>
   </div>
 )

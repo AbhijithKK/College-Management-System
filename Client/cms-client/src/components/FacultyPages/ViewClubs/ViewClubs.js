@@ -11,6 +11,7 @@ import { Delete } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import Swal from 'sweetalert2';
 import { FacultyDeleteClubs, FacultyGetClubs } from '../../api/FacultyApi';
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 export default function ViewClubs() {
   const [allClubs, setAllClubs] = useState([]);
@@ -50,6 +51,8 @@ export default function ViewClubs() {
   }, [refresh]);
 
   return (
+    <>
+    <SideBarFaculty/>
     <Container>
         {allClubs.length===0 ? <h1>You are Not An Admin of Clubs</h1>:<h1>Your Clubs</h1>}
       {allClubs.map((data, index) => (
@@ -76,5 +79,6 @@ export default function ViewClubs() {
         </Box>
       ))}
     </Container>
+    </>
   );
 }

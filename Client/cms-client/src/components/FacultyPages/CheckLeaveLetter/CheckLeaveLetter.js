@@ -21,6 +21,7 @@ import { FacultyLeaveActionApi, FacultyLeaveLettersApi } from '../../api/Faculty
 import { Button, Tooltip } from '@mui/material';
 import { Close, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 
 
@@ -132,6 +133,7 @@ console.log(requests);
   // ============================================================================
 
   return (
+    <><SideBarFaculty/>
     <Container>
       <h1>Leave Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
@@ -221,5 +223,6 @@ console.log(requests);
       </TableContainer>
       
     </Container>
+    </>
   );
 }

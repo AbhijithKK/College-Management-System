@@ -6,6 +6,7 @@ import './AddResult.css';
 
 import { ApiViewClass, ApiViewSemester, ApiViewSubjects } from "../../api/AdminApi";
 import { ApiViewStudents, FacultyProfileApi, FacultyResultAddApi } from "../../api/FacultyApi";
+import SideBarFaculty from "../SideBar/SideBarFaculty";
 
 const AddResult = () => {    
   
@@ -97,6 +98,7 @@ console.log(Subjects);
 // console.log(student);
   return (
     <div>
+      <SideBarFaculty/>
       <Container>
         <Row>
           <Col>

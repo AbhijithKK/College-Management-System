@@ -8,6 +8,7 @@ import { Container } from 'react-bootstrap';
 import { Download } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { StudentNoticeApi } from '../../api/StudentApi';
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 export default function Notice() {
     const [notice,setNotice]=React.useState([])
@@ -20,6 +21,8 @@ export default function Notice() {
     },[])
     console.log(notice);
   return (
+    <>
+    <SideBarFaculty/>
     <Container  >
         <div className='d-flex justify-content-between'>
        {
@@ -47,5 +50,6 @@ export default function Notice() {
        }
        </div>
     </Container> 
+    </>
   );
 }

@@ -19,6 +19,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import { FacultyGetDepStudents } from '../../api/FacultyApi';
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 
 
@@ -119,6 +120,8 @@ export default function ViewStudents() {
   // ============================================================================
 
   return (
+    <>
+    <SideBarFaculty/>
     <Container>
       <h1>All Students</h1>
       <TableContainer component={Paper} className="StudentResultTablests">
@@ -185,5 +188,6 @@ export default function ViewStudents() {
       </TableContainer>
       
     </Container>
+    </>
   );
 }

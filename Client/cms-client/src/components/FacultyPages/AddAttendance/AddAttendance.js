@@ -23,6 +23,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -234,7 +235,10 @@ function AddAttendanceTable() {
 export default function AddAttendance() {
   return (
     <SnackbarProvider maxSnack={3}>
+      <>
+      <SideBarFaculty/>
       <AddAttendanceTable />
+      </>
     </SnackbarProvider>
   );
 }

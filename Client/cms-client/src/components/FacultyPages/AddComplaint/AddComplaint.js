@@ -12,6 +12,7 @@ from 'mdb-react-ui-kit';
 
 import Swal from 'sweetalert2'
 import { FacultyCompliantPostApi } from '../../api/FacultyApi';
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 function AddComplaint() {
     const [title,setTitle]=useState('')
@@ -35,6 +36,9 @@ function AddComplaint() {
         }
     }
   return (
+    <>
+    <SideBarFaculty/>
+   
     <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image'>
       <div className='mask gradient-custom-3'></div>
       <MDBCard className='m-5' style={{maxWidth: '600px'}}>
@@ -48,6 +52,7 @@ function AddComplaint() {
         </MDBCardBody>
       </MDBCard>
     </MDBContainer>
+    </>
   );
 }
 

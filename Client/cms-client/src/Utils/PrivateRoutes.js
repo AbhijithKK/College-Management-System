@@ -42,7 +42,11 @@ const PrivateRoutes = ({ role, route }) => {
       axios.get('/faculty/checkAuth', {
         headers: { 'Content-Type': 'application/json' }
       }).then((data) => {
-        console.log(data.data);
+        if (data.data === true) {
+          setAuth(true)
+        } else {
+          setAuth(false)
+        }
         dispatch({ type: 'faculty', payload: { login: data.data } })
 
       })

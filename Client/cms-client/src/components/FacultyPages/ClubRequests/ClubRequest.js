@@ -21,6 +21,7 @@ import { FacultyClubRequestUpdated, FacultyClubStatus, FacultyDeleteClubRequest 
 import { Button,  Tooltip } from '@mui/material';
 import { Close, Delete, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
+import SideBarFaculty from '../SideBar/SideBarFaculty';
 
 
 
@@ -161,6 +162,7 @@ console.log(requests);
   // ============================================================================
 
   return (
+    <><SideBarFaculty/>
     <Container>
       <h1>Club Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
@@ -247,5 +249,6 @@ console.log(requests);
       </TableContainer>
       
     </Container>
+    </>
   );
 }
