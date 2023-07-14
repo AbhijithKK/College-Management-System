@@ -1,6 +1,6 @@
 import './ViewSemester.css'
 import {Container} from 'react-bootstrap';
-
+import Swal from 'sweetalert2'
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -85,8 +85,28 @@ const AddSem=()=>{
  
 }
 const DeleteSem=(id)=>{
-ApiDeleteSemester(id)
-userefresh(!refresh)
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this Fculty!',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Delete',
+    confirmButtonColor: '#dc3545',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      let data = await ApiDeleteSemester(id)
+      if (data === true) {
+        Swal.fire({
+          icon: 'success',
+          text: 'Deleted Successfully',
+        });
+        userefresh(!refresh)
+      }
+    }
+  });
+
+
 }
   return (
     <>

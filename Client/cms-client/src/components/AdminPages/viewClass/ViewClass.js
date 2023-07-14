@@ -16,6 +16,7 @@ import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
+import Swal from 'sweetalert2';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -91,13 +92,35 @@ const AddClass=()=>{
   }
 }
 const DeleteClass=(id)=>{
-ApiDeleteClass(id)
-userefresh(!refresh)
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this Fculty!',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Delete',
+    confirmButtonColor: '#dc3545',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      let data = ApiDeleteClass(id)
+      if (data === true) {
+        Swal.fire({
+          icon: 'success',
+          text: 'Deleted Successfully',
+        });
+        userefresh(!refresh)
+      }
+    }
+  });
+  
+
+
 }
   return (
     <><SideBar/>
     <Container>
          <div>
+         <h1 style={{fontWeight:'bold'}}>VIEW CLASS</h1>
         <div className="addbtn">
           <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
             Add Class

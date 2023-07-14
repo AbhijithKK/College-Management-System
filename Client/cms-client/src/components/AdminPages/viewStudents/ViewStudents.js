@@ -20,7 +20,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 import SideBar from '../SideBar/SideBar';
-
+import Swal from "sweetalert2";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -139,8 +139,28 @@ const [totalDepartment,setDep]=React.useState([])
   }
  }
  const DeleteStudent=(id)=>{
-  ApiStudentDelete(id)
-  setRefresh(!refresh)
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this Fculty!',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Delete',
+    confirmButtonColor: '#dc3545',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      let data = await ApiStudentDelete(id)
+      if (data === true) {
+        Swal.fire({
+          icon: 'success',
+          text: 'Deleted Successfully',
+        });
+        setRefresh(!refresh)
+      }
+    }
+  });
+  
+  
  }
   const [allDept,setDepts]=React.useState([])
   const HelpDepts=async()=>{

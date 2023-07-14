@@ -16,6 +16,7 @@ import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
+import Swal from 'sweetalert2';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -69,9 +70,33 @@ React.useEffect(()=>{
   FeatchData()
  
 },[deleted,add])
-const DeleteDepartment=async(id)=>{
-  await ApiDeleteDepartment(id)
+
+const REfreshHelper=()=>{
   useDeleted(!deleted)
+}
+const DeleteDepartment=async(id)=>{
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this Fculty!',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Delete',
+    confirmButtonColor: '#dc3545',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      let data = await ApiDeleteDepartment(id)
+      if (data === true) {
+        Swal.fire({
+          icon: 'success',
+          text: 'Deleted Successfully',
+        });
+        REfreshHelper()
+      }
+    }
+  });
+  
+ 
  
 }
   return (
@@ -81,6 +106,7 @@ const DeleteDepartment=async(id)=>{
     <React.Fragment>
     
     <div>
+    <h1 style={{fontWeight:'bold'}}>VIEW DEPARTMENT</h1>
     <div className="addbtn">
     
       <Button variant="outlined" className='departmentAddBtn' onClick={handleClickOpen}>

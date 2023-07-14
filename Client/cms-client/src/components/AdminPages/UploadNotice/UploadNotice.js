@@ -34,6 +34,7 @@ const UploadNotice = () => {
           <Col>
            <div className="uplodform">
            <Form>
+           <h1 style={{fontWeight:'bold'}}>UPLOAD A NOTICE</h1>
               <Form.Group controlId="formFile" className="mb-3">
                 <p style={{color:'red'}}>{errmsg}</p>
                 <Form.Label>Notice Title</Form.Label>

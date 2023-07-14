@@ -66,6 +66,7 @@ const [errmsg,setErrmsg]=useState('')
             }}
           >
             <Form className="form">
+            <h1 style={{fontWeight:'bold'}}>ADD STUDENT</h1>
               <p style={{color:'red'}}>{errmsg}</p>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="disabledTextInput"></Form.Label>

@@ -14,7 +14,7 @@ import {  DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
-
+import Swal from 'sweetalert2';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -82,10 +82,33 @@ const[department,usedepartment]=React.useState('defaul')
     ApiSem()
     GetClass()
   }, [refresh, Dep,department])
-
+const RefreshHelper=()=>{
+  useRefresh(!refresh)
+}
   const DeleteSub = (id) => {
-    ApiDeleteSubjects(id)
-    useRefresh(!refresh)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Fculty!',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#dc3545',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = await ApiDeleteSubjects(id)
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            text: 'Deleted Successfully',
+          });
+        }
+        RefreshHelper()
+      }
+     
+    });
+    
+    
   }
   const [errormsg,useErroemsg]=React.useState('')
   const ErrormsgFnc=()=>{

@@ -73,6 +73,7 @@ setErrMsg('Fill the Form Properly')
               }}
             >
               <Form className="form">
+                <h1 style={{fontWeight:'bold'}}>CREATE CLUB</h1>
                 <p style={{color:'red'}}>{errorMsg}</p>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Club Name</Form.Label>

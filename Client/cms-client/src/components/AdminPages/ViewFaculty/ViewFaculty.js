@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import Swal from 'sweetalert2'
 import { DeleteForeverSharp, EditSharp } from '@mui/icons-material';
 import { Avatar, InputLabel, MenuItem, Select,Button,FormControl } from '@mui/material';
 import TextField from "@mui/material/TextField";
@@ -20,6 +20,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import SideBar from '../SideBar/SideBar';
 
 import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty, ApiViewSubjects } from '../../api/AdminApi';
+import { Container } from 'react-bootstrap';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -128,8 +129,29 @@ const [totalClass,setCls]=React.useState([])
 //  console.log(semester);
   // ===================
   const DeleteFaculty=(id)=>{
-    ApiDeleteFaculty(id)
-    setRefresh(!refresh)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Fculty!',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#dc3545',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let data = await ApiDeleteFaculty(id)
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            text: 'Deleted Successfully',
+          });
+          setRefresh(!refresh)
+        }
+      }
+    });
+  
+    
+   
   }
   const[errMsg,setErrmsg]=React.useState('')
   const HandlSave=()=>{
@@ -159,7 +181,9 @@ const [totalClass,setCls]=React.useState([])
   return (
     <>
     <SideBar/>
-    {/* =======>MODAL<======= */}
+    <Container>
+      <h1>VIEW FACULTYS</h1>
+      {/* =======>MODAL<======= */}
     <div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Student Details</DialogTitle>
@@ -399,6 +423,7 @@ const [totalClass,setCls]=React.useState([])
         </TableBody>
       </Table>
     </TableContainer>
+    </Container>
     </>
   );
 }
