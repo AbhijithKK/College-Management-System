@@ -18,6 +18,7 @@ router.get('/class',facultyAuth,faculty.viewClass)
 router.get('/subjects',facultyAuth,faculty.viewSubjects)
 router.get('/semester',facultyAuth,faculty.viewSemester)
 router.get('/department',facultyAuth,faculty.viewDepartment)
+router.get('/checknotice',facultyAuth,faculty.getNotice)
 
 router.get('/checkAuth',faculty.checkAuth)
 router.post('/login', faculty.facultyLogin)

@@ -7,13 +7,13 @@ import Typography from '@mui/material/Typography';
 import { Container } from 'react-bootstrap';
 import { Download } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { StudentNoticeApi } from '../../api/StudentApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
+import { FacultyNoticeApi } from '../../api/FacultyApi';
 
 export default function Notice() {
     const [notice,setNotice]=React.useState([])
     const ApiHelper=async()=>{
-        let data=await StudentNoticeApi()
+        let data=await FacultyNoticeApi()
         setNotice(data)
     }
     React.useEffect(()=>{

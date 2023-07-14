@@ -3,7 +3,7 @@ const { facultyModel } = require("../models/facultyScheema")
 const { jwtSign, jwtVerify } = require("../heplers/jwt")
 
 const { club } = require("../models/clubScheema")
-const { notice } = require("../models/noticeScheema")
+
 
 
 const otpGenerator = require('otp-generator')
@@ -14,11 +14,12 @@ const { department } = require("../models/departmentScheema")
 const { classScheema } = require("../models/classScheema")
 const { studentModel } = require("../models/studentScheema")
 const { resultScheema } = require("../models/resultScheema")
-const student = require("./studentControllers")
-const { array } = require("../heplers/multer")
+
 const { attendenceScheema } = require("../models/attendance")
 const { complaintScheema } = require("../models/complaintMode")
 const { subject } = require("../models/subjectScheema")
+const { notice } = require("../models/noticeScheema")
+const { semester } = require("../models/semesterScheema")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
@@ -261,6 +262,7 @@ let faculty = {
         try {
             let dep=req.query.dep
             let allSubjects
+            
             if (dep=='default' ) {
                 
                 allSubjects = await subject.find().sort({_id:-1}).exec()
@@ -274,7 +276,7 @@ let faculty = {
             }
             res.json(allSubjects)
         } catch (err) {
-            console.log(err);
+           
         }
     },
     viewSemester: async (req, res) => {
@@ -296,6 +298,14 @@ let faculty = {
             let allDepartments = await department.find().sort({_id:-1}).exec()
             res.json(allDepartments)
             
+        } catch (err) {
+            res.json(false)
+        }
+    },
+    getNotice: async (req,res) => {
+        try {
+            let data = await notice.find().sort({_id:-1}).exec()
+            res.json(data)
         } catch (err) {
             res.json(false)
         }
@@ -407,7 +417,7 @@ let faculty = {
     },
     PostResult: async (req, res) => {
         try {
-
+            console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
             let data = await resultScheema.create({
                 department: req.body.department,
                 semester: req.body.semester,

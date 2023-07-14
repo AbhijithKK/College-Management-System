@@ -414,3 +414,22 @@ export const  ApiViewDepartment=async()=>{
    }
    return data
 }
+
+export const FacultyNoticeApi=async()=>{
+  let {data}=await axios.get('/faculty/checknotice',{
+       headers:{
+           'Content-Type':'application/json'
+       }
+   })
+   if (data===false) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: 'Something Wrong',
+
+         })
+        
+   }
+   return data
+
+}

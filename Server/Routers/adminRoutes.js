@@ -40,7 +40,7 @@ router.get('/viewApproveLists',adminAuth,viewApproveLists)
 router.get('/viewApproveLists',adminAuth,viewApproveLists)
 router.get('/class',adminAuth,viewClass)
 router.get('/checkAuth',checkAuth)
-router.get('/logout',adminAuth,logOut)
+router.get('/logout',logOut)
 
 // <====DELETE API====>
 router.get('/deleteStudent',adminAuth,deleteStudent)

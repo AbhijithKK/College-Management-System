@@ -87,12 +87,12 @@ useEffect(()=>{
         setStudent(students)
         let subject=await ApiViewSubjects(department,semester)
         setSubjects(subject)
-    }
+      }
+      
+      ApiHelper()
+    },[department,semester,classValue])
     
-    ApiHelper()
-},[department,semester,classValue])
 
-console.log(Subjects);
 // console.log(student);
   return (
     <div>
