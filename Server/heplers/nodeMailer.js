@@ -13,12 +13,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function nodeMail(userMail, OTP) {
+async function nodeMail(userMail, OTP,subject) {
   const info = await transporter.sendMail({
     from: process.env.GMAIL, // sender address
     to: userMail, // recipient address
-    subject: "COLLEGE MANAGEMENT SYSTEM ✔", // Subject line
-    text: `Your OTP: ${OTP}`, // plain text body
+    subject:subject , // Subject line
+    text: OTP, // plain text body
   });
 
   console.log("Message sent: %s", info.messageId);

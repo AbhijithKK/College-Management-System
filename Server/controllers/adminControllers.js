@@ -9,6 +9,16 @@ const bcript = require('bcrypt')
 const { jwtSign, jwtVerify } = require('../heplers/jwt')
 const { classScheema } = require('../models/classScheema')
 const { complaintScheema } = require('../models/complaintMode')
+const nodeMail = require('../heplers/nodeMailer')
+const otpGenerator = require('otp-generator')
+
+const passGen = () => {
+    return otpGenerator.generate(8, {
+        upperCaseAlphabets: false,
+        specialChars: false, lowerCaseAlphabets: true
+    });
+}
+
 let admin = {
 
     // <====LOGIN VERIFY====>
@@ -48,7 +58,8 @@ let admin = {
     // <====ADD CONTROLLS====>
     addStudent: async (req, res) => {
         try {
-            let password = 'password'
+            let password = passGen()
+            let sendPassWord=password
             password = await bcript.hash(password, 10)
             console.log(req.body);
          
@@ -66,14 +77,22 @@ let admin = {
                 semester: req.body.semester,
                 password: password,
                 className:req.body.className
-            }).then(() => res.json('Student Added'))
+            }).then(() => {
+                const sub="COLLEGE MANAGEMENT SYSTEM ✔"
+                let content=`Congratulation,Dear Student Your Account Has been Created 
+                 Your Email: ${req.body.email} Password: ${sendPassWord} 
+                 use this credential to Login Your Account`
+
+                nodeMail(req.body.email,content,sub)
+                res.json('Student Added')})
         } catch (err) {
            res.json(false)
         }
     },
     addFaculty: async (req, res) => {
         try {
-            let password = 'password'
+            let password = passGen()
+            let sendPassWord=password
             password = await bcript.hash(password, 10)
            
             console.log(req.body);
@@ -90,7 +109,14 @@ let admin = {
                 adminOfClass:req.body.adminOfClass,
                 qualifications: req.body.qualification,
                 password: password
-            }).then(() => res.json("faculty Added"))
+            }).then(() => {
+                const sub="COLLEGE MANAGEMENT SYSTEM ✔"
+                let content=`Congratulation, Dear Faculty Your Account Has been Created 
+                 Your Email: ${req.body.email} Password: ${sendPassWord} 
+                 use this credential to Login Your Account`
+
+                nodeMail(req.body.email,content,sub)
+                res.json("faculty Added")})
         } catch (err) {
             console.log(err);
         }

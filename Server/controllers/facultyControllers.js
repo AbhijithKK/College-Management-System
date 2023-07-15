@@ -349,9 +349,11 @@ let faculty = {
     postMailVerify: async (req, res) => {
         try {
             let data = await facultyModel.findOne({ $or: [{ email: req.body.data }, { mobNumber: req.body.data }] })
+            const subject="COLLEGE MANAGEMENT SYSTEM ✔"
             if (data !== null) {
                 let otp = OtpGen()
-                nodeMail(data.email, otp)
+                let OTP=`Your OTP: ${otp}`
+                nodeMail(data.email, OTP,subject)
                 res.json({ otp: otp })
             } else {
                 res.json({ otp: false, text: 'Enter Your Registerd Email or Mobile Number' })
