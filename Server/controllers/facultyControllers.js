@@ -493,6 +493,37 @@ let faculty = {
             res.json(false)
         }
     },
+    applyPassword: async (req,res) => {
+        try {
+            
+            
+            let newPassword =await bcrypt.hash(req.body.newpass, 10)
+         let data=await facultyModel.updateOne({ email:req.body.email}, { password: newPassword })
+           
+           req.json('password updated')
+        } catch (err) {
+            res.json(false)
+        }
+    }, 
+    ForgotPass:async(req,res)=>{
+        try{
+            let data=await facultyModel.findOne({email:req.body.email})
+            
+            if (data!=null) {
+                let otp=OtpGen()
+                const subject= "COLLEGE MANAGEMENT SYSTEM ✔"
+                    let OTP=`Your OTP: ${otp}`
+                    nodeMail(req.body.email,OTP,subject)
+                    
+                res.json({otp:otp,text:''})
+            }else{
+                res.json({otp:false,text:'Plese Enter Registered Email'})
+            }
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)

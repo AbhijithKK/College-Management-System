@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../Axios/Axios";
 import { useDispatch } from "react-redux";
 import { StudentChangePassword, StudentForgotPassword, StudentLoginApi } from "../api/StudentApi";
-import { FacultyLoginApi } from "../api/FacultyApi";
+import { FacultyChangePassword, FacultyForgotPassword, FacultyLoginApi } from "../api/FacultyApi";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, useMediaQuery, useTheme } from "@mui/material";
 
 
@@ -103,9 +103,12 @@ const handleClosepas = () => {
 
 const handleVerify = async () => {
   if (emailOrPhone.trim()) {
-    
-  
-  let data = await StudentForgotPassword(emailOrPhone)
+    let data 
+    if (props.img === 'student') {
+   data = await StudentForgotPassword(emailOrPhone)
+    }else if(props.img === 'faculty'){
+      data=await FacultyForgotPassword(emailOrPhone)
+    }
   console.log(data,'ll');
   if (data.otp === false) {
     setErrMsg(data.text)
@@ -151,7 +154,11 @@ const [newpass, SetNewpass] = useState('')
 const [confirmPass, setConfirmPass] = useState('')
 const SubmitPass = async () => {
   if (newpass === confirmPass &&newpass.trim() && confirmPass.trim()) {
+    if (props.img === 'student') {
     await StudentChangePassword(emailOrPhone,newpass)
+  }else if(props.img === 'faculty'){
+    await FacultyChangePassword(emailOrPhone,newpass)
+  }
    
     handleClosepas1()
 

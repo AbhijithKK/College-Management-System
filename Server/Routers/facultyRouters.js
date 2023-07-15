@@ -32,5 +32,7 @@ router.post('/leaveletterStatus',facultyAuth,faculty.LeaveStatusUpdate)
 router.post('/result',facultyAuth,faculty.PostResult)
 router.post('/attendence',facultyAuth,faculty.postAttendance)
 router.post('/addcomplaint',facultyAuth, faculty.postComplaint)
+router.post('/applypassword',faculty.applyPassword)
+router.post('/forgotPassword',faculty.ForgotPass)
 
 module.exports=router 

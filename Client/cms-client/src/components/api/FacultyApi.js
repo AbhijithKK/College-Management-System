@@ -433,3 +433,40 @@ export const FacultyNoticeApi=async()=>{
    return data
 
 }
+
+
+export const FacultyForgotPassword=async(email)=>{
+  let {data}=await axios.post('/faculty/forgotPassword',{email},{
+    headers:{'Content-Type':'application/json'},
+    withCredentials:true
+})
+
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+      })
+}
+return data
+}
+export const FacultyChangePassword=async(email,newpass)=>{
+  let {data}=await axios.post('/faculty/applypassword',{email,newpass},{
+    headers:{'Content-Type':'application/json'},
+    withCredentials:true
+})
+
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+      })
+}
+Swal.fire({
+  icon: 'success',
+  
+  text: 'Password Changed SuccesFully'
+})
+return data
+}
