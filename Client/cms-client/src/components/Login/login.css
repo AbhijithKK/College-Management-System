@@ -70,3 +70,18 @@ margin-bottom: -8px;
     display: flex;
     justify-content: center;
 }
+
+.forgotPass{
+    color:white;
+    text-decoration:underline;
+    font-weight:bolder;
+    transform: scale(1);
+    transition: ease-in,1.8s,all;
+    text-shadow: 1px 1px 1px rgb(0, 68, 255);
+}
+.forgotPass:hover{
+    cursor: pointer;
+   text-shadow: 1px,3px,5px,blue;
+    transform: scale(1.2);
+    text-decoration: none;
+}

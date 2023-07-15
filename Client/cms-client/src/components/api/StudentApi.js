@@ -276,3 +276,38 @@ export const  ApiViewDepartment=async()=>{
    }
    return data
 }
+export const StudentForgotPassword=async(email)=>{
+  let {data}=await axios.post('/student/forgotPassword',{email},{
+    headers:{'Content-Type':'application/json'},
+    withCredentials:true
+})
+
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+      })
+}
+return data
+}
+export const StudentChangePassword=async(email,newpass)=>{
+  let {data}=await axios.post('/student/applypassword',{email,newpass},{
+    headers:{'Content-Type':'application/json'},
+    withCredentials:true
+})
+
+if (data===false) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something Wrong',
+      })
+}
+Swal.fire({
+  icon: 'success',
+  
+  text: 'Password Changed SuccesFully'
+})
+return data
+}

@@ -17,6 +17,8 @@ router.get('/leaveletters',studentAuth,student.getLeaveletters)
 router.get('/semester',studentAuth,student.viewSemester)
 router.get('/department',studentAuth,student.viewDepartment)
 
+router.post('/applypassword',student.applyPassword)
+router.post('/forgotPassword',student.ForgotPass)
 router.get('/logout',student.logOut)
 
 router.get('/checkAuth',student.checkAuth)

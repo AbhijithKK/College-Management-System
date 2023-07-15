@@ -178,6 +178,25 @@ let student = {
             res.json(false)
         }
     },
+    ForgotPass:async(req,res)=>{
+        try{
+            let data=await studentModel.findOne({email:req.body.email})
+            // console.log(data);
+            if (data!=null) {
+                let otp=OtpGen()
+                const subject= "COLLEGE MANAGEMENT SYSTEM ✔"
+                    let OTP=`Your OTP: ${otp}`
+                    nodeMail(req.body.email,OTP,subject)
+                    
+                res.json({otp:otp,text:''})
+            }else{
+                res.json({otp:false,text:'Plese Enter Registered Email'})
+            }
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
     // ====>CLUB REQUEST SEND>====
     postClub: async (req,res) => {
 
@@ -301,7 +320,18 @@ let student = {
             res.json(false)
         }
     },
-   
+    applyPassword: async (req,res) => {
+        try {
+            
+            
+            let newPassword =await bcrypt.hash(req.body.newpass, 10)
+         let data=await studentModel.updateOne({ email:req.body.email}, { password: newPassword })
+            console.log(data);
+           req.json('password updated')
+        } catch (err) {
+            res.json(false)
+        }
+    }, 
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('studentjwt', '').json(true)

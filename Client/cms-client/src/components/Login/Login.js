@@ -7,8 +7,10 @@ import faculty from '../../assets/faculty.png'
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../Axios/Axios";
 import { useDispatch } from "react-redux";
-import { StudentLoginApi } from "../api/StudentApi";
+import { StudentChangePassword, StudentForgotPassword, StudentLoginApi } from "../api/StudentApi";
 import { FacultyLoginApi } from "../api/FacultyApi";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, useMediaQuery, useTheme } from "@mui/material";
+
 
 const LoginForm = (props) => {
   const [mail, useMail] = useState('');
@@ -73,10 +75,190 @@ const LoginForm = (props) => {
     useErrmsg(data)
   }
 
-  console.log(password);
+ const ForgotPass=()=>{
+  handleClickOpenPas()
+ }
+
+
+
+
+//   ===========>PASSWORD MODAL<============
+const [openPas, setOpenPas] = React.useState(false);
+const [emailOrPhone, setEmailOrPhone] = React.useState('');
+const [otp, setOtp] = React.useState('');
+const theme = useTheme();
+const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+const [text, setText] = useState(' Enter your Registered Email ')
+const [label1, setLabel1] = useState("Email ")
+const [btnText, setBtnText] = useState("Send OTP")
+const [errMsgs, setErrMsg] = useState('')
+const [cameOtp, setcameOtp] = useState(0)
+const handleClickOpenPas = () => {
+  setOpenPas(true);
+};
+
+const handleClosepas = () => {
+  setOpenPas(false);
+};
+
+const handleVerify = async () => {
+  if (emailOrPhone.trim()) {
+    
+  
+  let data = await StudentForgotPassword(emailOrPhone)
+  console.log(data,'ll');
+  if (data.otp === false) {
+    setErrMsg(data.text)
+  } else {
+    setcameOtp(data.otp)
+    setText('Enter your OTP')
+    setLabel1('Enter OTP')
+    setBtnText('Verify')
+    setErrMsg('')
+  }
+}else{
+  setErrMsg('Enter Your Email Address')
+}
+}
+const VerifyOtp = async() => {
+  
+  if (otp === cameOtp) {
+    
+    handleClosepas()
+    handleClickOpenPas1()
+    setErrMsg('')
+    
+  } else {
+
+    setErrMsg('Enter Currect OTP')
+  }
+
+}
+// ================================================
+
+// =============================password change==========================
+const [open1, setOpenPas1] = React.useState(false);
+
+const handleClickOpenPas1 = () => {
+  setOpenPas1(true);
+};
+
+const handleClosepas1 = () => {
+  setOpenPas1(false);
+};
+
+const [newpass, SetNewpass] = useState('')
+const [confirmPass, setConfirmPass] = useState('')
+const SubmitPass = async () => {
+  if (newpass === confirmPass &&newpass.trim() && confirmPass.trim()) {
+    await StudentChangePassword(emailOrPhone,newpass)
+   
+    handleClosepas1()
+
+  } else {
+    setErrMsg('password not match')
+  }
+}
+// ======================================================================
+
+
+
 
   return (
     <div className="mainpage">
+
+    {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
+    <div>
+
+<Dialog
+  fullScreen={fullScreen}
+  open={open1}
+  onClose={handleClosepas1}
+  aria-labelledby="responsive-dialog-title"
+>
+  <DialogTitle id="responsive-dialog-title">
+    {"OTP Verification"}
+  </DialogTitle>
+  <DialogContent>
+  <p style={{ color: 'red',marginLeft:'10px' }}>{errMsgs}</p>
+    <DialogContentText>
+      Change Password
+    </DialogContentText>
+    <TextField
+      autoFocus
+      margin="dense"
+      label='Enter New password'
+      type="text"
+      value={newpass}
+      onChange={(e) => SetNewpass(e.target.value)}
+      fullWidth
+    />
+    <TextField
+      autoFocus
+      margin="dense"
+      label='Enter Confirm password'
+      type="text"
+      value={confirmPass}
+      onChange={(e) => setConfirmPass(e.target.value)}
+      fullWidth
+    />
+  </DialogContent>
+
+  <DialogActions>
+    <Button onClick={SubmitPass} autoFocus>
+      Save
+    </Button>
+  </DialogActions>
+
+</Dialog>
+</div>
+{/* ================================================================================================== */}
+
+
+{/* ===================>MODAL OTP=================*/}
+
+<div>
+
+<Dialog
+  fullScreen={fullScreen}
+  open={openPas}
+  onClose={handleClosepas}
+  aria-labelledby="responsive-dialog-title"
+>
+  <DialogTitle id="responsive-dialog-title">
+    {"OTP Verification"}
+  </DialogTitle>
+  <DialogContent>
+  <p style={{ color: 'red',marginLeft:'10px' }}>{errMsgs}</p>
+    <DialogContentText>
+      {text}
+    </DialogContentText>
+    <TextField
+      autoFocus
+      margin="dense"
+      label={label1}
+      type="email"
+      value={btnText === 'Verify' ? otp : emailOrPhone}
+      onChange={btnText === 'Verify' ? (e) => setOtp(e.target.value) : (e) => setEmailOrPhone(e.target.value)}
+      fullWidth
+    />
+  </DialogContent>
+
+  <DialogActions>
+    <Button onClick={btnText === 'Verify' ? VerifyOtp : handleVerify} autoFocus>
+      {btnText}
+    </Button>
+  </DialogActions>
+
+</Dialog>
+</div>
+
+{/* ======================================== */}
+
+
+
+
+
       <Container>
         <Row>
           <Col sm={12}>
@@ -127,6 +309,7 @@ const LoginForm = (props) => {
                   />
                   <p className="emailText">Password</p>
                 </Form.Group>
+                <p onClick={ForgotPass} className="forgotPass">Forgot Password?</p>
                 <Button
                   className="button1"
                   type="button"
