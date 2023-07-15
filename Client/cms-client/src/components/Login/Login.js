@@ -316,7 +316,9 @@ const SubmitPass = async () => {
                   />
                   <p className="emailText">Password</p>
                 </Form.Group>
+                {props.img === 'admin' ? '':
                 <p onClick={ForgotPass} className="forgotPass">Forgot Password?</p>
+                }
                 <Button
                   className="button1"
                   type="button"
