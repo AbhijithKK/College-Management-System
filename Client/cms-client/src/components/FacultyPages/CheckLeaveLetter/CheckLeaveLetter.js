@@ -18,7 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './CheckLeaveLetter.css';
 import { FacultyLeaveActionApi, FacultyLeaveLettersApi } from '../../api/FacultyApi';
-import { Button, Tooltip } from '@mui/material';
+import { Button, TextField, Tooltip } from '@mui/material';
 import { Close, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
 import SideBarFaculty from '../SideBar/SideBarFaculty';
@@ -92,10 +92,7 @@ export default function CheckLeaveLetter() {
 
   const [requests,useRequests]=React.useState([])
   const [refresh,useRefresh]=React.useState(false)
-  const HandleApi=async()=>{
-    let data =await FacultyLeaveLettersApi()
-    useRequests(data)
-  }
+  
   console.log(requests);
   let Accept='Leave Approved'
   let Reject='Leave Canceled'
@@ -110,9 +107,14 @@ export default function CheckLeaveLetter() {
     }
     useRefresh(!refresh)
   }
+  const [search,setSearch]=React.useState('')
   React.useEffect(()=>{
+    const HandleApi=async()=>{
+      let data =await FacultyLeaveLettersApi(search)
+      useRequests(data)
+    }
     HandleApi()
-  },[refresh])
+  },[refresh,search])
 console.log(requests);
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
@@ -137,6 +139,17 @@ console.log(requests);
     <Container>
       <h1>Leave Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
+        {/* ==================================== */}
+        <div style={{display:'grid'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>

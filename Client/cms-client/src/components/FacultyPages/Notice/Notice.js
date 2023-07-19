@@ -9,21 +9,35 @@ import { Download } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
 import { FacultyNoticeApi } from '../../api/FacultyApi';
+import { TextField } from '@mui/material';
 
 export default function Notice() {
     const [notice,setNotice]=React.useState([])
-    const ApiHelper=async()=>{
-        let data=await FacultyNoticeApi()
+   
+    const[search,setSearch]=React.useState('')
+    React.useEffect(()=>{
+      const ApiHelper=async()=>{
+        let data=await FacultyNoticeApi(search)
         setNotice(data)
     }
-    React.useEffect(()=>{
        ApiHelper()
-    },[])
+    },[search])
     console.log(notice);
   return (
     <>
     <SideBarFaculty/>
     <Container  >
+          {/* ==================================== */}
+        <div style={{display:'grid'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <div className='d-flex justify-content-between'>
        {notice.length>0 ?
         notice.map((data,index)=>(

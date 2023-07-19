@@ -110,8 +110,8 @@ export const FacultyClubrequestSend = async (studentName, department, semester,
   return data
 
 }
-export const FacultyClubStatus = async () => {
-  let { data } = await axios.get('/faculty/ClubRequests', {
+export const FacultyClubStatus = async (search) => {
+  let { data } = await axios.get('/faculty/ClubRequests',{params:{search}} ,{
     headers: {
       'Content-Type': 'application/json'
     }
@@ -145,8 +145,8 @@ export const FacultyClubRequestUpdated = async (id, status) => {
   return data
 }
 
-export const FacultyLeaveLettersApi = async () => {
-  let { data } = await axios.get('/faculty/leaveletters', {
+export const FacultyLeaveLettersApi = async (search) => {
+  let { data } = await axios.get('/faculty/leaveletters',{params:{search}}, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -223,8 +223,8 @@ export const FacultyResultAddApi = async (department, semester, className, stude
   return data
 }
 
-export const FacultyAttendenceApi = async () => {
-  let { data } = await axios.get('/faculty/attendence', {
+export const FacultyAttendenceApi = async (search) => {
+  let { data } = await axios.get('/faculty/attendence',{params:{search}}, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -259,214 +259,214 @@ export const FacultyAttendencePostApi = async (details) => {
   return data
 }
 
-export const FacultyCompliantPostApi=async(title,content)=>{
-  let {data}=await axios.post('/faculty/addcomplaint',{title,content},{
-   headers:{
-     "Content-Type":'application/json'
-   }
+export const FacultyCompliantPostApi = async (title, content) => {
+  let { data } = await axios.post('/faculty/addcomplaint', { title, content }, {
+    headers: {
+      "Content-Type": 'application/json'
+    }
   })
-  if (data===false) {
-   Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something Wrong',
- 
-     })
-     
-    
- }
- return data
- }
-
- export const FacultyGetDepStudents=async()=>{
- let {data}=await axios.get('/faculty/studentdepwise',{
-    headers:{
-      'Content-Type':'application/json'
-    },withCredentials:true
-  })
-  if (data===false) {
+  if (data === false) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-  
-      })
-      
-     
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+
+
   }
   return data
- }
- export const FacultyGetClubs=async()=>{
- let {data}=await axios.get('/faculty/clubs',{
-    headers:{
-      'Content-Type':'application/json'
-    },withCredentials:true
+}
+
+export const FacultyGetDepStudents = async (search) => {
+  let { data } = await axios.get('/faculty/studentdepwise',{params:{search}}, {
+    headers: {
+      'Content-Type': 'application/json'
+    }, withCredentials: true
   })
-  if (data===false) {
+  if (data === false) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-  
-      })
-      
-     
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+
+
   }
   return data
- }
- export const FacultyDeleteClubs=async(id)=>{
- let {data}=await axios.get('/faculty/deleteclubs',{params:{id}},{
-    headers:{
-      'Content-Type':'application/json'
-    },withCredentials:true
+}
+export const FacultyGetClubs = async (search) => {
+  let { data } = await axios.get('/faculty/clubs',{params:{search}}, {
+    headers: {
+      'Content-Type': 'application/json'
+    }, withCredentials: true
   })
-  if (data===false) {
+  if (data === false) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-  
-      })
-      
-     
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+
+
   }
   return data
- }
- export const FacultyDeleteClubRequest=async(id)=>{
- let {data}=await axios.get('/faculty/deleteclubRequest',{params:{id}},{
-    headers:{
-      'Content-Type':'application/json'
-    },withCredentials:true
+}
+export const FacultyDeleteClubs = async (id) => {
+  let { data } = await axios.get('/faculty/deleteclubs', { params: { id } }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }, withCredentials: true
   })
-  if (data===false) {
+  if (data === false) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-  
-      })
-      
-     
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+
+
   }
   return data
- }
-
- export const  ApiViewClass=async(Dep,Sem)=>{
-  let {data}=await axios.get('/faculty/class',{params:{Dep,Sem}},{
-       headers:{'Content-Type':'application/json'},
-       withCredentials:true
-   })
-
-   if (data===false) {
-       Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Something Wrong',
-         })
-   }
-   return data
 }
-export const ApiViewSubjects=async(dep,sem)=>{
-  let {data}=await axios.get('/faculty/subjects',{params:{dep,sem}},{
-       headers:{'Content-Type':'application/json'},
-       withCredentials:true
-   })
-   if (data===false) {
-       Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Something Wrong',
-
-         })
-   }
-   return data
-}
-
-export const ApiViewSemester=async(Dep)=>{
-  let {data}=await axios.get('/faculty/semester',{params:{Dep}},{
-       headers:{'Content-Type':'application/json'},
-       withCredentials:true
-   })
- 
-   if (data===false) {
-       Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Something Wrong',
-           
-         })
-   }
-   return data
-}
-
-export const  ApiViewDepartment=async()=>{
-  let {data}=await axios.get('/faculty/department',{
-       headers:{'Content-Type':'application/json'},
-       withCredentials:true
-   })
-
-   if (data===false) {
-       Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Something Wrong',
-         })
-   }
-   return data
-}
-
-export const FacultyNoticeApi=async()=>{
-  let {data}=await axios.get('/faculty/checknotice',{
-       headers:{
-           'Content-Type':'application/json'
-       }
-   })
-   if (data===false) {
-       Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Something Wrong',
-
-         })
-        
-   }
-   return data
-
-}
-
-
-export const FacultyForgotPassword=async(email)=>{
-  let {data}=await axios.post('/faculty/forgotPassword',{email},{
-    headers:{'Content-Type':'application/json'},
-    withCredentials:true
-})
-
-if (data===false) {
+export const FacultyDeleteClubRequest = async (id) => {
+  let { data } = await axios.get('/faculty/deleteclubRequest', { params: { id } }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }, withCredentials: true
+  })
+  if (data === false) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-      })
-}
-return data
-}
-export const FacultyChangePassword=async(email,newpass)=>{
-  let {data}=await axios.post('/faculty/applypassword',{email,newpass},{
-    headers:{'Content-Type':'application/json'},
-    withCredentials:true
-})
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
 
-if (data===false) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something Wrong',
-      })
+    })
+
+
+  }
+  return data
 }
-Swal.fire({
-  icon: 'success',
-  
-  text: 'Password Changed SuccesFully'
-})
-return data
+
+export const ApiViewClass = async (Dep, Sem) => {
+  let { data } = await axios.get('/faculty/class', { params: { Dep, Sem } }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}
+export const ApiViewSubjects = async (dep, sem) => {
+  let { data } = await axios.get('/faculty/subjects', { params: { dep, sem } }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+  }
+  return data
+}
+
+export const ApiViewSemester = async (Dep) => {
+  let { data } = await axios.get('/faculty/semester', { params: { Dep } }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+  }
+  return data
+}
+
+export const ApiViewDepartment = async () => {
+  let { data } = await axios.get('/faculty/department', {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}
+
+export const FacultyNoticeApi = async (search) => {
+  let { data } = await axios.get('/faculty/checknotice',{params:{search}}, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+
+  }
+  return data
+
+}
+
+
+export const FacultyForgotPassword = async (email) => {
+  let { data } = await axios.post('/faculty/forgotPassword', { email }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}
+export const FacultyChangePassword = async (email, newpass) => {
+  let { data } = await axios.post('/faculty/applypassword', { email, newpass }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  Swal.fire({
+    icon: 'success',
+
+    text: 'Password Changed SuccesFully'
+  })
+  return data
 }

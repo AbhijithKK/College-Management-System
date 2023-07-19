@@ -25,6 +25,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
 
+
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -137,7 +138,7 @@ function AddAttendanceTable() {
   const [Student, SetAllStudents] = React.useState([]);
   React.useEffect(() => {
     const handleApi = async () => {
-      let data = await FacultyAttendenceApi();
+      let data = await FacultyAttendenceApi('');
       console.log(data);
       SetAllStudents(data);
     };
@@ -150,6 +151,7 @@ function AddAttendanceTable() {
     <Container>
       <h1>Attendance</h1>
       <TableContainer component={Paper} className="facultyResultTable">
+       
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>

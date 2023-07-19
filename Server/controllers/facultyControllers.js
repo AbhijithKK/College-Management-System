@@ -87,7 +87,13 @@ let faculty = {
     viewClubRequests: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).sort({_id:-1}).exec()
+            let allRequests
+            if (req.query.search) {
+                let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
+                allRequests = await clubRequestScheema.find({ clubAdminId: verify.data, studentName: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
+            } else {
+                allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).sort({ _id: -1 }).exec()
+            }
             res.json(allRequests)
         } catch (err) {
             res.json(false)
@@ -97,8 +103,13 @@ let faculty = {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let faculty1 = await facultyModel.findOne({ _id: verify.data })
-
-            let allLeaveletters = await leaveApplyScheema.find().sort({_id:-1}).exec()
+            let allLeaveletters
+            if (req.query.search) {
+                let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
+                allLeaveletters = await leaveApplyScheema.find({ studentName: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
+            } else {
+                allLeaveletters = await leaveApplyScheema.find().sort({ _id: -1 }).exec()
+            }
             let arr = []
             if (allLeaveletters !== null) {
                 for (let i = 0; i < allLeaveletters.length; i++) {
@@ -127,163 +138,167 @@ let faculty = {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let data = await facultyModel.findOne({ _id: verify.data })
-            let todayDate=new Date().toLocaleDateString('en-GB', {
+            let todayDate = new Date().toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
             })
-            let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId:data._id  }, { className:data.adminOfClass }] }).lean()
-                
-                if (temp.length == 0) {
-            let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }] }).lean()
-            let Array = []
-            if (stdnt.length == 0) {
-                res.json(Array)
-            } else {
-                for (let i = 0; i < stdnt.length; i++) {
-                    let stdnts = {
-                        date: new Date().toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                        }),
-                        studentName: stdnt[i].name,
-                        studentId: stdnt[i]._id,
-                        facultyName: data.name,
-                        facultyId: data._id,
-                        className: data.adminOfClass,
-                        department: data.department,
-                        status: 'Not Marked'
-                    }
-                    Array.push(stdnts)
+            let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
+            let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId: data._id }, { className: data.adminOfClass },{studentName:new RegExp(key,'i')}] }).lean()
 
-                }
-                console.log('kk', Array);
-                res.json(Array)
-            }
-        }else{
-            let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }] }).lean()
-            let Array = []
-            if (stdnt.length == 0) {
-                res.json(Array)
-            } else {
-                for (let i = 0; i < stdnt.length; i++) {
-                    let status='Not Marked'
-                    let stdnts = {
-                        date: new Date().toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                        }),
-                        studentName: stdnt[i].name,
-                        studentId: stdnt[i]._id,
-                        facultyName: data.name,
-                        facultyId: data._id,
-                        className: data.adminOfClass,
-                        department: data.department,
-                        status: status
-                    }
-                    Array.push(stdnts)
-                }
-                for(let j=0;j<temp.length;j++){
-                    for(let k=0;k<Array.length;k++){
-                        if (temp[j].studentId==Array[k].studentId) {
-                            Array[k].status=temp[j].status
+            if (temp.length == 0) {
+                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass },{name:new RegExp(key,'i') }] }).lean()
+                let Array = []
+                if (stdnt.length == 0) {
+                    res.json(Array)
+                } else {
+                    for (let i = 0; i < stdnt.length; i++) {
+                        let stdnts = {
+                            date: new Date().toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                            }),
+                            studentName: stdnt[i].name,
+                            studentId: stdnt[i]._id,
+                            facultyName: data.name,
+                            facultyId: data._id,
+                            className: data.adminOfClass,
+                            department: data.department,
+                            status: 'Not Marked'
                         }
-                    
+                        Array.push(stdnts)
+
+                    }
+                    console.log('kk', Array);
+                    res.json(Array)
+                }
+            } else {
+                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass },{name:new RegExp(key,'i')}] }).lean()
+                let Array = []
+                if (stdnt.length == 0) {
+                    res.json(Array)
+                } else {
+                    for (let i = 0; i < stdnt.length; i++) {
+                        let status = 'Not Marked'
+                        let stdnts = {
+                            date: new Date().toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                            }),
+                            studentName: stdnt[i].name,
+                            studentId: stdnt[i]._id,
+                            facultyName: data.name,
+                            facultyId: data._id,
+                            className: data.adminOfClass,
+                            department: data.department,
+                            status: status
+                        }
+                        Array.push(stdnts)
+                    }
+                    for (let j = 0; j < temp.length; j++) {
+                        for (let k = 0; k < Array.length; k++) {
+                            if (temp[j].studentId == Array[k].studentId) {
+                                Array[k].status = temp[j].status
+                            }
+
+                        }
                     }
                 }
-            }
                 console.log('kk', Array);
                 res.json(Array)
-            }  
-            
+            }
+
         } catch (Err) {
             console.log(Err);
             res.json(false)
         }
     }
     ,
-    getDepWiseStudents:async(req,res)=>{
-        try{
+    getDepWiseStudents: async (req, res) => {
+        try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let faculty=await facultyModel.findOne({_id:verify.data})
-            let data=await studentModel.find({department:faculty.department}).sort({name:1}).exec()
+            let faculty = await facultyModel.findOne({ _id: verify.data })
+            
+            let data = await studentModel.find({ department: faculty.department ,name:new RegExp(req.query.search,'i')}).sort({ name: 1 }).exec()
             console.log(data);
             res.json(data)
-        }catch(err){
+        } catch (err) {
             res.json(false)
         }
     },
-    getAdminClubs:async(req,res)=>{
-        try{
+    getAdminClubs: async (req, res) => {
+        try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            
-            let clubs=await club.find({clubAdminId:verify.data}).sort({_id:-1}).exec()
+            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-bA-B]/g, "");
+
+            console.log(key,'ll',req.query.search);
+            let clubs = await club.find({ clubAdminId: verify.data ,name:new RegExp(key)}).sort({ _id: -1 }).exec()
             res.json(clubs)
-        }catch(err){
+        } catch (err) {
             res.json(false)
         }
     },
-    DeleteClubs:async(req,res)=>{
-        try{
-        await club.deleteOne({_id:req.query.id})
-        res.json(true)
-        }catch(err){
+    DeleteClubs: async (req, res) => {
+        try {
+            await club.deleteOne({ _id: req.query.id })
+            res.json(true)
+        } catch (err) {
             res.json(false)
         }
     },
-    DeleteClubRequest:async(req,res)=>{
-        try{
-        await clubRequestScheema.deleteOne({_id:req.query.id})
-        res.json(true)
-        }catch(err){
+    DeleteClubRequest: async (req, res) => {
+        try {
+            await clubRequestScheema.deleteOne({ _id: req.query.id })
+            res.json(true)
+        } catch (err) {
             res.json(false)
         }
     },
     viewClass: async (req, res) => {
         try {
             let allClass
-            if (req.query.Dep &&req.query.Sem ) {
-                allClass = await  classScheema.find({$and:[{department:req.query.Dep},{semester:req.query.Sem}]}).lean()
-            }else if (req.query.Dep  ){
-                allClass = await  classScheema.find({department:req.query.Dep}).lean()
-            }else{
+            if (req.query.Dep && req.query.Sem) {
+                allClass = await classScheema.find({ $and: [{ department: req.query.Dep }, { semester: req.query.Sem }] }).lean()
+            } else if (req.query.Dep) {
+                allClass = await classScheema.find({ department: req.query.Dep }).lean()
+            } else {
 
-                allClass = await  classScheema.find().lean()
+                allClass = await classScheema.find().lean()
             }
             res.json(allClass)
         } catch (err) {
             res.json(false)
-            
+
         }
     },
     viewSubjects: async (req, res) => {
         try {
-            let dep=req.query.dep
+            let dep = req.query.dep
             let allSubjects
-            
-            if (dep=='default' ) {
-                
-                allSubjects = await subject.find().sort({_id:-1}).exec()
-            }else if(req.query.dep && req.query.sem){
 
-                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
-            }else if(req.query.dep){
-                allSubjects = await subject.find({department:dep}).sort({_id:-1}).exec()
-            }else{
-                allSubjects = await subject.find().sort({_id:-1}).exec()
+            if (dep == 'default') {
+
+                allSubjects = await subject.find().sort({ _id: -1 }).exec()
+            } else if (req.query.dep && req.query.sem) {
+
+                allSubjects = await subject.find({ $and: [{ department: dep }, { semester: req.query.sem }] }).sort({ _id: -1 }).exec()
+            } else if (req.query.dep) {
+                allSubjects = await subject.find({ department: dep }).sort({ _id: -1 }).exec()
+            } else {
+                allSubjects = await subject.find().sort({ _id: -1 }).exec()
             }
             res.json(allSubjects)
         } catch (err) {
-           
+
         }
     },
     viewSemester: async (req, res) => {
         try {
             let allSemesters
             if (req.query.Dep) {
-                allSemesters = await semester.find({department:req.query.Dep}).lean()
+                allSemesters = await semester.find({ department: req.query.Dep }).lean()
                 res.json(allSemesters)
                 return
             }
@@ -295,16 +310,17 @@ let faculty = {
     },
     viewDepartment: async (req, res) => {
         try {
-            let allDepartments = await department.find().sort({_id:-1}).exec()
+            let allDepartments = await department.find().sort({ _id: -1 }).exec()
             res.json(allDepartments)
-            
+
         } catch (err) {
             res.json(false)
         }
     },
-    getNotice: async (req,res) => {
+    getNotice: async (req, res) => {
         try {
-            let data = await notice.find().sort({_id:-1}).exec()
+            let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            let data = await notice.find({name:new RegExp(key,'i')}).sort({ _id: -1 }).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -349,11 +365,11 @@ let faculty = {
     postMailVerify: async (req, res) => {
         try {
             let data = await facultyModel.findOne({ $or: [{ email: req.body.data }, { mobNumber: req.body.data }] })
-            const subject="COLLEGE MANAGEMENT SYSTEM ✔"
+            const subject = "COLLEGE MANAGEMENT SYSTEM ✔"
             if (data !== null) {
                 let otp = OtpGen()
-                let OTP=`Your OTP: ${otp}`
-                nodeMail(data.email, OTP,subject)
+                let OTP = `Your OTP: ${otp}`
+                nodeMail(data.email, OTP, subject)
                 res.json({ otp: otp })
             } else {
                 res.json({ otp: false, text: 'Enter Your Registerd Email or Mobile Number' })
@@ -440,86 +456,86 @@ let faculty = {
     postAttendance: async (req, res) => {
         try {
             let details = req.body.details
-                let temp = await attendenceScheema.find({ $and: [{ date: req.body.details.date }, { studentId: req.body.details.studentId }, { className: req.body.details.className }] }).lean()
-                
-                if (temp.length == 0) {
+            let temp = await attendenceScheema.find({ $and: [{ date: req.body.details.date }, { studentId: req.body.details.studentId }, { className: req.body.details.className }] }).lean()
 
-                    let data = await attendenceScheema.create(details)
-                    console.log('created', data);
-                }else{
-                    let update=await attendenceScheema.updateOne({_id:temp[0]._id},{
-                        date: req.body.details.date ,
-                        studentName: req.body.details.studentName ,
-                        studentId: req.body.details.studentId ,
-                        facultyName: req.body.details.facultyName ,
-                        facultyId: req.body.details. facultyId,
-                        className: req.body.details.className ,
-                        department: req.body.details. department,
-                        status: req.body.details. status,
-                    })
-                    console.log('ntgggggggggggggg',update);
-                }
-           
+            if (temp.length == 0) {
+
+                let data = await attendenceScheema.create(details)
+                console.log('created', data);
+            } else {
+                let update = await attendenceScheema.updateOne({ _id: temp[0]._id }, {
+                    date: req.body.details.date,
+                    studentName: req.body.details.studentName,
+                    studentId: req.body.details.studentId,
+                    facultyName: req.body.details.facultyName,
+                    facultyId: req.body.details.facultyId,
+                    className: req.body.details.className,
+                    department: req.body.details.department,
+                    status: req.body.details.status,
+                })
+                console.log('ntgggggggggggggg', update);
+            }
+
 
         } catch (err) {
             console.log(err);
             res.json(false)
         }
     },
-    postComplaint: async (req,res) => {
-        try{
+    postComplaint: async (req, res) => {
+        try {
             let data = await jwtVerify(req.cookies.facultyjwt)
             let faculty = await facultyModel.findOne({ _id: data.data })
 
             await complaintScheema.create({
-                title:req.body.title,
-                content:req.body.content,
-                name:faculty.name,
+                title: req.body.title,
+                content: req.body.content,
+                name: faculty.name,
                 date: new Date().toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
                 }),
-                who:'Faculty',
-                complainterId:faculty._id,
-                department:faculty.department,
-                className:faculty.adminOfClass,
-                teachingArea:faculty.teachingArea
+                who: 'Faculty',
+                complainterId: faculty._id,
+                department: faculty.department,
+                className: faculty.adminOfClass,
+                teachingArea: faculty.teachingArea
             })
             res.json(true)
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
             res.json(false)
         }
     },
-    applyPassword: async (req,res) => {
+    applyPassword: async (req, res) => {
         try {
-            
-            
-            let newPassword =await bcrypt.hash(req.body.newpass, 10)
-         let data=await facultyModel.updateOne({ email:req.body.email}, { password: newPassword })
-           
-           req.json('password updated')
+
+
+            let newPassword = await bcrypt.hash(req.body.newpass, 10)
+            let data = await facultyModel.updateOne({ email: req.body.email }, { password: newPassword })
+
+            req.json('password updated')
         } catch (err) {
             res.json(false)
         }
-    }, 
-    ForgotPass:async(req,res)=>{
-        try{
-            let data=await facultyModel.findOne({email:req.body.email})
-            
-            if (data!=null) {
-                let otp=OtpGen()
-                const subject= "COLLEGE MANAGEMENT SYSTEM ✔"
-                    let OTP=`Your OTP: ${otp}`
-                    nodeMail(req.body.email,OTP,subject)
-                    
-                res.json({otp:otp,text:''})
-            }else{
-                res.json({otp:false,text:'Plese Enter Registered Email'})
+    },
+    ForgotPass: async (req, res) => {
+        try {
+            let data = await facultyModel.findOne({ email: req.body.email })
+
+            if (data != null) {
+                let otp = OtpGen()
+                const subject = "COLLEGE MANAGEMENT SYSTEM ✔"
+                let OTP = `Your OTP: ${otp}`
+                nodeMail(req.body.email, OTP, subject)
+
+                res.json({ otp: otp, text: '' })
+            } else {
+                res.json({ otp: false, text: 'Plese Enter Registered Email' })
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
             res.json(false)
         }

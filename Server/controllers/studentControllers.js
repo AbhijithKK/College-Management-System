@@ -13,6 +13,7 @@ const { leaveApplyScheema } = require("../models/studentLeaveapply")
 const { resultScheema } = require("../models/resultScheema")
 const { attendenceScheema } = require("../models/attendance")
 const { complaintScheema } = require("../models/complaintMode")
+const { semester } = require("../models/semesterScheema")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -85,7 +86,10 @@ let student = {
     getResult: async (req,res) => {
         try {
             let verify = await jwtVerify(req.cookies.studentjwt)
-            let data=await resultScheema.find({studentId:verify.data}).sort({_id:-1}).exec()
+            console.log(req.query.semWise);
+            let key=req.query.semWise.replace(/[^0-9]/g,"")
+            console.log(key,'uuuuu');
+            let data=await resultScheema.find({studentId:verify.data,semester:new RegExp(key,'i')}).sort({_id:-1}).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -110,7 +114,8 @@ let student = {
     ,
     getNotice: async (req,res) => {
         try {
-            let data = await notice.find().sort({_id:-1}).exec()
+            let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            let data = await notice.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             res.json(data)
         } catch (err) {
             res.json(false)
@@ -159,11 +164,20 @@ let student = {
         try {
             let allSemesters
             if (req.query.Dep) {
+                
                 allSemesters = await semester.find({department:req.query.Dep}).lean()
-                res.json(allSemesters)
-                return
             }
+           else if (req.query.resultSem) {
+               
+                let verify = await jwtVerify(req.cookies.studentjwt)
+                let student = await studentModel.findOne({ _id: verify.data })
+                let dep=student.department
+               
+                allSemesters = await semester.find({department:dep}).lean()
+                console.log(allSemesters,'kkkkk');
+            }else{
             allSemesters = await semester.find().lean()
+        }
             res.json(allSemesters)
         } catch (err) {
             res.json(false)

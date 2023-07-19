@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container } from 'react-bootstrap';
 import { Delete } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import { TextField, Tooltip } from '@mui/material';
 import Swal from 'sweetalert2';
 import { FacultyDeleteClubs, FacultyGetClubs } from '../../api/FacultyApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
@@ -16,10 +16,7 @@ import SideBarFaculty from '../SideBar/SideBarFaculty';
 export default function ViewClubs() {
   const [allClubs, setAllClubs] = useState([]);
 
-  const ApiHelper = async () => {
-    let data = await FacultyGetClubs();
-    setAllClubs(data);
-  };
+ 
 
   const [refresh, setRefresh] = useState(false);
 
@@ -45,16 +42,35 @@ export default function ViewClubs() {
       }
     });
   };
-
+const [search,setSearch]=useState('')
   useEffect(() => {
+    const ApiHelper = async () => {
+      let data = await FacultyGetClubs(search);
+      setAllClubs(data);
+    };
     ApiHelper();
-  }, [refresh]);
+  }, [refresh,search]);
 
   return (
     <>
     <SideBarFaculty/>
     <Container>
-        {allClubs.length===0 ? <h1>You are Not An Admin of Clubs</h1>:<h1>Your Clubs</h1>}
+       {/* ==================================== */}
+    <div style={{display:'grid'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
+        
+        {allClubs.length===0 ? <h1>You are Not An Admin of Clubs</h1>:<div><h1>Your Clubs</h1><br/>
+       
+        
+        </div>}
       {allClubs.length>0 ? allClubs.map((data, index) => (
         <Box key={index} className='Clubcard'>
           <Card variant='outlined' className='clubcard'>

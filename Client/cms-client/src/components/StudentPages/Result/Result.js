@@ -21,7 +21,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button } from '@mui/material';
-import { StudentResultGetApi } from '../../api/StudentApi';
+import { ApiViewSemester, StudentResultGetApi } from '../../api/StudentApi';
 import SideBarStudent from '../SideBar/SideBarStudent';
 
 
@@ -90,16 +90,22 @@ TablePaginationActions.propTypes = {
 
 
 export default function Result() {
+  const [semwise,setSemWise]=React.useState('')
+  const[semester,setSemester]=React.useState([])
 const [result ,setResult]=React.useState([])
 console.log(result);
-const ApiHelper=async()=>{
-  let data=await StudentResultGetApi()
-  setResult(data)
-}
+
 
 React.useEffect(()=>{
+  const ApiHelper=async()=>{
+    let data=await StudentResultGetApi(semwise)
+    let sem=await ApiViewSemester('','sem')
+    console.log(sem,'jjk');
+    setSemester(sem)
+    setResult(data)
+  }
   ApiHelper()
-},[])
+},[semwise])
   // =======================>TABLE<============================
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -158,13 +164,15 @@ const handleClose = () => {
           vertical: 'top',
           horizontal: 'left',
         }}
+        value={semwise}
+       
       >
-        <MenuItem onClick={handleClose}>Sem 1</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 2</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 3</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 4</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 5</MenuItem>
-        <MenuItem onClick={handleClose}>Sem 6</MenuItem>
+        {semester.map((val,index)=>(
+
+           <MenuItem key={index}  onClick={()=>setSemWise(val.semester)} >Sem {val.semester}</MenuItem> 
+         ))
+        } 
+        
       </Menu>
     </div>
             

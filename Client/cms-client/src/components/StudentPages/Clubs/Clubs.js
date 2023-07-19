@@ -16,7 +16,7 @@ export default function Clubs() {
   const [clubs, setClubs] = useState([]);
   const [status, setStatus] = useState([]);
   const [clubss, setClubss] = useState([]);
-  const [refresh,useRefresh]=useState(false)
+  const [refresh, useRefresh] = useState(false)
 
   const fetchData = useCallback(async () => {
     const data = await studentClubApi();
@@ -28,7 +28,7 @@ export default function Clubs() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData,refresh]);
+  }, [fetchData, refresh]);
 
   const datafilter = useCallback(() => {
     const arr = clubs.map((club) => {
@@ -38,7 +38,7 @@ export default function Clubs() {
         clubName: club.name,
         clubAdmin: club.clubAdmin,
         clubDes: club.discription,
-        clubAdminId:club.clubAdminId,
+        clubAdminId: club.clubAdminId,
         clubStatus: clubStatus ? clubStatus.status : null,
       };
     });
@@ -47,9 +47,9 @@ export default function Clubs() {
 
   useEffect(() => {
     datafilter();
-  }, [datafilter,refresh]);
+  }, [datafilter, refresh]);
 
-  const RequestSend =  (clubId, clubName, clubAdmin, clubAdminId) => {
+  const RequestSend = (clubId, clubName, clubAdmin, clubAdminId) => {
     console.log(clubAdminId);
     const studentName = studentData.name;
     const department = studentData.department;
@@ -60,39 +60,39 @@ export default function Clubs() {
   };
 
   return (
-    <><SideBarStudent/>
-    <Container>
-      {clubs.length===0 ?<h1>No Clubs Created</h1>:<h1>Your Clubs</h1>}
-      {clubs.length>0 ? clubss.map((data, index) => (
-        <Box key={index} className='Clubcard'>
-          <Card variant='outlined' className='clubcard'>
-            <CardContent>
-              <Typography variant='h5' component='div'>
-                {data.clubName}
-              </Typography>
-              <Typography sx={{ mb: 1.8 }} color='text.secondary'>
-                Club Admin: {data.clubAdmin}
-              </Typography>
-              <Typography variant='body2'>{data.clubDes}</Typography>
-            </CardContent>
-            <CardActions>
-              {data.clubStatus ? (
-                <p key={index} style={{ backgroundColor: data.clubStatus==='Request Send' ?'orange':data.clubStatus==='Now Your a Member' ?'green' : 'red' }}>
-                  {data.clubStatus}
-                </p>
-              ) : (
-                <Button
-                  size='large'
-                  onClick={() => RequestSend(data.clubId, data.clubName, data.clubAdmin, data.clubAdminId)}
-                >
-                  Join Club
-                </Button>
-              )}
-            </CardActions>
-          </Card>
-        </Box>
-      )):<div>Clubs not found</div>}
-    </Container>
+    <><SideBarStudent />
+      <Container>
+        {clubs.length === 0 ? <h1>No Clubs Created</h1> : <h1>Your Clubs</h1>}
+        {clubs.length > 0 ? clubss.map((data, index) => (
+          <Box key={index} className='Clubcard'>
+            <Card variant='outlined' className='clubcard'>
+              <CardContent>
+                <Typography variant='h5' component='div'>
+                  {data.clubName}
+                </Typography>
+                <Typography sx={{ mb: 1.8 }} color='text.secondary'>
+                  Club Admin: {data.clubAdmin}
+                </Typography>
+                <Typography variant='body2'>{data.clubDes}</Typography>
+              </CardContent>
+              <CardActions>
+                {data.clubStatus ? (
+                  <p key={index} style={{ backgroundColor: data.clubStatus === 'Request Send' ? 'orange' : data.clubStatus === 'Now Your a Member' ? 'green' : 'red' }}>
+                    {data.clubStatus}
+                  </p>
+                ) : (
+                  <Button
+                    size='large'
+                    onClick={() => RequestSend(data.clubId, data.clubName, data.clubAdmin, data.clubAdminId)}
+                  >
+                    Join Club
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
+          </Box>
+        )) : <div>Clubs not found</div>}
+      </Container>
     </>
   );
 }

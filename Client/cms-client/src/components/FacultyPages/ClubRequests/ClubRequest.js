@@ -18,7 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './ClubRequest.css';
 import { FacultyClubRequestUpdated, FacultyClubStatus, FacultyDeleteClubRequest } from '../../api/FacultyApi';
-import { Button,  Tooltip } from '@mui/material';
+import { Button,  TextField,  Tooltip } from '@mui/material';
 import { Close, Delete, Done } from '@mui/icons-material';
 import Swal from "sweetalert2"
 import SideBarFaculty from '../SideBar/SideBarFaculty';
@@ -89,13 +89,10 @@ TablePaginationActions.propTypes = {
 
 
 export default function ClubRequest() {
-
+const [search,setSearch]=React.useState('')
   const [requests,useRequests]=React.useState([])
   const [refresh,useRefresh]=React.useState(false)
-  const HandleApi=async()=>{
-    let data =await FacultyClubStatus()
-    useRequests(data)
-  }
+  
   let Accept='Now Your a Member'
   let Reject='Request Rejected'
   const Action=async(id,status)=>{
@@ -140,9 +137,13 @@ export default function ClubRequest() {
 
   }
   React.useEffect(()=>{
+    const HandleApi=async()=>{
+      let data =await FacultyClubStatus(search)
+      useRequests(data)
+    }
     HandleApi()
-  },[refresh])
-console.log(requests);
+  },[refresh,search])
+console.log(requests,search);
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -166,7 +167,20 @@ console.log(requests);
     <Container>
       <h1>Club Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
+
+        {/* ==================================== */}
+        <div style={{display:'grid'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+           
           <TableBody>
             <TableRow>
               <TableCell style={{fontWeight:"bold"}}  >Student Name</TableCell>

@@ -20,6 +20,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import { FacultyGetDepStudents } from '../../api/FacultyApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
+import { TextField } from '@mui/material';
 
 
 
@@ -90,16 +91,17 @@ export default function ViewStudents() {
 
   const [AllStudents,SetAllStudents]=React.useState([])
   
-  const HandleApi=async()=>{
-    let data =await FacultyGetDepStudents()
-    SetAllStudents(data)
-  }
   
   
-   
+  
+   const[search,setSearch]=React.useState('')
   React.useEffect(()=>{
+    const HandleApi=async()=>{
+      let data =await FacultyGetDepStudents(search)
+      SetAllStudents(data)
+    }
     HandleApi()
-  },[])
+  },[search])
 
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
@@ -125,6 +127,17 @@ export default function ViewStudents() {
     <Container>
       <h1>All Students</h1>
       <TableContainer component={Paper} className="StudentResultTablests">
+        {/* ==================================== */}
+        <div style={{display:'grid'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
