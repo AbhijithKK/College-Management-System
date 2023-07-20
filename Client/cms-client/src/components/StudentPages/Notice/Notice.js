@@ -27,7 +27,7 @@ export default function Notice() {
     <>
     <SideBarStudent/>
     <Container  >
-      {/* ==================================== */}
+      {/* ================>SEARCH<==================== */}
       <div style={{display:'grid'}}>
             <TextField
               margin="dense"

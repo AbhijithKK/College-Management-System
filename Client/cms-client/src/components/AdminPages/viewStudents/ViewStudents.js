@@ -21,6 +21,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 import SideBar from '../SideBar/SideBar';
 import Swal from "sweetalert2";
+import { Container } from "react-bootstrap";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -92,11 +93,12 @@ const [totalDepartment,setDep]=React.useState([])
   const [refresh, setRefresh]=React.useState(false)
 //  console.log(semester);
   // ===================
+  const[search,setSearch]=React.useState('')
   const [student, useStudent] = React.useState([]);
   const [Dep,setDept]=React.useState('default')
   React.useEffect(() => {
     axios
-      .get("/admin/students",{params:{Dep}}, {
+      .get("/admin/students",{params:{Dep,search}}, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -118,7 +120,7 @@ const [totalDepartment,setDep]=React.useState([])
         setAllClass(cls)
       }
       GetApi()
-  }, [refresh,Dep,department,semester]);
+  }, [refresh,Dep,department,semester,search]);
   const SetStudentdata = (data) => {
     useStudent(data);
   };
@@ -171,7 +173,9 @@ const [totalDepartment,setDep]=React.useState([])
   return (
     <>
     <SideBar/>
-      {/* =======>MODAL<======= */}
+      <Container>
+      <h1>VIEW STUDENTS</h1>
+        {/* =======>MODAL<======= */}
       <div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Student Details</DialogTitle>
@@ -355,6 +359,17 @@ const [totalDepartment,setDep]=React.useState([])
       {/* ======================= */}
 
       <TableContainer component={Paper}>
+        {/* ================>SEARCH<==================== */}
+      <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table
           sx={{ minWidth: 600 }}
           aria-label="customized table"
@@ -437,6 +452,7 @@ const [totalDepartment,setDep]=React.useState([])
           </TableBody>
         </Table>
       </TableContainer>
+      </Container>
     </>
   );
 }

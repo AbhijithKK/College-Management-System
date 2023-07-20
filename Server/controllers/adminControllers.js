@@ -214,10 +214,11 @@ let admin = {
         try {
             let Dep=req.query.Dep
             let allStudents 
+            let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
             if(Dep=='default'){
-                 allStudents = await studentModel.find().sort({_id:-1}).exec()
+                 allStudents = await studentModel.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }else{
-                allStudents = await studentModel.find({department:Dep}).sort({_id:-1}).exec()
+                allStudents = await studentModel.find({department:Dep,name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }
             
             res.json(allStudents)
