@@ -64,17 +64,28 @@ export default function ViewSemester() {
   const [refresh,userefresh]=React.useState(false)
   const ApiSem=async()=>{
     let data=await ApiViewDepartment()
+    useDepartment(data)
     useSemester(data)
   }
+  // ============================================================
+ const [Dep, useDep] = React.useState('default')
+ const [departmentArr, useDepartment] = React.useState([])
+ const SelectDep = (event) => {
+  
+    useDep(event.target.value)
+  }
+// ==============================================================
+
+
   const[search,setSearch]=React.useState('')
   React.useEffect(() => {
     const ApiCall = async () => {
-      let val = await ApiViewSemester('',search)
+      let val = await ApiViewSemester(Dep,search)
       useValue(val)
     }
     ApiCall()
     ApiSem()
-  }, [refresh,search])
+  }, [refresh,search,Dep])
   const[errMsg,setErrMsg]=React.useState('')
 const AddSem=()=>{
   if (formdata.semester.trim()&&formdata.department!=='default') {
@@ -178,7 +189,42 @@ const DeleteSem=(id)=>{
           <TableHead>
             <TableRow>
               <StyledTableCell>Semester</StyledTableCell>
-              <StyledTableCell>Department</StyledTableCell>
+              <StyledTableCell>
+              {/* ============================================>DEPARTMENT FILTER<==================================== */}
+              <Select
+                  style={{ color: 'white', backgroundColor: 'black', borderColor: 'white' }}
+                  name="department"
+                  value={Dep}
+                  onChange={SelectDep}
+                  fullWidth
+                  variant="standard"
+                  label="Select Department"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+
+                      },
+                    },
+                  }}
+                  IconComponent={(props) => (
+                    <span {...props} style={{ color: 'white' }}>
+                      ▼
+                    </span>
+                  )}
+                >
+                  <MenuItem value={Dep ? 'default' : 'default'}>
+                    Department
+                  </MenuItem>
+                  {departmentArr.length>0 ? departmentArr.map((data, index) => (
+                    <MenuItem key={index} value={data.name}>
+                      {data.name}
+                    </MenuItem>
+                  )):''}
+                </Select>
+              {/* ====================================================================================================== */}
+
+
+              </StyledTableCell>
               <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>

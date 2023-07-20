@@ -292,12 +292,15 @@ let admin = {
             if (req.query.search) {
                key=req.query.search.replace(/[^a-zA-Z0-9]/g,"").replace(/[^a-zA-Z0-9]/g,"")
             }
-            if (req.query.Dep) {
+            if (req.query.Dep=='default') {
+                allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
+                
+            }else if (req.query.Dep) {
                 allSemesters = await semester.find({department:req.query.Dep,semester:new RegExp(key,'i')}).lean()
-                res.json(allSemesters)
-                return
-            }
+                
+            }else{
             allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
+            }
             res.json(allSemesters)
         } catch (err) {
             res.json(false)
