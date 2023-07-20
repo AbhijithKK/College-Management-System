@@ -48,13 +48,14 @@ export default function ViewFaculty() {
   const [Dep,setDept]=React.useState('default')
   const [refresh, setRefresh]=React.useState(false)
 console.log(Dep);
+const [search,setSearch]=React.useState('')
   const HelperFaculty=(data)=>{
     useFaculty(data);
   }
   const Facultys = React.useCallback(async () => {
-    let data = await ApiViewFaculty(Dep);
+    let data = await ApiViewFaculty(Dep,search);
     HelperFaculty(data)
-  }, [Dep]);
+  }, [Dep,search]);
   const[Class,setClass]=React.useState([])
   const [semester,setsemester]=React.useState('')
   const [department,setdepartment]=React.useState('')
@@ -80,7 +81,7 @@ console.log(Dep);
       setCls(cls)
     }
     GetDept()
-  }, [refresh, Dep, Facultys,department,semester]);
+  }, [refresh, Dep, Facultys,department,semester,search]);
   // =====>MODAL<=======
   const [open, setOpen] = React.useState(false);
   
@@ -186,7 +187,7 @@ const [totalClass,setCls]=React.useState([])
       {/* =======>MODAL<======= */}
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Update Student Details</DialogTitle>
+        <DialogTitle>Update Faculty Details</DialogTitle>
         <DialogContent>
           <p style={{color:'red'}}>{errMsg}</p>
           <TextField
@@ -351,6 +352,17 @@ const [totalClass,setCls]=React.useState([])
       </div>
       {/* ======================= */}
     <TableContainer component={Paper} >
+       {/* ================>SEARCH<==================== */}
+       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
+            <TextField
+              margin="dense"
+              label='Search'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
       <Table sx={{ minWidth: 700 }} aria-label="customized table" className='tables'>
         <TableHead>
           <TableRow>

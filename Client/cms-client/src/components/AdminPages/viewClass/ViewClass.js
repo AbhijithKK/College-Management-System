@@ -53,10 +53,7 @@ export default function ViewClass() {
 
   
   const [value, useValue] = React.useState([])
-  const ApiCall = async () => {
-    let val = await ApiViewClass()
-    useValue(val)
-  }
+  
   const Changeval = (event) => {
     useFormdata(event)
   }
@@ -68,7 +65,7 @@ export default function ViewClass() {
   const [Department,useDepartment]=React.useState([])
   const [Semester,useSemester]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
-  
+  const[search,setSearch]=React.useState('')
   React.useEffect(() => {
     const ApiDept=async()=>{
       let data=await ApiViewDepartment()
@@ -76,9 +73,13 @@ export default function ViewClass() {
       useDepartment(data)
      useSemester(sem)
     }
+    const ApiCall = async () => {
+      let val = await ApiViewClass('','',search)
+      useValue(val)
+    }
     ApiCall()
     ApiDept()
-  }, [refresh,formdata.department])
+  }, [refresh,formdata.department,search])
   console.log(formdata);
   const [errMsg,setErrmsg]=React.useState('')
 const AddClass=()=>{
@@ -187,6 +188,17 @@ const DeleteClass=(id)=>{
       </div>
 
       <TableContainer component={Paper}>
+         {/* ================>SEARCH<==================== */}
+      <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
+            <TextField
+              margin="dense"
+              label='Search by Class Name(eg: -E1)'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
           <TableHead>
             <TableRow>

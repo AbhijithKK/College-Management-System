@@ -230,18 +230,22 @@ let admin = {
         try {
             let Dep=req.query.Dep
             let allFacultys
+            let key=''
+            if (req.query.search) {
+              key=  req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            }
             if(req.query.Dep=='default'){
-                allFacultys = await facultyModel.find().sort({_id:-1}).exec()
+                allFacultys = await facultyModel.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }else if(req.query.id){
                 allFacultys = await facultyModel.findOne({_id:req.query.id})
             }else if(req.query.Dep){
-                allFacultys = await facultyModel.find({department:Dep}).sort({_id:-1}).exec()
+                allFacultys = await facultyModel.find({department:Dep,name:new RegExp(key,"i")}).sort({_id:-1}).exec()
             }else{
                 allFacultys = await facultyModel.find().sort({_id:-1}).exec()
             }
             res.json(allFacultys)
         } catch (err) {
-            response.json(false)
+            res.json(false)
         }
     },
     viewDepartment: async (req, res) => {
@@ -276,12 +280,16 @@ let admin = {
     viewSemester: async (req, res) => {
         try {
             let allSemesters
+            let key=''
+            if (req.query.search) {
+               key=req.query.search.replace(/[^a-zA-Z0-9]/g,"").replace(/[^a-zA-Z0-9]/g,"")
+            }
             if (req.query.Dep) {
-                allSemesters = await semester.find({department:req.query.Dep}).lean()
+                allSemesters = await semester.find({department:req.query.Dep,semester:new RegExp(key,'i')}).lean()
                 res.json(allSemesters)
                 return
             }
-            allSemesters = await semester.find().lean()
+            allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
             res.json(allSemesters)
         } catch (err) {
             res.json(false)
@@ -290,13 +298,17 @@ let admin = {
     viewClass: async (req, res) => {
         try {
             let allClass
+             let key=''
+             if (req.query.search) {
+                key=req.query.search.replace(/[^a-zA-Z/]/g,"").replace(/[^a-zA-Z]/g,"")
+             }
             if (req.query.Dep &&req.query.Sem ) {
                 allClass = await  classScheema.find({$and:[{department:req.query.Dep},{semester:req.query.Sem}]}).lean()
             }else if (req.query.Dep  ){
-                allClass = await  classScheema.find({department:req.query.Dep}).lean()
+                allClass = await  classScheema.find({department:req.query.Dep,className:new RegExp(key,'i')}).lean()
             }else{
 
-                allClass = await  classScheema.find().lean()
+                allClass = await  classScheema.find({className:new RegExp(key,'i')}).lean()
             }
             res.json(allClass)
         } catch (err) {
@@ -306,7 +318,13 @@ let admin = {
     },
     viewComplaints: async (req, res) => {
         try {
-            let allCompliants=await complaintScheema.find().sort({ _id: -1 }).exec();
+            let key=''
+            if (req.query.search) {
+           let date=new Date(req.query.search).toLocaleDateString("en-GB")
+               key=date.replace(/[^0-9/0-9/0-9]/g,"")
+               console.log(key);
+            }
+            let allCompliants=await complaintScheema.find({date:new RegExp(key,'i')}).sort({ _id: -1 }).exec();
             res.json(allCompliants)
         } catch (err) {
             console.log(err);

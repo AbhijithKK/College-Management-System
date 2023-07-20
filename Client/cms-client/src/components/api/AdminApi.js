@@ -59,8 +59,8 @@ export const ApiDeleteDepartment = async (id) => {
 
     return data
 }
-export const ApiViewSemester = async (Dep) => {
-    let { data } = await axios.get('/admin/semester', { params: { Dep } }, {
+export const ApiViewSemester = async (Dep,search) => {
+    let { data } = await axios.get('/admin/semester', { params: { Dep,search } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -363,8 +363,8 @@ export const ApiFacultyUpdatePost = async (id, name, email, mobNumber, address, 
     return data
 }
 
-export const ApiViewFaculty = async (Dep) => {
-    let { data } = await axios.get('/admin/facultys', { params: { Dep } }, {
+export const ApiViewFaculty = async (Dep,search) => {
+    let { data } = await axios.get('/admin/facultys', { params: { Dep,search } }, {
         headers: {
             'Content-Type': 'application/json'
         }, withCredentials: true
@@ -401,8 +401,8 @@ export const ApiUpdateFaculty = async (id) => {
 
 }
 
-export const ApiViewClass = async (Dep, Sem) => {
-    let { data } = await axios.get('/admin/class', { params: { Dep, Sem } }, {
+export const ApiViewClass = async (Dep, Sem,search) => {
+    let { data } = await axios.get('/admin/class', { params: { Dep, Sem,search } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -454,8 +454,8 @@ export const ApiDeleteClass = async (id) => {
     })
     return data
 }
-export const ApiViewComplaint = async () => {
-    let { data } = await axios.get('/admin/complaints', {
+export const ApiViewComplaint = async (search) => {
+    let { data } = await axios.get('/admin/complaints',{params:{search}}, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
