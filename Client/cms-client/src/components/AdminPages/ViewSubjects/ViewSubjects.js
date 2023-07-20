@@ -55,18 +55,19 @@ const[department,usedepartment]=React.useState('defaul')
     semester: 'default'
   })
   const [value, setVal] = React.useState([])
-  const SubApi = async (dep) => {
-    let data = await ApiViewSubjects(dep)
-    setVal(data)
-  }
+  
   const [Dep, useDep] = React.useState('default')
   const [departmentArr, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
     useDepartment(data)
   }
-  
+  const[search,setSearch]=React.useState('')
   React.useEffect(() => {
+    const SubApi = async (dep) => {
+      let data = await ApiViewSubjects(dep,'',search)
+      setVal(data)
+    }
     const ApiSem = async () => {
     
     let data = await ApiViewSemester(department)
@@ -81,7 +82,7 @@ const[department,usedepartment]=React.useState('defaul')
     DepartmentApi()
     ApiSem()
     GetClass()
-  }, [refresh, Dep,department])
+  }, [refresh, Dep,department,search])
 const RefreshHelper=()=>{
   useRefresh(!refresh)
 }
@@ -141,6 +142,7 @@ const RefreshHelper=()=>{
     <>
     <SideBar/>
    <Container>
+    <h1>VIEW SUBJECTS</h1>
      <React.Fragment>
       <div>
         <div className="addbtn">
@@ -224,6 +226,17 @@ const RefreshHelper=()=>{
       </div>
 
       <TableContainer component={Paper}>
+         {/* ================>SEARCH<==================== */}
+      <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
+            <TextField
+              margin="dense"
+              label='Search by Subject Name'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
           <TableHead style={{ color: 'gray !importent' }}>
             <TableRow>

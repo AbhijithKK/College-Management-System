@@ -3,8 +3,8 @@ import axios from "../Axios/Axios";
 import Swal from "sweetalert2"
 
 
-export const ApiViewDepartment = async () => {
-    let { data } = await axios.get('/admin/department', {
+export const ApiViewDepartment = async (search) => {
+    let { data } = await axios.get('/admin/department',{params:{search}}, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -119,8 +119,8 @@ export const ApiDeleteSemester = async (id) => {
     })
     return data
 }
-export const ApiViewSubjects = async (dep, sem) => {
-    let { data } = await axios.get('/admin/subjects', { params: { dep, sem } }, {
+export const ApiViewSubjects = async (dep, sem,search) => {
+    let { data } = await axios.get('/admin/subjects', { params: { dep, sem,search } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })

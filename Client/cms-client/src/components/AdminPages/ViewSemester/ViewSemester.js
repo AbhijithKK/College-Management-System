@@ -114,6 +114,7 @@ const DeleteSem=(id)=>{
     <>
     <SideBar/>
     <Container>
+      <h1>VIEW SEMESTERS</h1>
       <React.Fragment>
       <div>
         <div className="addbtn">
@@ -166,7 +167,7 @@ const DeleteSem=(id)=>{
       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
               margin="dense"
-              label='Search'
+              label='Search by semester '
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

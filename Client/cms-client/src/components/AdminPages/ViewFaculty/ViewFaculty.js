@@ -356,7 +356,7 @@ const [totalClass,setCls]=React.useState([])
        <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
               margin="dense"
-              label='Search'
+              label='Search by faculty name'
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

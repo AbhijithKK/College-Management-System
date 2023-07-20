@@ -250,7 +250,11 @@ let admin = {
     },
     viewDepartment: async (req, res) => {
         try {
-            let allDepartments = await department.find().sort({_id:-1}).exec()
+            let key=''
+            if (req.query.search) {
+               key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            }
+            let allDepartments = await department.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             res.json(allDepartments)
             
         } catch (err) {
@@ -261,16 +265,20 @@ let admin = {
         try {
             let dep=req.query.dep
             let allSubjects
+            let key=''
+            if (req.query.search) {
+               key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            }
             if (dep=='default' ) {
                 
-                allSubjects = await subject.find().sort({_id:-1}).exec()
+                allSubjects = await subject.find({subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }else if(req.query.dep && req.query.sem){
 
                 allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
             }else if(req.query.dep){
-                allSubjects = await subject.find({department:dep}).sort({_id:-1}).exec()
+                allSubjects = await subject.find({department:dep,subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }else{
-                allSubjects = await subject.find().sort({_id:-1}).exec()
+                allSubjects = await subject.find({subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }
             res.json(allSubjects)
         } catch (err) {

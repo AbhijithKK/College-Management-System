@@ -62,14 +62,15 @@ const [departments, setDepartment]=React.useState([])
 // ===================
 const [deleted,useDeleted]=React.useState(false)
 
-const FeatchData=async()=>{
-  let data= await ApiViewDepartment()
-  setDepartment(data)
-}
+const[search,setSearch]=React.useState('')
 React.useEffect(()=>{
+  const FeatchData=async()=>{
+    let data= await ApiViewDepartment(search)
+    setDepartment(data)
+  }
   FeatchData()
  
-},[deleted,add])
+},[deleted,add,search])
 
 const REfreshHelper=()=>{
   useDeleted(!deleted)
@@ -138,7 +139,17 @@ console.log('kk',departments);
    
    
      <TableContainer component={Paper}  className='tableContainer'>
-        
+         {/* ================>SEARCH<==================== */}
+      <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
+            <TextField
+              margin="dense"
+              label='Search by Department Name'
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
+            {/* ==================================== */}
         <Table sx={{ minWidth: 700 }} aria-label="customized table" className='tables'>
           <TableHead>
             <TableRow>
