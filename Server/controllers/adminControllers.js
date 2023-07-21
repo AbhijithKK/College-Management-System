@@ -361,14 +361,15 @@ let admin = {
     },
     viewComplaints: async (req, res) => {
         try {
+            let {limit,skip,total}=await Pagination(req.query.pageNo,complaintScheema,3)
             let key = ''
             if (req.query.search) {
                 let date = new Date(req.query.search).toLocaleDateString("en-GB")
                 key = date.replace(/[^0-9/0-9/0-9]/g, "")
                 console.log(key);
             }
-            let allCompliants = await complaintScheema.find({ date: new RegExp(key, 'i') }).sort({ _id: -1 }).exec();
-            res.json(allCompliants)
+            let allCompliants = await complaintScheema.find({ date: new RegExp(key, 'i') }).limit(limit).skip(skip).sort({ _id: -1 }).exec();
+            res.json({allCompliants,total})
         } catch (err) {
             console.log(err);
         }

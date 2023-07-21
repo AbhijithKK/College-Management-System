@@ -454,8 +454,8 @@ export const ApiDeleteClass = async (id) => {
     })
     return data
 }
-export const ApiViewComplaint = async (search) => {
-    let { data } = await axios.get('/admin/complaints',{params:{search}}, {
+export const ApiViewComplaint = async (search,pageNo) => {
+    let { data } = await axios.get('/admin/complaints',{params:{search,pageNo}}, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })

@@ -13,6 +13,8 @@ import { Tooltip } from '@mui/material';
 import Swal from 'sweetalert2';
 import SideBar from '../SideBar/SideBar';
 import DatePicker from "react-datepicker";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 export default function ViewComplaint() {
   const [allCompliant, setAllComplaint] = useState([]);
@@ -44,13 +46,19 @@ export default function ViewComplaint() {
     });
   };
 const[selectedDate,handleDateChange]=useState('')
+const [pageNo, setPageNo] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const PaginationHelp = (event, page) => {
+    setPageNo(page)
+  }
   useEffect(() => {
     const ApiHelper = async () => {
-      let data = await ApiViewComplaint(selectedDate);
-      setAllComplaint(data);
+      let data = await ApiViewComplaint(selectedDate,pageNo);
+      setAllComplaint(data.allCompliants);
+      setTotal(data.total)
     };
     ApiHelper();
-  }, [refresh,selectedDate]);
+  }, [refresh,selectedDate,pageNo]);
   
 
   return (
@@ -97,6 +105,15 @@ const[selectedDate,handleDateChange]=useState('')
           </Card>
         </Box>
       )): <div>There is no Comlaint Found</div>}
+      <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      count={total}
+       color="primary"
+       page={pageNo}
+       onChange={PaginationHelp}
+        />
+    </Stack>
+    <br/>
     </Container>
     </>
   );
