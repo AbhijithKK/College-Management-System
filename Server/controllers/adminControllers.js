@@ -279,6 +279,7 @@ let admin = {
     },
     viewSubjects: async (req, res) => {
         try {
+            let {limit,skip,total}=await Pagination(req.query.pageNo,subject)
             let dep=req.query.dep
             let allSubjects
             let key=''
@@ -287,16 +288,17 @@ let admin = {
             }
             if (dep=='default' ) {
                 
-                allSubjects = await subject.find({subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                allSubjects = await subject.find({subject:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
             }else if(req.query.dep && req.query.sem){
 
                 allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
             }else if(req.query.dep){
-                allSubjects = await subject.find({department:dep,subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                allSubjects = await subject.find({department:dep,subject:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
+                total=Math.ceil(allSubjects.length/5)
             }else{
                 allSubjects = await subject.find({subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }
-            res.json(allSubjects)
+            res.json({allSubjects,total})
         } catch (err) {
             console.log(err);
         }

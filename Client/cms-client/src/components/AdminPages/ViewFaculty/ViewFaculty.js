@@ -76,7 +76,7 @@ const [search,setSearch]=React.useState('')
     };
     const subjectApi=async()=>{
       let classes=await ApiViewSubjects(department)
-      setClass(classes)
+      setClass(classes.allSubjects)
     }
     subjectApi()
     fetchData();

@@ -425,9 +425,9 @@ let faculty = {
     },
     LeaveStatusUpdate: async (req, res) => {
         try {
-            console.log(req.body);
-            let data = await leaveApplyScheema.updateOne({ _id: req.body.id }, { status: req.body.status, adminName: req.body.adminName })
-            console.log(data);
+            
+             await leaveApplyScheema.updateOne({ _id: req.body.id }, { status: req.body.status, adminName: req.body.adminName })
+            
             res.json(true)
         } catch (err) {
             res.json(false)
@@ -435,8 +435,8 @@ let faculty = {
     },
     PostResult: async (req, res) => {
         try {
-            console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-            let data = await resultScheema.create({
+            
+          await resultScheema.create({
                 department: req.body.department,
                 semester: req.body.semester,
                 className: req.body.className,
@@ -446,17 +446,23 @@ let faculty = {
                 subject: req.body.subject
 
             })
-            console.log(data);
+           
             res.json(true)
         } catch (err) {
-            console.log(err);
+           
             res.json(false)
         }
     },
     postAttendance: async (req, res) => {
         try {
             let details = req.body.details
-            let temp = await attendenceScheema.find({ $and: [{ date: req.body.details.date }, { studentId: req.body.details.studentId }, { className: req.body.details.className }] }).lean()
+            let temp = await attendenceScheema.find({ $and:
+                 [
+                { date: req.body.details.date }, 
+                { studentId: req.body.details.studentId }, 
+                { className: req.body.details.className }
+            ] 
+        }).lean()
 
             if (temp.length == 0) {
 

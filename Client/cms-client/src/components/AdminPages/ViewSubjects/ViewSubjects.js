@@ -10,11 +10,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 import { ApiAddSubjects, ApiDeleteSubjects, ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
-import {  DeleteForeverSharp } from '@mui/icons-material';
+import { DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,44 +51,50 @@ export default function ViewSubjects() {
   const handleClose = () => {
     setOpen(false);
   };
-const[department,usedepartment]=React.useState('defaul')
+  const [department, usedepartment] = React.useState('defaul')
   const [formVal, useForms] = useForm({
     subject: '',
-    
+
     semester: 'default'
   })
   const [value, setVal] = React.useState([])
-  
+
   const [Dep, useDep] = React.useState('default')
   const [departmentArr, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
     useDepartment(data)
   }
-  const[search,setSearch]=React.useState('')
+  const [search, setSearch] = React.useState('')
+  const [pageNo, setPageNo] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const PaginationHelp = (event, page) => {
+    setPageNo(page)
+  }
   React.useEffect(() => {
     const SubApi = async (dep) => {
-      let data = await ApiViewSubjects(dep,'',search)
-      setVal(data)
+      let data = await ApiViewSubjects(dep, '', search,pageNo)
+      setVal(data.allSubjects)
+      setTotal(data.total)
     }
     const ApiSem = async () => {
-    
-    let data = await ApiViewSemester(department)
-    
-    useSemester(data.allSemesters)
-  }
-  const GetClass=async()=>{
-    let data=await ApiViewClass(department)
-    setclassNameArr(data.allClass)
-  }
+
+      let data = await ApiViewSemester(department)
+
+      useSemester(data.allSemesters)
+    }
+    const GetClass = async () => {
+      let data = await ApiViewClass(department)
+      setclassNameArr(data.allClass)
+    }
     SubApi(Dep)
     DepartmentApi()
     ApiSem()
     GetClass()
-  }, [refresh, Dep,department,search])
-const RefreshHelper=()=>{
-  useRefresh(!refresh)
-}
+  }, [refresh, Dep, department, search,pageNo])
+  const RefreshHelper = () => {
+    useRefresh(!refresh)
+  }
   const DeleteSub = (id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -106,198 +115,208 @@ const RefreshHelper=()=>{
         }
         RefreshHelper()
       }
-     
+
     });
-    
-    
+
+
   }
-  const [errormsg,useErroemsg]=React.useState('')
-  const ErrormsgFnc=()=>{
+  const [errormsg, useErroemsg] = React.useState('')
+  const ErrormsgFnc = () => {
     useErroemsg('fill all input fileds')
   }
   const AddSubject = () => {
-    if (formVal.subject.trim() && department!=='default' && formVal.semester!=='default' &&className!=='default') {
-      
-      ApiAddSubjects(formVal,department,className)
+    if (formVal.subject.trim() && department !== 'default' && formVal.semester !== 'default' && className !== 'default') {
+
+      ApiAddSubjects(formVal, department, className)
       setOpen(false);
-    }else{
-     ErrormsgFnc()
+    } else {
+      ErrormsgFnc()
     }
     useRefresh(!refresh)
   }
   const FormDatas = (event) => {
     useForms(event)
   }
- 
-  
+
+
   const [semester, useSemester] = React.useState([])
- const[classNameArr,setclassNameArr]=React.useState([])
+  const [classNameArr, setclassNameArr] = React.useState([])
   const SelectDep = (event) => {
-  
+
     useDep(event.target.value)
   }
 
-  const [className,setClassName]=React.useState('default')
+  const [className, setClassName] = React.useState('default')
   return (
     <>
-    <SideBar/>
-   <Container>
-    <h1>VIEW SUBJECTS</h1>
-     <React.Fragment>
-      <div>
-        <div className="addbtn">
-          <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
-            Add Subject
-          </Button>
-        </div>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add New Subject</DialogTitle>
-          <DialogContent>
-            <p style={{color:'red'}}>{errormsg}</p>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Enter Subject"
-              type="text"
-              fullWidth
-              variant="standard"
-              name='subject'
-              value={formVal.subject}
-              onChange={FormDatas}
-            />
-            <Select
-              name='department'
-              value={department}
-              onChange={(e)=>usedepartment(e.target.value)}
-              fullWidth
-              variant="standard"
-              label="Select Department"
-
-            >
-              <MenuItem hidden value={department}>Select Department</MenuItem>
-              {departmentArr.length>0 ? departmentArr.map((data, index) => (
-
-                <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
-              ))
-              :''}
-
-            </Select>
-            <Select
-              name='semester'
-              value={formVal.semester}
-              onChange={FormDatas}
-              fullWidth
-              variant="standard"
-              label="Select sem"
-
-            >
-              <MenuItem hidden value={formVal.semester}>Select Semester</MenuItem>
-              {semester.length>0 ? semester.map((data, index) => (
-
-                <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
-              ))
-              :''}
-
-            </Select>
-            <Select
-              name='Class'
-              value={className}
-              onChange={(e)=>setClassName(e.target.value)}
-              fullWidth
-              variant="standard"
-              label="Select sem"
-
-            >
-              <MenuItem hidden value={className}>Select Class</MenuItem>
-              {classNameArr.length>0 ? classNameArr.map((data, index) => (
-
-                <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
-              ))
-              :""}
-
-            </Select>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={AddSubject}>Add</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-
-      <TableContainer component={Paper}>
-         {/* ================>SEARCH<==================== */}
-      <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
-            <TextField
-              margin="dense"
-              label='Search by Subject Name'
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+      <SideBar />
+      <Container>
+        <h1>VIEW SUBJECTS</h1>
+        <React.Fragment>
+          <div>
+            <div className="addbtn">
+              <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
+                Add Subject
+              </Button>
             </div>
-            {/* ==================================== */}
-        <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
-          <TableHead style={{ color: 'gray !importent' }}>
-            <TableRow>
-              <StyledTableCell>Subject</StyledTableCell>
-              <StyledTableCell>
-
-
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Add New Subject</DialogTitle>
+              <DialogContent>
+                <p style={{ color: 'red' }}>{errormsg}</p>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Enter Subject"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  name='subject'
+                  value={formVal.subject}
+                  onChange={FormDatas}
+                />
                 <Select
-                  style={{ color: 'white', backgroundColor: 'black', borderColor: 'white' }}
-                  name="department"
-                  value={Dep}
-                  onChange={SelectDep}
+                  name='department'
+                  value={department}
+                  onChange={(e) => usedepartment(e.target.value)}
                   fullWidth
                   variant="standard"
                   label="Select Department"
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
 
-                      },
-                    },
-                  }}
-                  IconComponent={(props) => (
-                    <span {...props} style={{ color: 'white' }}>
-                      ▼
-                    </span>
-                  )}
                 >
-                  <MenuItem value={Dep ? 'default' : 'default'}>
-                    Department
-                  </MenuItem>
-                  {departmentArr.length>0 ? departmentArr.map((data, index) => (
-                    <MenuItem key={index} value={data.name}>
-                      {data.name}
-                    </MenuItem>
-                  )):''}
+                  <MenuItem hidden value={department}>Select Department</MenuItem>
+                  {departmentArr.length > 0 ? departmentArr.map((data, index) => (
+
+                    <MenuItem key={index} value={data.name}>{data.name}</MenuItem>
+                  ))
+                    : ''}
+
                 </Select>
+                <Select
+                  name='semester'
+                  value={formVal.semester}
+                  onChange={FormDatas}
+                  fullWidth
+                  variant="standard"
+                  label="Select sem"
+
+                >
+                  <MenuItem hidden value={formVal.semester}>Select Semester</MenuItem>
+                  {semester.length > 0 ? semester.map((data, index) => (
+
+                    <MenuItem key={index} value={data.semester}>{data.semester}</MenuItem>
+                  ))
+                    : ''}
+
+                </Select>
+                <Select
+                  name='Class'
+                  value={className}
+                  onChange={(e) => setClassName(e.target.value)}
+                  fullWidth
+                  variant="standard"
+                  label="Select sem"
+
+                >
+                  <MenuItem hidden value={className}>Select Class</MenuItem>
+                  {classNameArr.length > 0 ? classNameArr.map((data, index) => (
+
+                    <MenuItem key={index} value={data.className}>{data.className}</MenuItem>
+                  ))
+                    : ""}
+
+                </Select>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={AddSubject}>Add</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+
+          <TableContainer component={Paper}>
+            {/* ================>SEARCH<==================== */}
+            <div style={{ display: 'grid', marginLeft: '72px', width: '100%' }}>
+              <TextField
+                margin="dense"
+                label='Search by Subject Name'
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            {/* ==================================== */}
+            <Table sx={{ minWidth: 700 }} aria-label="customized table" className="tables">
+              <TableHead style={{ color: 'gray !importent' }}>
+                <TableRow>
+                  <StyledTableCell>Subject</StyledTableCell>
+                  <StyledTableCell>
+
+
+                    <Select
+                      style={{ color: 'white', backgroundColor: 'black', borderColor: 'white' }}
+                      name="department"
+                      value={Dep}
+                      onChange={SelectDep}
+                      fullWidth
+                      variant="standard"
+                      label="Select Department"
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+
+                          },
+                        },
+                      }}
+                      IconComponent={(props) => (
+                        <span {...props} style={{ color: 'white' }}>
+                          ▼
+                        </span>
+                      )}
+                    >
+                      <MenuItem value={Dep ? 'default' : 'default'}>
+                        Department
+                      </MenuItem>
+                      {departmentArr.length > 0 ? departmentArr.map((data, index) => (
+                        <MenuItem key={index} value={data.name}>
+                          {data.name}
+                        </MenuItem>
+                      )) : ''}
+                    </Select>
 
 
 
-              </StyledTableCell>
-              <StyledTableCell>Semester</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {value.length>0 ? value.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
-                  {row.subject}
-                </StyledTableCell>
-                <StyledTableCell align="left">{row.department}</StyledTableCell>
-                <StyledTableCell align="left">{row.semester}</StyledTableCell>
-                <StyledTableCell align="left"><Button onClick={() => DeleteSub(row._id)}><DeleteForeverSharp /></Button></StyledTableCell>
-              </StyledTableRow>
-            )):<div>There is no Subject Found</div>}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </React.Fragment>
-   </Container>
-   </>
+                  </StyledTableCell>
+                  <StyledTableCell>Semester</StyledTableCell>
+                  <StyledTableCell align="left">Action</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {value.length > 0 ? value.map((row, index) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.subject}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.department}</StyledTableCell>
+                    <StyledTableCell align="left">{row.semester}</StyledTableCell>
+                    <StyledTableCell align="left"><Button onClick={() => DeleteSub(row._id)}><DeleteForeverSharp /></Button></StyledTableCell>
+                  </StyledTableRow>
+                )) : <div>There is no Subject Found</div>}
+              </TableBody>
+            </Table>
+            <br/>
+        <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      count={total}
+       color="primary"
+       page={pageNo}
+       onChange={PaginationHelp}
+        />
+    </Stack>
+    <br/>
+          </TableContainer>
+        </React.Fragment>
+      </Container>
+    </>
   );
 }

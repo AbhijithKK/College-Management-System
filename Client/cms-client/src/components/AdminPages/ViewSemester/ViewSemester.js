@@ -78,12 +78,12 @@ export default function ViewSemester() {
   }
 // ==============================================================
 const[pageNo,setPageNo]=React.useState(1)
+const[total,setTotal]=React.useState(0)
 const PaginationHelp=(event,page)=>{
   setPageNo(page)
 }
-const[total,setTotal]=React.useState(0)
-  const[search,setSearch]=React.useState('')
-  React.useEffect(() => {
+const[search,setSearch]=React.useState('')
+React.useEffect(() => {
     const ApiCall = async () => {
       let val = await ApiViewSemester(Dep,search,pageNo)
       useValue(val.allSemesters)

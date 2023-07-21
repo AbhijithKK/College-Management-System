@@ -52,7 +52,7 @@ function Addfaculty() {
   useEffect(()=>{
     const subjectFind=async()=>{
         let subject=await ApiViewSubjects(value.department)
-        setSubject(subject)
+        setSubject(subject.allSubjects)
         let classes=await ApiViewClass(value.department)
         setClass(classes.allClass)
     }
