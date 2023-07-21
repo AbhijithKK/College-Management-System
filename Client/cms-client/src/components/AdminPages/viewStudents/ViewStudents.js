@@ -22,6 +22,8 @@ import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewClass,
 import SideBar from '../SideBar/SideBar';
 import Swal from "sweetalert2";
 import { Container } from "react-bootstrap";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -94,19 +96,21 @@ const [totalDepartment,setDep]=React.useState([])
 //  console.log(semester);
   // ===================
   const[search,setSearch]=React.useState('')
+  const[Total,setTotal]=React.useState(0)
   const [student, useStudent] = React.useState([]);
   const [Dep,setDept]=React.useState('default')
+  const [currentPage, setCurrentPage] = React.useState(1);
   React.useEffect(() => {
     axios
-      .get("/admin/students",{params:{Dep,search}}, {
+      .get("/admin/students",{params:{Dep,search,currentPage}}, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       })
       .then((data) => {
-        
-        SetStudentdata(data.data);
+        setTotal(data.data.Total)
+        SetStudentdata(data.data.allStudents);
       });
       HelpDepts()
 
@@ -120,7 +124,7 @@ const [totalDepartment,setDep]=React.useState([])
         setAllClass(cls)
       }
       GetApi()
-  }, [refresh,Dep,department,semester,search]);
+  }, [refresh,Dep,department,semester,search,currentPage]);
   const SetStudentdata = (data) => {
     useStudent(data);
   };
@@ -170,6 +174,10 @@ const [totalDepartment,setDep]=React.useState([])
     setDepts(data)
   }
   
+  console.log(currentPage,'kkkkkkkk');
+  const ChangePage=(event,page)=>{
+    setCurrentPage(page);
+  }
   return (
     <>
     <SideBar/>
@@ -450,7 +458,20 @@ const [totalDepartment,setDep]=React.useState([])
               </StyledTableRow>
             )):<div>There is no Students Found</div>}
           </TableBody>
+       
         </Table>
+        <br/>
+        <Stack style={{marginLeft:'72px'}} spacing={2}>
+      
+      <Pagination 
+      onChange={ChangePage}
+      count={Total}
+      color="primary"
+      page={currentPage}
+      
+      />
+     <br/>
+    </Stack>
       </TableContainer>
       </Container>
     </>

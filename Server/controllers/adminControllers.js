@@ -212,16 +212,23 @@ let admin = {
     },
     viewStudents: async (req, res) => {
         try {
+            let page= req.query.currentPage || 1
+            let limit=page * 5
+            let skip =(page-1)*5
+
+            let Total=await studentModel.countDocuments()
+            Total=Math.ceil(Total/5)
+           
             let Dep=req.query.Dep
             let allStudents 
             let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
             if(Dep=='default'){
-                 allStudents = await studentModel.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                 allStudents = await studentModel.find({name:new RegExp(key,'i')}).skip(skip).limit(limit).sort({_id:-1}).exec()
             }else{
                 allStudents = await studentModel.find({department:Dep,name:new RegExp(key,'i')}).sort({_id:-1}).exec()
             }
             
-            res.json(allStudents)
+            res.json({allStudents,Total})
         } catch (err) {
             console.log(err);
         }
