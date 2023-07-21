@@ -54,7 +54,7 @@ function Addfaculty() {
         let subject=await ApiViewSubjects(value.department)
         setSubject(subject)
         let classes=await ApiViewClass(value.department)
-        setClass(classes)
+        setClass(classes.allClass)
     }
     subjectFind()
     HelpDep()

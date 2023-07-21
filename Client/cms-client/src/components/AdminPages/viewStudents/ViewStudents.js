@@ -96,10 +96,13 @@ const [totalDepartment,setDep]=React.useState([])
 //  console.log(semester);
   // ===================
   const[search,setSearch]=React.useState('')
-  const[Total,setTotal]=React.useState(0)
   const [student, useStudent] = React.useState([]);
   const [Dep,setDept]=React.useState('default')
+  const[Total,setTotal]=React.useState(0)
   const [currentPage, setCurrentPage] = React.useState(1);
+  const ChangePage=(event,page)=>{
+    setCurrentPage(page);
+  }
   React.useEffect(() => {
     axios
       .get("/admin/students",{params:{Dep,search,currentPage}}, {
@@ -119,9 +122,9 @@ const [totalDepartment,setDep]=React.useState([])
         let data=await ApiViewDepartment()
         setDep(data)
         let sem=await ApiViewSemester(department)
-        setSem(sem)
+        setSem(sem.allSemesters)
         let cls=await ApiViewClass(department,semester)
-        setAllClass(cls)
+        setAllClass(cls.allClass)
       }
       GetApi()
   }, [refresh,Dep,department,semester,search,currentPage]);
@@ -174,10 +177,8 @@ const [totalDepartment,setDep]=React.useState([])
     setDepts(data)
   }
   
-  console.log(currentPage,'kkkkkkkk');
-  const ChangePage=(event,page)=>{
-    setCurrentPage(page);
-  }
+  
+ 
   return (
     <>
     <SideBar/>

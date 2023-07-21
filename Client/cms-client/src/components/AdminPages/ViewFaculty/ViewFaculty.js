@@ -87,7 +87,7 @@ const [search,setSearch]=React.useState('')
       let data=await ApiViewDepartment()
       setDep(data)
       let cls=await ApiViewClass(department,semester)
-      setCls(cls)
+      setCls(cls.allClass)
     }
     GetDept()
   }, [refresh, Dep, Facultys,department,semester,search]);

@@ -18,7 +18,7 @@ const[clubAdminId,setClubAdminId]=useState('')
       })
       .then((data) => {
         console.log(data.data);
-        FacultyName(data.data);
+        FacultyName(data.data.allFacultys);
       });
       const FacultyApi=async()=>{
         let data=await StudentClubAdminGetApi(clubAdminId)

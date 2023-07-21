@@ -401,8 +401,8 @@ export const ApiUpdateFaculty = async (id) => {
 
 }
 
-export const ApiViewClass = async (Dep, Sem,search) => {
-    let { data } = await axios.get('/admin/class', { params: { Dep, Sem,search } }, {
+export const ApiViewClass = async (Dep, Sem,search,pageNo) => {
+    let { data } = await axios.get('/admin/class', { params: { Dep, Sem,search,pageNo } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })

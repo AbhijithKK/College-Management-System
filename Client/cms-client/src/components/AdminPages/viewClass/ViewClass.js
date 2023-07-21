@@ -17,6 +17,8 @@ import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -66,20 +68,27 @@ export default function ViewClass() {
   const [Semester,useSemester]=React.useState([])
   const [refresh,userefresh]=React.useState(false)
   const[search,setSearch]=React.useState('')
+
+  const[Total,setTotal]=React.useState(0)
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const ChangePage=(event,page)=>{
+    setCurrentPage(page);
+  }
   React.useEffect(() => {
     const ApiDept=async()=>{
       let data=await ApiViewDepartment()
       let sem=await ApiViewSemester(formdata.department)
       useDepartment(data)
-     useSemester(sem)
+     useSemester(sem.allSemesters)
     }
     const ApiCall = async () => {
-      let val = await ApiViewClass('','',search)
-      useValue(val)
+      let val = await ApiViewClass('','',search,currentPage)
+      useValue(val.allClass)
+      setTotal(val.total)
     }
     ApiCall()
     ApiDept()
-  }, [refresh,formdata.department,search])
+  }, [refresh,formdata.department,search,currentPage])
   console.log(formdata);
   const [errMsg,setErrmsg]=React.useState('')
 const AddClass=()=>{
@@ -220,6 +229,16 @@ const DeleteClass=(id)=>{
             )):<div>There is no class found</div>}
           </TableBody>
         </Table>
+        <br/>
+        <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      onChange={ChangePage}
+      count={Total}
+      color="primary"
+      page={currentPage} 
+      />
+      </Stack>
+     <br/>
       </TableContainer>
     </Container>
     </>

@@ -325,6 +325,7 @@ let admin = {
     },
     viewClass: async (req, res) => {
         try {
+            let {total,skip,limit}=await Pagination(req.query.pageNo,classScheema)
             let allClass
              let key=''
              if (req.query.search) {
@@ -336,9 +337,9 @@ let admin = {
                 allClass = await  classScheema.find({department:req.query.Dep,className:new RegExp(key,'i')}).lean()
             }else{
 
-                allClass = await  classScheema.find({className:new RegExp(key,'i')}).lean()
+                allClass = await  classScheema.find({className:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
             }
-            res.json(allClass)
+            res.json({allClass,total})
         } catch (err) {
             res.json(false)
             

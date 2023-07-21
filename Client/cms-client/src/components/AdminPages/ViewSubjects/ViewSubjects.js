@@ -72,11 +72,11 @@ const[department,usedepartment]=React.useState('defaul')
     
     let data = await ApiViewSemester(department)
     
-    useSemester(data)
+    useSemester(data.allSemesters)
   }
   const GetClass=async()=>{
     let data=await ApiViewClass(department)
-    setclassNameArr(data)
+    setclassNameArr(data.allClass)
   }
     SubApi(Dep)
     DepartmentApi()
