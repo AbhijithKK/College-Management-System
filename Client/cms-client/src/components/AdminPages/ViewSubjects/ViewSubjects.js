@@ -63,7 +63,7 @@ export default function ViewSubjects() {
   const [departmentArr, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
-    useDepartment(data)
+    useDepartment(data.allDepartments)
   }
   const [search, setSearch] = React.useState('')
   const [pageNo, setPageNo] = React.useState(1)

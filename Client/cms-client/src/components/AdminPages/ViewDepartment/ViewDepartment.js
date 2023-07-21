@@ -17,6 +17,8 @@ import { DeleteForeverSharp } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -63,14 +65,20 @@ const [departments, setDepartment]=React.useState([])
 const [deleted,useDeleted]=React.useState(false)
 
 const[search,setSearch]=React.useState('')
+const [pageNo, setPageNo] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const PaginationHelp = (event, page) => {
+    setPageNo(page)
+  }
 React.useEffect(()=>{
   const FeatchData=async()=>{
-    let data= await ApiViewDepartment(search)
-    setDepartment(data)
+    let data= await ApiViewDepartment(search,pageNo)
+    setDepartment(data.allDepartments)
+    setTotal(data.total)
   }
   FeatchData()
  
-},[deleted,add,search])
+},[deleted,add,search,pageNo])
 
 const REfreshHelper=()=>{
   useDeleted(!deleted)
@@ -175,6 +183,15 @@ console.log('kk',departments);
           }
           </TableBody>
         </Table>
+        <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      count={total}
+       color="primary"
+       page={pageNo}
+       onChange={PaginationHelp}
+        />
+    </Stack>
+    <br/>
       </TableContainer>
    </React.Fragment>
    </Container>

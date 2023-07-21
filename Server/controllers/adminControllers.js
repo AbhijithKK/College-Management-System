@@ -23,36 +23,36 @@ const passGen = () => {
 let admin = {
 
     // <====LOGIN VERIFY====>
-    adminLogin: async(req, res) => {
-        try{
+    adminLogin: async (req, res) => {
+        try {
             console.log(req.body);
-        const email = 'admin@gmail.com'
-        const password = 'password'
-        if (email === req.body.mail && password === req.body.password) {
-          
-           
-            res.cookie('jwtAdmin',await jwtSign(123456),{ withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "none", maxAge: 1000000 })
-            .json(true)
-        } else {
+            const email = 'admin@gmail.com'
+            const password = 'password'
+            if (email === req.body.mail && password === req.body.password) {
+
+
+                res.cookie('jwtAdmin', await jwtSign(123456), { withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "none", maxAge: 1000000 })
+                    .json(true)
+            } else {
+                res.json(false)
+            }
+        } catch (err) {
             res.json(false)
         }
-    }catch(err){
-        res.json(false)
-    }
 
-    }, 
-     // <====AUTHENDICATION  VERIFY====>
-    checkAuth: async(req, res) => {
-        try{
-        let loginverify= await jwtVerify(req.cookies.jwtAdmin)
-       if (loginverify.data==123456) {
-        res.json(true)
-       }else{
-        res.json(false)
-       }
-    }catch(err){
-        res.json(false)
-    }
+    },
+    // <====AUTHENDICATION  VERIFY====>
+    checkAuth: async (req, res) => {
+        try {
+            let loginverify = await jwtVerify(req.cookies.jwtAdmin)
+            if (loginverify.data == 123456) {
+                res.json(true)
+            } else {
+                res.json(false)
+            }
+        } catch (err) {
+            res.json(false)
+        }
 
     },
 
@@ -60,16 +60,16 @@ let admin = {
     addStudent: async (req, res) => {
         try {
             let password = passGen()
-            let sendPassWord=password
+            let sendPassWord = password
             password = await bcript.hash(password, 10)
             console.log(req.body);
-         
+
             studentModel.create({
                 name: req.body.names,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
                 guardianNo: req.body.guardianNumber,
-                guardianName:req.body.guardianName,
+                guardianName: req.body.guardianName,
                 department: req.body.department,
                 admYear: req.body.admYear,
                 gender: req.body.gender,
@@ -77,25 +77,26 @@ let admin = {
                 DOB: req.body.dob,
                 semester: req.body.semester,
                 password: password,
-                className:req.body.className
+                className: req.body.className
             }).then(() => {
-                const sub="COLLEGE MANAGEMENT SYSTEM ✔"
-                let content=`Congratulation,Dear Student Your Account Has been Created 
+                const sub = "COLLEGE MANAGEMENT SYSTEM ✔"
+                let content = `Congratulation,Dear Student Your Account Has been Created 
                  Your Email: ${req.body.email} Password: ${sendPassWord} 
                  use this credential to Login Your Account`
 
-                nodeMail(req.body.email,content,sub)
-                res.json('Student Added')})
+                nodeMail(req.body.email, content, sub)
+                res.json('Student Added')
+            })
         } catch (err) {
-           res.json(false)
+            res.json(false)
         }
     },
     addFaculty: async (req, res) => {
         try {
             let password = passGen()
-            let sendPassWord=password
+            let sendPassWord = password
             password = await bcript.hash(password, 10)
-           
+
             console.log(req.body);
             facultyModel.create({
                 name: req.body.names,
@@ -106,18 +107,19 @@ let admin = {
                 admYear: req.body.admYear,
                 gender: req.body.gender,
                 address: req.body.address,
-                DOB:req.body.dob,
-                adminOfClass:req.body.adminOfClass,
+                DOB: req.body.dob,
+                adminOfClass: req.body.adminOfClass,
                 qualifications: req.body.qualification,
                 password: password
             }).then(() => {
-                const sub="COLLEGE MANAGEMENT SYSTEM ✔"
-                let content=`Congratulation, Dear Faculty Your Account Has been Created 
+                const sub = "COLLEGE MANAGEMENT SYSTEM ✔"
+                let content = `Congratulation, Dear Faculty Your Account Has been Created 
                  Your Email: ${req.body.email} Password: ${sendPassWord} 
                  use this credential to Login Your Account`
 
-                nodeMail(req.body.email,content,sub)
-                res.json("faculty Added")})
+                nodeMail(req.body.email, content, sub)
+                res.json("faculty Added")
+            })
         } catch (err) {
             console.log(err);
         }
@@ -128,8 +130,8 @@ let admin = {
             club.create({
                 name: req.body.value.names,
                 discription: req.body.value.discription,
-                clubAdmin:req.body.clubAdmin,
-                clubAdminId:req.body.clubAdminId
+                clubAdmin: req.body.clubAdmin,
+                clubAdminId: req.body.clubAdminId
             }).then(() => {
                 res.json('club Created')
             })
@@ -177,8 +179,8 @@ let admin = {
             subject.create({
                 department: req.body.department,
                 subject: req.body.datas.subject,
-                semester:req.body.datas.semester,
-                className:req.body.className
+                semester: req.body.datas.semester,
+                className: req.body.className
             })
             res.json('subject added')
         } catch (err) {
@@ -191,8 +193,8 @@ let admin = {
             classScheema.create({
                 department: req.body.department,
                 className: req.body.className,
-                semester:req.body.semester
-                
+                semester: req.body.semester
+
             })
             res.json('Class added')
         } catch (err) {
@@ -213,155 +215,165 @@ let admin = {
     },
     viewStudents: async (req, res) => {
         try {
-            let page= req.query.currentPage || 1
-            let limit=page * 5
-            let skip =(page-1)*5
+            let page = req.query.currentPage || 1
+            let limit = page * 5
+            let skip = (page - 1) * 5
 
-            let Total=await studentModel.countDocuments()
-            Total=Math.ceil(Total/5)
-           
-            let Dep=req.query.Dep
-            let allStudents 
-            let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
-            if(Dep=='default'){
-                 allStudents = await studentModel.find({name:new RegExp(key,'i')}).skip(skip).limit(limit).sort({_id:-1}).exec()
-            }else{
-                allStudents = await studentModel.find({department:Dep,name:new RegExp(key,'i')}).skip(skip).limit(limit).sort({_id:-1}).exec()
-                Total=Math.ceil(allStudents.length/5)
+            let Total = await studentModel.countDocuments()
+            Total = Math.ceil(Total / 5)
+
+            let Dep = req.query.Dep
+            let allStudents
+            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+            if (Dep == 'default') {
+                allStudents = await studentModel.find({ name: new RegExp(key, 'i') }).skip(skip).limit(limit).sort({ _id: -1 }).exec()
+            } else {
+                allStudents = await studentModel.find({ department: Dep, name: new RegExp(key, 'i') }).skip(skip).limit(limit).sort({ _id: -1 }).exec()
+                Total = Math.ceil(allStudents.length / 5)
             }
-            
-            res.json({allStudents,Total})
+
+            res.json({ allStudents, Total })
         } catch (err) {
             console.log(err);
         }
     },
     viewFacultys: async (req, res) => {
         try {
-            let Dep=req.query.Dep
+            let Dep = req.query.Dep
             let allFacultys
-            let key=''
+            let key = ''
             if (req.query.search) {
-              key=  req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+                key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
             }
-            let pages=req.query.pages || 1
-            let limit=pages*5
-            let skip=(pages-1)*5
-            let total=await facultyModel.countDocuments()
-            total=Math.ceil(total/5)
+            let pages = req.query.pages || 1
+            let limit = pages * 5
+            let skip = (pages - 1) * 5
+            let total = await facultyModel.countDocuments()
+            total = Math.ceil(total / 5)
 
-            if(req.query.Dep=='default'){
-                allFacultys = await facultyModel.find({name:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
-            }else if(req.query.id){
-                allFacultys = await facultyModel.findOne({_id:req.query.id})
-            }else if(req.query.Dep){
-                allFacultys = await facultyModel.find({department:Dep,name:new RegExp(key,"i")}).sort({_id:-1}).limit(limit).skip(skip).exec()
-                total=Math.ceil(allFacultys.length/5)
-            }else{
-                allFacultys = await facultyModel.find().sort({_id:-1}).exec()
+            if (req.query.Dep == 'default') {
+                allFacultys = await facultyModel.find({ name: new RegExp(key, 'i') }).limit(limit).skip(skip).sort({ _id: -1 }).exec()
+            } else if (req.query.id) {
+                allFacultys = await facultyModel.findOne({ _id: req.query.id })
+            } else if (req.query.Dep) {
+                allFacultys = await facultyModel.find({ department: Dep, name: new RegExp(key, "i") }).sort({ _id: -1 }).limit(limit).skip(skip).exec()
+                total = Math.ceil(allFacultys.length / 5)
+            } else {
+                allFacultys = await facultyModel.find().sort({ _id: -1 }).exec()
             }
-            res.json({allFacultys,total})
+            res.json({ allFacultys, total })
         } catch (err) {
             res.json(false)
         }
     },
     viewDepartment: async (req, res) => {
         try {
-            let key=''
-            if (req.query.search) {
-               key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+            let val = { limit: await department.count(), skip: 0, total:0 }
+            if (req.query.pageNo) {
+
+                let { limit, skip, total } = await Pagination(req.query.pageNo, department)
+                val.limit = limit
+                val.skip = skip
+                val.total = total
             }
-            let allDepartments = await department.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
-            res.json(allDepartments)
-            
+            let key = ''
+            if (req.query.search) {
+                key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+            }
+            let total=val.total
+            let allDepartments = await department.find({ name: new RegExp(key, 'i') }).limit(val.limit).skip(val.skip).sort({ _id: -1 }).exec()
+            res.json({ allDepartments, total })
+
         } catch (err) {
+            console.log(err);
             res.json(false)
         }
     },
     viewSubjects: async (req, res) => {
         try {
-            let {limit,skip,total}=await Pagination(req.query.pageNo,subject)
-            let dep=req.query.dep
+            let { limit, skip, total } = await Pagination(req.query.pageNo, subject)
+            let dep = req.query.dep
             let allSubjects
-            let key=''
+            let key = ''
             if (req.query.search) {
-               key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
+                key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
             }
-            if (dep=='default' ) {
-                
-                allSubjects = await subject.find({subject:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
-            }else if(req.query.dep && req.query.sem){
+            if (dep == 'default') {
 
-                allSubjects = await subject.find({$and:[{department:dep},{semester:req.query.sem}]}).sort({_id:-1}).exec()
-            }else if(req.query.dep){
-                allSubjects = await subject.find({department:dep,subject:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
-                total=Math.ceil(allSubjects.length/5)
-            }else{
-                allSubjects = await subject.find({subject:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                allSubjects = await subject.find({ subject: new RegExp(key, 'i') }).limit(limit).skip(skip).sort({ _id: -1 }).exec()
+            } else if (req.query.dep && req.query.sem) {
+
+                allSubjects = await subject.find({ $and: [{ department: dep }, { semester: req.query.sem }] }).sort({ _id: -1 }).exec()
+            } else if (req.query.dep) {
+                allSubjects = await subject.find({ department: dep, subject: new RegExp(key, 'i') }).limit(limit).skip(skip).sort({ _id: -1 }).exec()
+                total = Math.ceil(allSubjects.length / 5)
+            } else {
+                allSubjects = await subject.find({ subject: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
             }
-            res.json({allSubjects,total})
+            res.json({ allSubjects, total })
         } catch (err) {
             console.log(err);
         }
     },
     viewSemester: async (req, res) => {
         try {
-         let{limit,skip,total}=await Pagination(req.query.pageNo,semester)
+            let { limit, skip, total } = await Pagination(req.query.pageNo, semester)
             let allSemesters
-            let key=''
+            let key = ''
             if (req.query.search) {
-               key=req.query.search.replace(/[^a-zA-Z0-9]/g,"").replace(/[^a-zA-Z0-9]/g,"")
+                key = req.query.search.replace(/[^a-zA-Z0-9]/g, "").replace(/[^a-zA-Z0-9]/g, "")
             }
-            if (req.query.Dep=='default') {
-                allSemesters = await semester.find({semester:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
-                
-            }else if (req.query.Dep) {
-                allSemesters = await semester.find({department:req.query.Dep,semester:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
-                total=Math.ceil(allSemesters.length/5)
-            }else{
-            allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
+            if (req.query.Dep == 'default') {
+                allSemesters = await semester.find({ semester: new RegExp(key, 'i') }).limit(limit).skip(skip).lean()
+
+            } else if (req.query.Dep) {
+                allSemesters = await semester.find({ department: req.query.Dep, semester: new RegExp(key, 'i') }).limit(limit).skip(skip).lean()
+                total = Math.ceil(allSemesters.length / 5)
+            } else {
+                allSemesters = await semester.find({ semester: new RegExp(key, 'i') }).lean()
             }
-            res.json({allSemesters,total})
+            res.json({ allSemesters, total })
         } catch (err) {
             res.json(false)
         }
     },
     viewClass: async (req, res) => {
         try {
-            let {total,skip,limit}=await Pagination(req.query.pageNo,classScheema)
+            let { total, skip, limit } = await Pagination(req.query.pageNo, classScheema)
             let allClass
-             let key=''
-             if (req.query.search) {
-                key=req.query.search.replace(/[^a-zA-Z/]/g,"").replace(/[^a-zA-Z]/g,"")
-             }
-            if (req.query.Dep &&req.query.Sem ) {
-                allClass = await  classScheema.find({$and:[{department:req.query.Dep},{semester:req.query.Sem}]}).lean()
-            }else if (req.query.Dep  ){
-                allClass = await  classScheema.find({department:req.query.Dep,className:new RegExp(key,'i')}).lean()
-            }else{
-
-                allClass = await  classScheema.find({className:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
+            let key = ''
+            if (req.query.search) {
+                key = req.query.search.replace(/[^a-zA-Z/]/g, "").replace(/[^a-zA-Z]/g, "")
             }
-            res.json({allClass,total})
+            if (req.query.Dep && req.query.Sem) {
+                allClass = await classScheema.find({ $and: [{ department: req.query.Dep }, { semester: req.query.Sem }] }).lean()
+            } else if (req.query.Dep) {
+                allClass = await classScheema.find({ department: req.query.Dep, className: new RegExp(key, 'i') }).lean()
+            } else {
+
+                allClass = await classScheema.find({ className: new RegExp(key, 'i') }).limit(limit).skip(skip).lean()
+            }
+            res.json({ allClass, total })
         } catch (err) {
             res.json(false)
-            
+
         }
     },
     viewComplaints: async (req, res) => {
         try {
-            let key=''
+            let key = ''
             if (req.query.search) {
-           let date=new Date(req.query.search).toLocaleDateString("en-GB")
-               key=date.replace(/[^0-9/0-9/0-9]/g,"")
-               console.log(key);
+                let date = new Date(req.query.search).toLocaleDateString("en-GB")
+                key = date.replace(/[^0-9/0-9/0-9]/g, "")
+                console.log(key);
             }
-            let allCompliants=await complaintScheema.find({date:new RegExp(key,'i')}).sort({ _id: -1 }).exec();
+            let allCompliants = await complaintScheema.find({ date: new RegExp(key, 'i') }).sort({ _id: -1 }).exec();
             res.json(allCompliants)
         } catch (err) {
             console.log(err);
         }
     },
-   
+
     viewApproveLists: async (req, res) => {
         try {
             // let allList=await approveListModel.find()
@@ -372,33 +384,33 @@ let admin = {
     },
 
     // <====DELETE CONTROLLS====>
-    deleteStudent: async(req, res) => {
+    deleteStudent: async (req, res) => {
         try {
             let id = req.query.id
-          await  studentModel.deleteOne({ _id: id })
-               
-                res.json('student Data Deleted')
-            
+            await studentModel.deleteOne({ _id: id })
+
+            res.json('student Data Deleted')
+
         } catch (err) {
             console.log(err);
         }
     },
-    deleteFaculty: async(req, res) => {
+    deleteFaculty: async (req, res) => {
         try {
             let id = req.query.id
-           await facultyModel.deleteOne({ _id: id })
-                
-                res.json('faculty Deleted')
-           
+            await facultyModel.deleteOne({ _id: id })
+
+            res.json('faculty Deleted')
+
         } catch (err) {
             res.json(false)
         }
     },
-    deleteDepartment: async(req, res) => {
+    deleteDepartment: async (req, res) => {
         try {
             let id = req.query.id
-                await department.deleteOne({ _id: id })
-                res.json(true)
+            await department.deleteOne({ _id: id })
+            res.json(true)
         } catch (err) {
             res.json(false)
         }
@@ -406,8 +418,8 @@ let admin = {
     deleteSubject: (req, res) => {
         try {
             let id = req.query.id
-            subject.deleteOne({ _id: id }).then( () => {
-              res.json('subject deleted')
+            subject.deleteOne({ _id: id }).then(() => {
+                res.json('subject deleted')
             })
         } catch (err) {
             res.json(false)
@@ -417,8 +429,8 @@ let admin = {
     deleteClass: (req, res) => {
         try {
             let id = req.query.id
-            classScheema.deleteOne({ _id: id }).then( () => {
-              res.json('Class deleted')
+            classScheema.deleteOne({ _id: id }).then(() => {
+                res.json('Class deleted')
             })
         } catch (err) {
             res.json(false)
@@ -429,65 +441,65 @@ let admin = {
         try {
             let id = req.query.id
             semester.deleteOne({ _id: id }).then(async () => {
-               
+
                 res.json('Semester Deleted')
             })
         } catch (err) {
-           res.json(false)
+            res.json(false)
         }
     },
-deleteComplaint:async(req,res)=>{
-    try{
-        await complaintScheema.deleteOne({_id:req.query.id})
-        res.json(true)
-    }catch(err){
-        res.json(false)
-    }
-},
+    deleteComplaint: async (req, res) => {
+        try {
+            await complaintScheema.deleteOne({ _id: req.query.id })
+            res.json(true)
+        } catch (err) {
+            res.json(false)
+        }
+    },
     // <====UPDATE CONTROLLS====>
 
-    postupdateStudent: async(req, res) => {
+    postupdateStudent: async (req, res) => {
         try {
             console.log(req.body);
             const id = req.body.id;
-           
-           
+
+
             const updateData = {
-              name: req.body.name,
-              email: req.body.email,
-              mobNumber: req.body.mobNumber,
-              DOB: req.body.dob,
-              admYear: req.body.admYear,
-              address: req.body.address,
-              department: req.body.department,
-              gender: req.body.gender,
-              guardianName: req.body.guardianName,
-              guardianNumber: req.body.guardianNumber,
-              semester: req.body.semester,
-              className:req.body.className
+                name: req.body.name,
+                email: req.body.email,
+                mobNumber: req.body.mobNumber,
+                DOB: req.body.dob,
+                admYear: req.body.admYear,
+                address: req.body.address,
+                department: req.body.department,
+                gender: req.body.gender,
+                guardianName: req.body.guardianName,
+                guardianNumber: req.body.guardianNumber,
+                semester: req.body.semester,
+                className: req.body.className
             };
-          
+
             if (req.file) {
-              updateData.image = req.file[0].filename;
+                updateData.image = req.file[0].filename;
             }
-          console.log('kk');
-            let data= await studentModel.updateOne({ _id: id }, updateData);
-          
-           console.log(data);
-              res.json('Student Data Updated');
-            
-          } catch (err) {
-            
+            console.log('kk');
+            let data = await studentModel.updateOne({ _id: id }, updateData);
+
+            console.log(data);
+            res.json('Student Data Updated');
+
+        } catch (err) {
+
             res.json(false);
-          }
-          
+        }
+
 
     },
-    postupdateFaculty: async(req, res) => {
+    postupdateFaculty: async (req, res) => {
         try {
             console.log(req.body);
             let id = req.body.id
-            const datas={
+            const datas = {
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -497,15 +509,15 @@ deleteComplaint:async(req,res)=>{
                 gender: req.body.gender,
                 address: req.body.address,
                 DOB: req.body.dob,
-                adminOfClass:req.body.className,
+                adminOfClass: req.body.className,
                 qualifications: req.body.qualifications,
-                
-                
+
+
             }
             if (req.file) {
                 updateData.image = req.file[0].filename;
-              }
-            facultyModel.updateOne({_id:id} ,datas).then(() => {
+            }
+            facultyModel.updateOne({ _id: id }, datas).then(() => {
                 res.json('faculty updated')
             })
         } catch (err) {
@@ -514,40 +526,40 @@ deleteComplaint:async(req,res)=>{
 
     },
     updateStudent: async (req, res) => {
-        try{
+        try {
             let id = req.query.id
-            
-            if (id==undefined) {
+
+            if (id == undefined) {
                 console.log('ijj');
-               res.json({
-                name: '',
-                email: '',
-                mobNumber: '',
-                DOB: '',
-                admYear: '',
-                guardianName: '',
-                guardianNumber: '',
-                address: '',
-                department: '',
-                gender: '',
-                semester: '',
-              }) 
-              return
+                res.json({
+                    name: '',
+                    email: '',
+                    mobNumber: '',
+                    DOB: '',
+                    admYear: '',
+                    guardianName: '',
+                    guardianNumber: '',
+                    address: '',
+                    department: '',
+                    gender: '',
+                    semester: '',
+                })
+                return
             }
-        let student = await studentModel.findOne({ _id: id })
-        res.json(student)
-        }catch(err){
+            let student = await studentModel.findOne({ _id: id })
+            res.json(student)
+        } catch (err) {
             res.json(false)
         }
     },
     updateFaculty: async (req, res) => {
-        try{
-        let id = req.query.id
-        let faculty = await facultyModel.findOne({ _id: id })
-        res.json(faculty)
-    }catch(err){
-        res.json(false)
-    }
+        try {
+            let id = req.query.id
+            let faculty = await facultyModel.findOne({ _id: id })
+            res.json(faculty)
+        } catch (err) {
+            res.json(false)
+        }
     },
     // =======>logout<======
     logOut: (req, res) => {

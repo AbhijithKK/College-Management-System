@@ -85,7 +85,7 @@ const [search,setSearch]=React.useState('')
 
     const GetDept=async()=>{
       let data=await ApiViewDepartment()
-      setDep(data)
+      setDep(data.allDepartments)
       let cls=await ApiViewClass(department,semester)
       setCls(cls.allClass)
     }
@@ -186,7 +186,7 @@ const [totalClass,setCls]=React.useState([])
    const [allDept,setDepts]=React.useState([])
   const HelpDepts=async()=>{
     let data=await ApiViewDepartment()
-    setDepts(data)
+    setDepts(data.allDepartments)
   }
   return (
     <>

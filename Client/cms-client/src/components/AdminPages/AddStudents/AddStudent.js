@@ -45,7 +45,7 @@ const [errmsg,setErrmsg]=useState('')
       let data=await ApiViewDepartment()
       let sem=await ApiViewSemester(value.department)
       let cls=await ApiViewClass(value.department,value.semester)
-      setDept(data)
+      setDept(data.allDepartments)
       setAllSem(sem.allSemesters)
       setAllClass(cls.allClass)
     }

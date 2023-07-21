@@ -66,7 +66,7 @@ export default function ViewSemester() {
   const [refresh,userefresh]=React.useState(false)
   const ApiSem=async()=>{
     let data=await ApiViewDepartment()
-    useDepartment(data)
+    useDepartment(data.allDepartments)
     useSemester(data)
   }
   // ============================================================

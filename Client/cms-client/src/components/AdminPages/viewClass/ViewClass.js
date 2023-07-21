@@ -78,7 +78,7 @@ export default function ViewClass() {
     const ApiDept=async()=>{
       let data=await ApiViewDepartment()
       let sem=await ApiViewSemester(formdata.department)
-      useDepartment(data)
+      useDepartment(data.allDepartments)
      useSemester(sem.allSemesters)
     }
     const ApiCall = async () => {

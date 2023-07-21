@@ -120,7 +120,7 @@ const [totalDepartment,setDep]=React.useState([])
 
       const GetApi=async()=>{
         let data=await ApiViewDepartment()
-        setDep(data)
+        setDep(data.allDepartments)
         let sem=await ApiViewSemester(department)
         setSem(sem.allSemesters)
         let cls=await ApiViewClass(department,semester)
@@ -174,7 +174,7 @@ const [totalDepartment,setDep]=React.useState([])
   const [allDept,setDepts]=React.useState([])
   const HelpDepts=async()=>{
     let data=await ApiViewDepartment()
-    setDepts(data)
+    setDepts(data.allDepartments)
   }
   
   

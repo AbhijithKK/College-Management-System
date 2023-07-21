@@ -3,8 +3,8 @@ import axios from "../Axios/Axios";
 import Swal from "sweetalert2"
 
 
-export const ApiViewDepartment = async (search) => {
-    let { data } = await axios.get('/admin/department',{params:{search}}, {
+export const ApiViewDepartment = async (search,pageNo) => {
+    let { data } = await axios.get('/admin/department',{params:{search,pageNo}}, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })

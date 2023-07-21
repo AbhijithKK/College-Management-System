@@ -45,7 +45,7 @@ function Addfaculty() {
 
   const HelpDep=async()=>{
     let data=await ApiViewDepartment()
-    setDept(data)
+    setDept(data.allDepartments)
    
   }
   
