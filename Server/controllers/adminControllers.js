@@ -11,6 +11,7 @@ const { classScheema } = require('../models/classScheema')
 const { complaintScheema } = require('../models/complaintMode')
 const nodeMail = require('../heplers/nodeMailer')
 const otpGenerator = require('otp-generator')
+const { Pagination } = require('../heplers/pagination')
 
 const passGen = () => {
     return otpGenerator.generate(8, {
@@ -302,21 +303,22 @@ let admin = {
     },
     viewSemester: async (req, res) => {
         try {
+         let{limit,skip,total}=await Pagination(req.query.pageNo,semester)
             let allSemesters
             let key=''
             if (req.query.search) {
                key=req.query.search.replace(/[^a-zA-Z0-9]/g,"").replace(/[^a-zA-Z0-9]/g,"")
             }
             if (req.query.Dep=='default') {
-                allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
+                allSemesters = await semester.find({semester:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
                 
             }else if (req.query.Dep) {
-                allSemesters = await semester.find({department:req.query.Dep,semester:new RegExp(key,'i')}).lean()
-                
+                allSemesters = await semester.find({department:req.query.Dep,semester:new RegExp(key,'i')}).limit(limit).skip(skip).lean()
+                total=Math.ceil(allSemesters.length/5)
             }else{
             allSemesters = await semester.find({semester:new RegExp(key,'i')}).lean()
             }
-            res.json(allSemesters)
+            res.json({allSemesters,total})
         } catch (err) {
             res.json(false)
         }

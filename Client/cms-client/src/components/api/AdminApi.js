@@ -59,8 +59,8 @@ export const ApiDeleteDepartment = async (id) => {
 
     return data
 }
-export const ApiViewSemester = async (Dep,search) => {
-    let { data } = await axios.get('/admin/semester', { params: { Dep,search } }, {
+export const ApiViewSemester = async (Dep,search,pageNo) => {
+    let { data } = await axios.get('/admin/semester', { params: { Dep,search,pageNo } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })

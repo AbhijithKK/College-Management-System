@@ -13,8 +13,10 @@ import Paper from '@mui/material/Paper';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 import { ApiAddSemester, ApiDeleteSemester, ApiViewDepartment, ApiViewSemester } from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
-import { DeleteForeverSharp, Segment } from '@mui/icons-material';
+import { DeleteForeverSharp } from '@mui/icons-material';
 import SideBar from '../SideBar/SideBar';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -75,17 +77,21 @@ export default function ViewSemester() {
     useDep(event.target.value)
   }
 // ==============================================================
-
-
+const[pageNo,setPageNo]=React.useState(1)
+const PaginationHelp=(event,page)=>{
+  setPageNo(page)
+}
+const[total,setTotal]=React.useState(0)
   const[search,setSearch]=React.useState('')
   React.useEffect(() => {
     const ApiCall = async () => {
-      let val = await ApiViewSemester(Dep,search)
-      useValue(val)
+      let val = await ApiViewSemester(Dep,search,pageNo)
+      useValue(val.allSemesters)
+      setTotal(val.total)
     }
     ApiCall()
     ApiSem()
-  }, [refresh,search,Dep])
+  }, [refresh,search,Dep,pageNo])
   const[errMsg,setErrMsg]=React.useState('')
 const AddSem=()=>{
   if (formdata.semester.trim()&&formdata.department!=='default') {
@@ -159,7 +165,7 @@ const DeleteSem=(id)=>{
               value={formdata.department}
             >
               <MenuItem  hidden value={formdata.department}>Select Department</MenuItem>
-              {Segment.length>0 ? semester.map((val,index)=>(
+              {semester.length>0 ? semester.map((val,index)=>(
               <MenuItem key={index} value={val.name}>{val.name}</MenuItem>
               )):''}
              
@@ -240,6 +246,16 @@ const DeleteSem=(id)=>{
             )) :<div>There is no Semester found</div>}
           </TableBody>
         </Table>
+        <br/>
+        <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      count={total}
+       color="primary"
+       page={pageNo}
+       onChange={PaginationHelp}
+        />
+    </Stack>
+    <br/>
       </TableContainer>
     </React.Fragment>
     </Container>
