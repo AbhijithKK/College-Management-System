@@ -363,8 +363,8 @@ export const ApiFacultyUpdatePost = async (id, name, email, mobNumber, address, 
     return data
 }
 
-export const ApiViewFaculty = async (Dep,search) => {
-    let { data } = await axios.get('/admin/facultys', { params: { Dep,search } }, {
+export const ApiViewFaculty = async (Dep,search,pages) => {
+    let { data } = await axios.get('/admin/facultys', { params: { Dep,search,pages } }, {
         headers: {
             'Content-Type': 'application/json'
         }, withCredentials: true

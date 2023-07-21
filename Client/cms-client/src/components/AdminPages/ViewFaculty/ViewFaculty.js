@@ -18,6 +18,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SideBar from '../SideBar/SideBar';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 
 import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty, ApiViewSubjects } from '../../api/AdminApi';
 import { Container } from 'react-bootstrap';
@@ -52,13 +55,19 @@ const [search,setSearch]=React.useState('')
   const HelperFaculty=(data)=>{
     useFaculty(data);
   }
+  const [total,setTotal]=React.useState(0)
+  const [currentPage,useCurrentpage]=React.useState(1)
   const Facultys = React.useCallback(async () => {
-    let data = await ApiViewFaculty(Dep,search);
-    HelperFaculty(data)
-  }, [Dep,search]);
+    let data = await ApiViewFaculty(Dep,search,currentPage);
+    HelperFaculty(data.allFacultys)
+    setTotal(data.total)
+  }, [Dep,search,currentPage]);
   const[Class,setClass]=React.useState([])
   const [semester,setsemester]=React.useState('')
   const [department,setdepartment]=React.useState('')
+  const ChangePage=(event,page)=>{
+      useCurrentpage(page)
+  }
   React.useEffect(() => {
 
     const fetchData = async () => {
@@ -434,6 +443,16 @@ const [totalClass,setCls]=React.useState([])
           )):<div>There is no Facultys Found</div>}
         </TableBody>
       </Table>
+      <br/>
+      <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination
+       count={faculty.length>0 ? total:0}
+        color="secondary"
+        page={currentPage}
+        onChange={ChangePage}
+         />
+    </Stack>
+    <br/>
     </TableContainer>
     </Container>
     </>

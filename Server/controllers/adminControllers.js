@@ -225,7 +225,8 @@ let admin = {
             if(Dep=='default'){
                  allStudents = await studentModel.find({name:new RegExp(key,'i')}).skip(skip).limit(limit).sort({_id:-1}).exec()
             }else{
-                allStudents = await studentModel.find({department:Dep,name:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                allStudents = await studentModel.find({department:Dep,name:new RegExp(key,'i')}).skip(skip).limit(limit).sort({_id:-1}).exec()
+                Total=Math.ceil(allStudents.length/5)
             }
             
             res.json({allStudents,Total})
@@ -241,16 +242,23 @@ let admin = {
             if (req.query.search) {
               key=  req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
             }
+            let pages=req.query.pages || 1
+            let limit=pages*5
+            let skip=(pages-1)*5
+            let total=await facultyModel.countDocuments()
+            total=Math.ceil(total/5)
+
             if(req.query.Dep=='default'){
-                allFacultys = await facultyModel.find({name:new RegExp(key,'i')}).sort({_id:-1}).exec()
+                allFacultys = await facultyModel.find({name:new RegExp(key,'i')}).limit(limit).skip(skip).sort({_id:-1}).exec()
             }else if(req.query.id){
                 allFacultys = await facultyModel.findOne({_id:req.query.id})
             }else if(req.query.Dep){
-                allFacultys = await facultyModel.find({department:Dep,name:new RegExp(key,"i")}).sort({_id:-1}).exec()
+                allFacultys = await facultyModel.find({department:Dep,name:new RegExp(key,"i")}).sort({_id:-1}).limit(limit).skip(skip).exec()
+                total=Math.ceil(allFacultys.length/5)
             }else{
                 allFacultys = await facultyModel.find().sort({_id:-1}).exec()
             }
-            res.json(allFacultys)
+            res.json({allFacultys,total})
         } catch (err) {
             res.json(false)
         }
