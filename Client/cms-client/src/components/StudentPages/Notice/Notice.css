@@ -1,0 +1,27 @@
+/* Default styles for card container */
+.Card-container {
+    background-color: blue !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* Default styles for each card wrapper */
+  .card-wrapper {
+    flex: 1 0 100%; /* By default, each card takes full width */
+  }
+  
+  /* Media query for screens with 'sm' size (max-width: 600px) */
+  @media (max-width: 600px) {
+    .card-wrapper {
+      flex: 1 0 100%; /* Each card takes full width on small screens */
+    }
+  }
+  
+  /* Media query for screens with 'lg' and above size (min-width: 992px) */
+  @media (min-width: 992px) {
+    .card-wrapper {
+      flex: 1 0 25%; /* Each card takes 25% width on large screens and above */
+    }
+  }
+  

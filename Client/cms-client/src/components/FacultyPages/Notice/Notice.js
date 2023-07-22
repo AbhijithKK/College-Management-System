@@ -1,69 +1,83 @@
 import './Notice'
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Container } from 'react-bootstrap';
-import { Download } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
 import { FacultyNoticeApi } from '../../api/FacultyApi';
-import { TextField } from '@mui/material';
-
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 export default function Notice() {
-    const [notice,setNotice]=React.useState([])
-   
-    const[search,setSearch]=React.useState('')
-    React.useEffect(()=>{
-      const ApiHelper=async()=>{
-        let data=await FacultyNoticeApi(search)
-        setNotice(data)
-    }
-       ApiHelper()
-    },[search])
-    console.log(notice);
-  return (
-    <>
-    <SideBarFaculty/>
-    <Container  >
-          {/* ==================================== */}
-        <div style={{display:'grid'}}>
-            <TextField
-              margin="dense"
-              label='Search'
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            </div>
-            {/* ==================================== */}
-        <div className='d-flex justify-content-between'>
-       {notice.length>0 ?
-        notice.map((data,index)=>(
-            <Card key={index} sx={{ maxWidth: 345 }} style={{marginTop:'10px'}}>
-            <CardMedia
-              sx={{ height: 200 }}
-              style={{height:"290px",}}
-              image="https://as2.ftcdn.net/v2/jpg/01/03/75/43/1000_F_103754394_xSNhdDOKFusz9Vrb8ZZNLY8SXSwLfaIT.jpg"
-              title="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {data.name}
-              </Typography>
-            <Link to={''}>
-                {/* data.filePath */}
-              <p style={{color:'blue',textDecoration:'underline'}} >Download Pdf  <Download></Download></p>
-            </Link>
-            
-            </CardContent>
-            
-          </Card>
+  const [notice,setNotice]=React.useState([])
+  
+  const[search,setSearch]=React.useState('')
+  const DownloadFile=async(path,name)=>{
+    const downloadUrl = `http://localhost:4000/images/${path}`;
+
+  try {
+    const response = await fetch(downloadUrl);
+    const blob = await response.blob();
+
+    
+    const blobUrl = window.URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+
+    downloadLink.href = blobUrl;
+    downloadLink.setAttribute('download', name+'.jpg');
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error('Error downloading the file:', error);
+  }
+  
+  }
+  React.useEffect(()=>{
+    const ApiHelper=async()=>{
+      let data=await FacultyNoticeApi(search)
+      setNotice(data)
+  }
+     ApiHelper()
+  },[search])
+  console.log(notice);
+return (
+  <>
+  <SideBarFaculty />
+  <div style={{marginLeft:'62px'}}>
+  <Container>
+    <Row>
+      <Col xs={12} md={12} lg={12}>
+        <input
+          type="text"
+          className="form-control mb-3"
+          placeholder="Search by name"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </Col>
+    </Row>
+    <Row>
+      {notice.length > 0 ? (
+        notice.map((data, index) => (
+          <Col key={index} xs={12} md={6} lg={3}>
+            <Card style={{ marginTop: '10px' }}>
+              <Card.Img
+                variant="top"
+                src="https://as2.ftcdn.net/v2/jpg/01/03/75/43/1000_F_103754394_xSNhdDOKFusz9Vrb8ZZNLY8SXSwLfaIT.jpg"
+                style={{ height: '200px' }}
+              />
+              <Card.Body>
+                <Card.Title>{data.name}</Card.Title>
+                <Button variant="primary" onClick={()=>DownloadFile(data.filePath,data.name)}>
+                  Download PDF
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
         ))
-       :<div>Notice not Found</div>}
-       </div>
-    </Container> 
-    </>
-  );
+      ) : (
+        <Col xs={12}>Notice not found</Col>
+      )}
+    </Row>
+  </Container>
+  </div>
+</>
+
+);
 }
