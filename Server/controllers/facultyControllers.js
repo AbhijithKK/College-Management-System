@@ -20,6 +20,7 @@ const { complaintScheema } = require("../models/complaintMode")
 const { subject } = require("../models/subjectScheema")
 const { notice } = require("../models/noticeScheema")
 const { semester } = require("../models/semesterScheema")
+const { Pagination } = require("../heplers/pagination")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
@@ -319,9 +320,17 @@ let faculty = {
     },
     getNotice: async (req, res) => {
         try {
+            let val={limit:await notice.count(),skip:0,total:0}
+            if (req.query.pageNo) {
+                let {limit,skip,total}=await Pagination(req.query.pageNo,notice,8)
+                val.limit=limit
+                val.skip=skip
+                val.total=total
+            }
             let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
-            let data = await notice.find({name:new RegExp(key,'i')}).sort({ _id: -1 }).exec()
-            res.json(data)
+            let data = await notice.find({name:new RegExp(key,'i')}).limit(val.limit).skip(val.skip).sort({ _id: -1 }).exec()
+            let total=val.total
+            res.json({data,total})
         } catch (err) {
             res.json(false)
         }

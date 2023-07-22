@@ -415,8 +415,8 @@ export const ApiViewDepartment = async () => {
   return data
 }
 
-export const FacultyNoticeApi = async (search) => {
-  let { data } = await axios.get('/faculty/checknotice',{params:{search}}, {
+export const FacultyNoticeApi = async (search,pageNo) => {
+  let { data } = await axios.get('/faculty/checknotice',{params:{search,pageNo}}, {
     headers: {
       'Content-Type': 'application/json'
     }
