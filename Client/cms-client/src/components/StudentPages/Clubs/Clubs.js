@@ -10,6 +10,8 @@ import { Container } from 'react-bootstrap';
 import { StudentClubStatus, studentClubApi } from '../../api/StudentApi';
 import { FacultyClubrequestSend } from '../../api/FacultyApi';
 import SideBarStudent from '../SideBar/SideBarStudent';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 export default function Clubs() {
   const [studentData, setStudentData] = useState({});
@@ -17,15 +19,20 @@ export default function Clubs() {
   const [status, setStatus] = useState([]);
   const [clubss, setClubss] = useState([]);
   const [refresh, useRefresh] = useState(false)
-
+  const [pageNo, setPageNo] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const PaginationHelp = (event, page) => {
+    setPageNo(page)
+  }
   const fetchData = useCallback(async () => {
-    const data = await studentClubApi();
+    const data = await studentClubApi(pageNo);
     setClubs(data.club);
+    setTotal(data.total)
     setStudentData(data.student);
     const clubSts = await StudentClubStatus();
     setStatus(clubSts);
-  }, []);
-
+  }, [pageNo]);
+  
   useEffect(() => {
     fetchData();
   }, [fetchData, refresh]);
@@ -92,6 +99,15 @@ export default function Clubs() {
             </Card>
           </Box>
         )) : <div>Clubs not found</div>}
+         <Stack style={{marginLeft:'72px'}} spacing={2}>
+      <Pagination 
+      count={total}
+       color="primary"
+       page={pageNo}
+       onChange={PaginationHelp}
+        />
+    </Stack>
+    <br/>
       </Container>
     </>
   );

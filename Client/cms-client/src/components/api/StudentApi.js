@@ -17,8 +17,8 @@ export const StudentProfileApi = async () => {
   })
   return data
 }
-export const studentClubApi = async () => {
-  let { data } = await axios.get('/student/clubs', {
+export const studentClubApi = async (pageNo) => {
+  let { data } = await axios.get('/student/clubs',{params:{pageNo}}, {
     headers: {
       'Content-Type': 'application/json'
     }

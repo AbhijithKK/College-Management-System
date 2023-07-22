@@ -14,6 +14,7 @@ const { resultScheema } = require("../models/resultScheema")
 const { attendenceScheema } = require("../models/attendance")
 const { complaintScheema } = require("../models/complaintMode")
 const { semester } = require("../models/semesterScheema")
+const { Pagination } = require("../heplers/pagination")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -98,14 +99,22 @@ let student = {
     ,
     getClubs: async (req,res) => {
         try {
+            let val={limit:await club.count(),skip:0,total:0}
+            if (req.query.pageNo) {
+                
+                let {limit,skip,total}=await Pagination(req.query.pageNo,club,3)
+                val.limit=limit
+                val.skip=skip
+                val.total=total
+            }
             
-            let clubs = await club.find().sort({_id:-1}).exec()
+            let clubs = await club.find().limit(val.limit).skip(val.skip).sort({_id:-1}).exec()
             
             let verify = await jwtVerify(req.cookies.studentjwt)
            
             let student = await studentModel.findOne({ _id: verify.data })
-            
-            res.json({club:clubs,student:student})
+            let total=val.total
+            res.json({club:clubs,student:student,total})
         } catch (err) {
             console.log(err);
             res.json(false)
