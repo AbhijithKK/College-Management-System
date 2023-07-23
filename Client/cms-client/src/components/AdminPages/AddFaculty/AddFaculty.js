@@ -63,8 +63,9 @@ function Addfaculty() {
     return (
         <>
         <SideBar/>
+        <div style={{backgroundColor:"gray",marginTop:'-65px',height:'100vh'}}>
         <Container>
-            <Row>
+            <Row style={{marginLeft:'10px '}}>
                 <Col sm={12}>
                     <div className='StudentForm' style={{
                        
@@ -163,6 +164,7 @@ function Addfaculty() {
                 </Col>
             </Row>
         </Container>
+        </div>
         </>
     );
 }

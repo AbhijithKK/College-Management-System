@@ -5,6 +5,14 @@
     padding-top: 30px;
     
   }
+.paper1 {
+    height: 150px;
+    width: 14rem;
+    margin-top: 1rem;
+    padding-top: 30px;
+    background-color: gray !important;
+    
+  }
   .paper h3{
     text-align: center;
   }

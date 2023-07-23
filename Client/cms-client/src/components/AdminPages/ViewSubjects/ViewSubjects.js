@@ -12,7 +12,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, M
 import { ApiAddSubjects, ApiDeleteSubjects, ApiViewClass, ApiViewDepartment, ApiViewSemester, ApiViewSubjects } from '../../api/AdminApi';
 import { DeleteForeverSharp } from '@mui/icons-material';
 import { useForm } from '../../useForm/useForm';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
 import Pagination from '@mui/material/Pagination';
@@ -63,7 +63,7 @@ export default function ViewSubjects() {
   const [departmentArr, useDepartment] = React.useState([])
   const DepartmentApi = async () => {
     let data = await ApiViewDepartment()
-    useDepartment(data.allDepartments)
+    useDepartment(data?.allDepartments)
   }
   const [search, setSearch] = React.useState('')
   const [pageNo, setPageNo] = React.useState(1)
@@ -150,8 +150,13 @@ export default function ViewSubjects() {
   return (
     <>
       <SideBar />
-      <Container>
+     <div style={{ backgroundColor: 'gray', marginTop: '-65px', height: '100vh' }}>
+     <Container>
+     <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
         <h1>VIEW SUBJECTS</h1>
+        </Col>
+            </Row>
         <React.Fragment>
           <div>
             <div className="addbtn">
@@ -234,7 +239,7 @@ export default function ViewSubjects() {
             </Dialog>
           </div>
 
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} style={{ backgroundColor: 'gray'}}>
             {/* ================>SEARCH<==================== */}
             <div style={{ display: 'grid', marginLeft: '72px', width: '100%' }}>
               <TextField
@@ -317,6 +322,7 @@ export default function ViewSubjects() {
           </TableContainer>
         </React.Fragment>
       </Container>
+     </div>
     </>
   );
 }

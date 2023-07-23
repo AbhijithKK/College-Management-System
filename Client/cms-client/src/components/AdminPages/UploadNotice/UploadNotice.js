@@ -29,8 +29,9 @@ const UploadNotice = () => {
   return (
     <div>
       <SideBar/>
+      <div style={{backgroundColor:'gray',height:'100vh',marginTop:'-65px'}}> 
       <Container>
-        <Row>
+        <Row style={{alignItems:'center'}}>
           <Col>
            <div className="uplodform">
            <Form>
@@ -51,6 +52,7 @@ const UploadNotice = () => {
           </Col>
         </Row>
       </Container>
+      </div>
     </div>
   );
 };

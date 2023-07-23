@@ -8,7 +8,7 @@ import { StudentClubAdminGetApi } from '../../api/StudentApi';
 import SideBar from '../SideBar/SideBar';
 function AddClub() {
   const [faculty, setFaculty] = useState([{ name: '' }]);
-const[clubAdminId,setClubAdminId]=useState('')
+  const [clubAdminId, setClubAdminId] = useState('')
   useEffect(() => {
     axios
       .get('/admin/facultys', {
@@ -17,50 +17,51 @@ const[clubAdminId,setClubAdminId]=useState('')
         }
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data.data.allFacultys);
         FacultyName(data.data.allFacultys);
       });
-      const FacultyApi=async()=>{
-        let data=await StudentClubAdminGetApi(clubAdminId)
-        setAdminName(data.name)
-      }
-      FacultyApi()
+    const FacultyApi = async () => {
+      let data = await StudentClubAdminGetApi(clubAdminId)
+      setAdminName(data.allFacultys.name)
+    }
+    FacultyApi()
   }, [clubAdminId]);
-  const [AdminName,setAdminName]=useState('')
-console.log(AdminName);
+  const [AdminName, setAdminName] = useState('')
+  console.log(AdminName);
   const FacultyName = (data) => {
     setFaculty(data);
   };
 
-  const [value ,useValue]=useForm({
-    names:'',
-    discription:''
+  const [value, useValue] = useForm({
+    names: '',
+    discription: ''
   })
   console.log(value);
-const HandleChange=(event)=>{
-  useValue(event)
-}
-const[errorMsg,setErrMsg]=useState('')
-const SendData=()=>{
-  if(value.names.trim()&&value.discription.trim()&&clubAdminId.trim()&&AdminName.trim()){
-  axios.post('/admin/addClub',{value,clubAdminId,clubAdmin:AdminName},{
-    headers:{
-      'Content-Type':'application/json'
-    },withCredentials:true
-  }).then((data)=>{
-    Swal.fire({
-      icon: 'success',
-      text: 'Club Added',
-  })
- 
-  })
-}else{
-setErrMsg('Fill the Form Properly')
-}
-}
+  const HandleChange = (event) => {
+    useValue(event)
+  }
+  const [errorMsg, setErrMsg] = useState('')
+  const SendData = () => {
+    if (value.names.trim() && value.discription.trim() && clubAdminId.trim() && AdminName.trim()) {
+      axios.post('/admin/addClub', { value, clubAdminId, clubAdmin: AdminName }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }, withCredentials: true
+      }).then((data) => {
+        Swal.fire({
+          icon: 'success',
+          text: 'Club Added',
+        })
+
+      })
+    } else {
+      setErrMsg('Fill the Form Properly')
+    }
+  }
   return (
     <div>
-      <SideBar/>
+      <SideBar />
+      <div style={{backgroundColor:'gray',marginTop:'-64px',height:'100vh'}}>
       <Container>
         <Row>
           <Col sm={12}>
@@ -72,14 +73,14 @@ setErrMsg('Fill the Form Properly')
                 justifyContent: 'center'
               }}
             >
-              <Form className="form">
-                <h1 style={{fontWeight:'bold'}}>CREATE CLUB</h1>
-                <p style={{color:'red'}}>{errorMsg}</p>
+              <Form className="form"  style={{marginTop:'60px'}}>
+                <h1 style={{ fontWeight: 'bold' }}>CREATE CLUB</h1>
+                <p style={{ color: 'red' }}>{errorMsg}</p>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Club Name</Form.Label>
                   <Form.Control type="text" name='names' value={value.names} onChange={HandleChange} placeholder="Enter Club Name" />
                 </Form.Group>
-                <Form.Select aria-label="Default select example" name='clubAdmin' onChange={(e)=>setClubAdminId(e.target.value)} >
+                <Form.Select aria-label="Default select example" name='clubAdmin' onChange={(e) => setClubAdminId(e.target.value)} >
                   <option hidden> Select Club Admin</option>
                   {faculty.map((value, index) => (
                     <option key={index} value={value._id}>
@@ -99,6 +100,7 @@ setErrMsg('Fill the Form Properly')
           </Col>
         </Row>
       </Container>
+      </div>
     </div>
   );
 }

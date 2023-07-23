@@ -1,5 +1,5 @@
 import './ViewSemester.css'
-import {Container} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import Swal from 'sweetalert2'
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -130,8 +130,16 @@ const DeleteSem=(id)=>{
   return (
     <>
     <SideBar/>
+    <div style={{ backgroundColor: 'gray', marginTop: '-65px', height: '100vh' }}>
     <Container>
+    <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
+               
       <h1>VIEW SEMESTERS</h1>
+   
+         
+            </Col>
+            </Row>
       <React.Fragment>
       <div>
         <div className="addbtn">
@@ -179,7 +187,7 @@ const DeleteSem=(id)=>{
         </Dialog>
       </div>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{ backgroundColor: 'gray'}}>
          {/* ================>SEARCH<==================== */}
       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
@@ -259,6 +267,7 @@ const DeleteSem=(id)=>{
       </TableContainer>
     </React.Fragment>
     </Container>
+    </div>
     </>
   );
 }

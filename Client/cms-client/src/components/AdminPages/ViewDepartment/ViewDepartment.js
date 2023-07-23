@@ -14,7 +14,7 @@ import {Button,TextField,Dialog,DialogActions,DialogContent,
    DialogTitle} from '@mui/material';
 import { ApiAddDepartment, ApiDeleteDepartment, ApiViewDepartment } from '../../api/AdminApi';
 import { DeleteForeverSharp } from '@mui/icons-material';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
 import Pagination from '@mui/material/Pagination';
@@ -111,11 +111,18 @@ console.log('kk',departments);
   return (
     <>
     <SideBar/>
+   <div style={{ backgroundColor: 'gray', marginTop: '-65px', height: '100vh' }}>
    <Container>
     <React.Fragment>
     
-    <div>
+    <div >
+    <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
+               
     <h1 style={{fontWeight:'bold'}}>VIEW DEPARTMENT</h1>
+         
+            </Col>
+            </Row>
     <div className="addbtn">
     
       <Button variant="outlined" className='departmentAddBtn' onClick={handleClickOpen}>
@@ -146,7 +153,7 @@ console.log('kk',departments);
     </div>
    
    
-     <TableContainer component={Paper}  className='tableContainer'>
+     <TableContainer component={Paper}  className='tableContainer' style={{ backgroundColor: 'gray'}}>
          {/* ================>SEARCH<==================== */}
       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
@@ -195,6 +202,7 @@ console.log('kk',departments);
       </TableContainer>
    </React.Fragment>
    </Container>
+   </div>
    </>
   );
 }

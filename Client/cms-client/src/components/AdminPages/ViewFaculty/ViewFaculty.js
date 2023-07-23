@@ -23,7 +23,7 @@ import Stack from '@mui/material/Stack';
 
 
 import { ApiDeleteFaculty, ApiFacultyUpdatePost, ApiUpdateFaculty, ApiViewClass, ApiViewDepartment, ApiViewFaculty, ApiViewSubjects } from '../../api/AdminApi';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -191,8 +191,16 @@ const [totalClass,setCls]=React.useState([])
   return (
     <>
     <SideBar/>
+    <div style={{backgroundColor:'gray',marginTop:'-65',height:'100vh'}}>
     <Container>
+    <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
+               
       <h1>VIEW FACULTYS</h1>
+   
+         
+            </Col>
+            </Row>
       {/* =======>MODAL<======= */}
     <div>
       <Dialog open={open} onClose={handleClose}>
@@ -360,7 +368,7 @@ const [totalClass,setCls]=React.useState([])
       </Dialog>
       </div>
       {/* ======================= */}
-    <TableContainer component={Paper} >
+    <TableContainer component={Paper} style={{backgroundColor:'gray'}}>
        {/* ================>SEARCH<==================== */}
        <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
@@ -455,6 +463,7 @@ const [totalClass,setCls]=React.useState([])
     <br/>
     </TableContainer>
     </Container>
+    </div>
     </>
   );
 }

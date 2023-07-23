@@ -14,7 +14,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, M
 import { ApiAddClass,  ApiDeleteClass,  ApiViewClass, ApiViewDepartment, ApiViewSemester} from '../../api/AdminApi';
 import { useForm } from '../../useForm/useForm';
 import { DeleteForeverSharp } from '@mui/icons-material';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
 import Pagination from '@mui/material/Pagination';
@@ -128,9 +128,15 @@ const DeleteClass=(id)=>{
 }
   return (
     <><SideBar/>
+    <div style={{backgroundColor:'gray',marginTop:'-65px',height:'100vh' }}>
     <Container>
          <div>
+         <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
+               
          <h1 style={{fontWeight:'bold'}}>VIEW CLASS</h1>
+            </Col>
+            </Row>
         <div className="addbtn">
           <Button variant="outlined" className="departmentAddBtn" onClick={handleClickOpen}>
             Add Class
@@ -196,7 +202,7 @@ const DeleteClass=(id)=>{
         </Dialog>
       </div>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{backgroundColor:'gray'}}>
          {/* ================>SEARCH<==================== */}
       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
@@ -240,7 +246,11 @@ const DeleteClass=(id)=>{
       </Stack>
      <br/>
       </TableContainer>
+      <br/>
+      <h1> </h1>
+      <br/>
     </Container>
+    </div>
     </>
   );
 }

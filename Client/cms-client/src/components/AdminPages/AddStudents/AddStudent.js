@@ -54,8 +54,9 @@ const [errmsg,setErrmsg]=useState('')
   return (
     <>
    <SideBar/>
+    <div style={{backgroundColor:'gray',marginTop:'-65px',height:'100vh' }}>
     <Container>
-      <Row>
+      <Row style={{marginLeft:'10px'}}>
         <Col sm={12}>
           <div
             className="StudentForm"
@@ -225,6 +226,7 @@ const [errmsg,setErrmsg]=useState('')
         </Col>
       </Row>
     </Container>
+    </div>
     </>
   );
 }

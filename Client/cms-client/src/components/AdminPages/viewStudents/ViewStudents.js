@@ -21,7 +21,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { ApiStudentDelete, ApiStudentUpdatePost, ApiUpdateStudent, ApiViewClass, ApiViewDepartment, ApiViewSemester } from "../../api/AdminApi";
 import SideBar from '../SideBar/SideBar';
 import Swal from "sweetalert2";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -182,8 +182,16 @@ const [totalDepartment,setDep]=React.useState([])
   return (
     <>
     <SideBar/>
-      <Container>
+  <div style={{ backgroundColor: 'gray', marginTop: '-65px', height: '100vh' }}>
+  <Container>
+  <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
+          <Col xs={12} md={12} lg={12}>
+               
       <h1>VIEW STUDENTS</h1>
+    
+         
+            </Col>
+            </Row>
         {/* =======>MODAL<======= */}
       <div>
       <Dialog open={open} onClose={handleClose}>
@@ -367,7 +375,7 @@ const [totalDepartment,setDep]=React.useState([])
       </div>
       {/* ======================= */}
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{ backgroundColor: 'gray'}}>
         {/* ================>SEARCH<==================== */}
       <div style={{display:'grid',marginLeft:'72px',width:'100%'}}>
             <TextField
@@ -475,6 +483,7 @@ const [totalDepartment,setDep]=React.useState([])
     </Stack>
       </TableContainer>
       </Container>
+  </div>
     </>
   );
 }

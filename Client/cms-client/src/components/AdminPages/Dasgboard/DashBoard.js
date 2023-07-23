@@ -23,8 +23,9 @@ function  DataHandle(data){
   return (
     <div>
       <SideBar />
+      <div style={{backgroundColor:'gray',marginTop:'-65px',height:'100vh'}}>
       <Container fluid>
-        <Row>
+        <Row style={{marginLeft:'80px'}}>
           <div className="mainpaperdiv">
             <Col sm={12} md={4}>
               <Paper elevation={24} className="paper">
@@ -44,9 +45,16 @@ function  DataHandle(data){
               <h1>{data.clubs}</h1>
               </Paper>
             </Col>
+            <Col sm={12} md={4}>
+              <Paper elevation={0}   className="paper1">
+              <h3> </h3>
+              <h1> </h1>
+              </Paper>
+            </Col>
           </div>
         </Row>
       </Container>
+      </div>
     </div>
   );
 };
