@@ -100,7 +100,7 @@ React.useEffect(()=>{
   const ApiHelper=async()=>{
     let data=await StudentResultGetApi(semwise)
     let sem=await ApiViewSemester('','sem')
-    console.log(sem,'jjk');
+    
     setSemester(sem)
     setResult(data)
   }

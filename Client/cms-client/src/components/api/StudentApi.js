@@ -17,8 +17,8 @@ export const StudentProfileApi = async () => {
   })
   return data
 }
-export const studentClubApi = async (pageNo) => {
-  let { data } = await axios.get('/student/clubs',{params:{pageNo}}, {
+export const studentClubApi = async (pageNo,filter) => {
+  let { data } = await axios.get('/student/clubs',{params:{pageNo,filter}}, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -312,4 +312,31 @@ export const StudentChangePassword = async (email, newpass) => {
     text: 'Password Changed SuccesFully'
   })
   return data
+}
+export const StudentClubrequestSend = async (studentName, department, semester,
+  clubName, clubAdminId, clubAdminName, studentId, clubId) => {
+  let { data } = await axios.post('/student/clubRequest', {
+    studentName, department, semester,
+    clubName, status: 'Request Send', clubAdminId, clubAdminName, studentId, clubId
+  }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }, withCredentials: true
+  })
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+
+    })
+  }
+  Swal.fire({
+    icon: 'success',
+
+    text: data
+  })
+
+  return data
+
 }
