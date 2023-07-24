@@ -30,6 +30,8 @@ router.post('/changepassword',studentAuth, student.postPassword)
 router.post('/leaveletter',studentAuth, student.postLeaveLetter)
 router.post('/addcomplaint',studentAuth, student.postComplaint)
 router.post('/verifymail',studentAuth,student.postMailVerify)
+router.post('/clubRequest',studentAuth,student.clubRequest)
+
 
 
 

@@ -99,9 +99,9 @@ let student = {
     ,
     getClubs: async (req,res) => {
         try {
+
             let val={limit:await club.count(),skip:0,total:0}
-            if (req.query.pageNo) {
-                
+            if (req.query.pageNo) { 
                 let {limit,skip,total}=await Pagination(req.query.pageNo,club,3)
                 val.limit=limit
                 val.skip=skip
@@ -363,6 +363,30 @@ let student = {
             res.json(false)
         }
     }, 
+    clubRequest: async (req, res) => {
+        try {
+            const data = await clubRequestScheema.create({
+                studentName: req.body.studentName,
+                department: req.body.department,
+                semester: req.body.semester,
+                clubName: req.body.clubName,
+                status: req.body.status,
+                clubAdminId: req.body.clubAdminId,
+                clubAdminName: req.body.clubAdminName,
+                studentId: req.body.studentId,
+                clubId: req.body.clubId
+            });
+
+
+            if (data !== null) {
+                res.json('Club Request sent successfully');
+            } else {
+                res.json(false);
+            }
+        } catch (err) {
+            res.json(false);
+        }
+    },
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('studentjwt', '').json(true)

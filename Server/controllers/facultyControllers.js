@@ -232,7 +232,7 @@ let faculty = {
     getAdminClubs: async (req, res) => {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
-            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-bA-B]/g, "");
+            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "");
 
             console.log(key,'ll',req.query.search);
             let clubs = await club.find({ clubAdminId: verify.data ,name:new RegExp(key)}).sort({ _id: -1 }).exec()
