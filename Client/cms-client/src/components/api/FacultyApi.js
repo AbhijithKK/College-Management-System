@@ -470,3 +470,43 @@ export const FacultyChangePassword = async (email, newpass) => {
   })
   return data
 }
+export const FacultyClubSheduleMeeting = async (id,time,date,place) => {
+  let { data } = await axios.post('/faculty/shedulemeeting', { id,time,date,place }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  Swal.fire({
+    icon: 'success',
+
+    text:data
+  })
+  return data
+}
+export const FacultyClubDeleteMeeting = async (id,meetingId) => {
+  let { data } = await axios.get('/faculty/deletemeeting', {params:{id,meetingId} }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  Swal.fire({
+    icon: 'success',
+
+    text:data
+  })
+  return data
+}

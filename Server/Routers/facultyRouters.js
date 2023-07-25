@@ -2,6 +2,7 @@ const express=require('express')
 const faculty = require('../controllers/facultyControllers')
 const upload = require('../heplers/multer')
 const { facultyAuth } = require('../middlewere/facultyMiddlewere')
+const { route } = require('express-cookie/lib/application')
 const router=express.Router()
 
 router.get('/ClubRequests',facultyAuth,faculty.viewClubRequests)
@@ -34,5 +35,7 @@ router.post('/attendence',facultyAuth,faculty.postAttendance)
 router.post('/addcomplaint',facultyAuth, faculty.postComplaint)
 router.post('/applypassword',faculty.applyPassword)
 router.post('/forgotPassword',faculty.ForgotPass)
+router.post('/shedulemeeting',facultyAuth,faculty.sheduleMeeting)
+router.get('/deletemeeting',facultyAuth,faculty.deleteMeeting)
 
 module.exports=router 

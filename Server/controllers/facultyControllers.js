@@ -90,7 +90,7 @@ let faculty = {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let allRequests
             if (req.query.search) {
-                let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
+                let key = req.query.search.replace(/[^a-bA-B]/g, "").replace(/[^a-bA-B]/g, "")
                 allRequests = await clubRequestScheema.find({ clubAdminId: verify.data, studentName: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
             } else {
                 allRequests = await clubRequestScheema.find({ clubAdminId: verify.data }).sort({ _id: -1 }).exec()
@@ -106,7 +106,7 @@ let faculty = {
             let faculty1 = await facultyModel.findOne({ _id: verify.data })
             let allLeaveletters
             if (req.query.search) {
-                let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
+                let key = req.query.search.replace(/[^a-bA-B]/g, "").replace(/[^a-bA-B]/g, "")
                 allLeaveletters = await leaveApplyScheema.find({ studentName: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
             } else {
                 allLeaveletters = await leaveApplyScheema.find().sort({ _id: -1 }).exec()
@@ -144,11 +144,11 @@ let faculty = {
                 month: '2-digit',
                 year: 'numeric',
             })
-            let key=req.query.search.replace(/[^a-bA-B]/g,"").replace(/[^a-bA-B]/g,"")
-            let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId: data._id }, { className: data.adminOfClass },{studentName:new RegExp(key,'i')}] }).lean()
+            let key = req.query.search.replace(/[^a-bA-B]/g, "").replace(/[^a-bA-B]/g, "")
+            let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId: data._id }, { className: data.adminOfClass }, { studentName: new RegExp(key, 'i') }] }).lean()
 
             if (temp.length == 0) {
-                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass },{name:new RegExp(key,'i') }] }).lean()
+                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }, { name: new RegExp(key, 'i') }] }).lean()
                 let Array = []
                 if (stdnt.length == 0) {
                     res.json(Array)
@@ -175,7 +175,7 @@ let faculty = {
                     res.json(Array)
                 }
             } else {
-                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass },{name:new RegExp(key,'i')}] }).lean()
+                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }, { name: new RegExp(key, 'i') }] }).lean()
                 let Array = []
                 if (stdnt.length == 0) {
                     res.json(Array)
@@ -221,8 +221,8 @@ let faculty = {
         try {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let faculty = await facultyModel.findOne({ _id: verify.data })
-            
-            let data = await studentModel.find({ department: faculty.department ,name:new RegExp(req.query.search,'i')}).sort({ name: 1 }).exec()
+
+            let data = await studentModel.find({ department: faculty.department, name: new RegExp(req.query.search, 'i') }).sort({ name: 1 }).exec()
             console.log(data);
             res.json(data)
         } catch (err) {
@@ -234,8 +234,8 @@ let faculty = {
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "");
 
-            console.log(key,'ll',req.query.search);
-            let clubs = await club.find({ clubAdminId: verify.data ,name:new RegExp(key)}).sort({ _id: -1 }).exec()
+            console.log(key, 'll', req.query.search);
+            let clubs = await club.find({ clubAdminId: verify.data, name: new RegExp(key) }).sort({ _id: -1 }).exec()
             res.json(clubs)
         } catch (err) {
             res.json(false)
@@ -320,17 +320,17 @@ let faculty = {
     },
     getNotice: async (req, res) => {
         try {
-            let val={limit:await notice.count(),skip:0,total:0}
+            let val = { limit: await notice.count(), skip: 0, total: 0 }
             if (req.query.pageNo) {
-                let {limit,skip,total}=await Pagination(req.query.pageNo,notice,8)
-                val.limit=limit
-                val.skip=skip
-                val.total=total
+                let { limit, skip, total } = await Pagination(req.query.pageNo, notice, 8)
+                val.limit = limit
+                val.skip = skip
+                val.total = total
             }
-            let key=req.query.search.replace(/[^a-zA-Z]/g,"").replace(/[^a-zA-Z]/g,"")
-            let data = await notice.find({name:new RegExp(key,'i')}).limit(val.limit).skip(val.skip).sort({ _id: -1 }).exec()
-            let total=val.total
-            res.json({data,total})
+            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+            let data = await notice.find({ name: new RegExp(key, 'i') }).limit(val.limit).skip(val.skip).sort({ _id: -1 }).exec()
+            let total = val.total
+            res.json({ data, total })
         } catch (err) {
             res.json(false)
         }
@@ -434,9 +434,9 @@ let faculty = {
     },
     LeaveStatusUpdate: async (req, res) => {
         try {
-            
-             await leaveApplyScheema.updateOne({ _id: req.body.id }, { status: req.body.status, adminName: req.body.adminName })
-            
+
+            await leaveApplyScheema.updateOne({ _id: req.body.id }, { status: req.body.status, adminName: req.body.adminName })
+
             res.json(true)
         } catch (err) {
             res.json(false)
@@ -444,8 +444,8 @@ let faculty = {
     },
     PostResult: async (req, res) => {
         try {
-            
-          await resultScheema.create({
+
+            await resultScheema.create({
                 department: req.body.department,
                 semester: req.body.semester,
                 className: req.body.className,
@@ -455,23 +455,24 @@ let faculty = {
                 subject: req.body.subject
 
             })
-           
+
             res.json(true)
         } catch (err) {
-           
+
             res.json(false)
         }
     },
     postAttendance: async (req, res) => {
         try {
             let details = req.body.details
-            let temp = await attendenceScheema.find({ $and:
-                 [
-                { date: req.body.details.date }, 
-                { studentId: req.body.details.studentId }, 
-                { className: req.body.details.className }
-            ] 
-        }).lean()
+            let temp = await attendenceScheema.find({
+                $and:
+                    [
+                        { date: req.body.details.date },
+                        { studentId: req.body.details.studentId },
+                        { className: req.body.details.className }
+                    ]
+            }).lean()
 
             if (temp.length == 0) {
 
@@ -539,7 +540,6 @@ let faculty = {
     ForgotPass: async (req, res) => {
         try {
             let data = await facultyModel.findOne({ email: req.body.email })
-
             if (data != null) {
                 let otp = OtpGen()
                 const subject = "COLLEGE MANAGEMENT SYSTEM ✔"
@@ -551,6 +551,37 @@ let faculty = {
                 res.json({ otp: false, text: 'Plese Enter Registered Email' })
             }
         } catch (err) {
+            console.log(err);
+            res.json(false)
+        }
+    },
+    sheduleMeeting: async (req, res) => {
+        try {
+            let id = req.body.id
+
+            let randomInteger = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+            let meeting = {
+                id: id + randomInteger,
+                time:req.body.time,
+                date:req.body.date,
+                place:req.body.place
+            }
+
+            await club.findByIdAndUpdate(id, { $push: {meeting:meeting} })
+        res.json('Meeting Sheduled Successfully')
+
+        } catch (err) {
+            console.log(err);
+            res.json(false)
+        }
+    },
+    deleteMeeting:async(req,res)=>{
+        try{
+            console.log(req.query.id);
+            console.log(req.query.meetingId);
+            await club.findByIdAndUpdate(req.query.id,{$pull:{meeting:{id:req.query.meetingId}}})
+           res.json(true)
+        }catch(err){
             console.log(err);
             res.json(false)
         }
