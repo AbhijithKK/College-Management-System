@@ -586,6 +586,15 @@ let faculty = {
             res.json(false)
         }
     },
+    GetClubStudents:async(req,res)=>{
+        try{
+            let data=await clubRequestScheema.find({$and:[{clubId:req.query.id},{status:'Now Your a Member'}]}).sort({studentName:1}).lean()
+            res.json(data)
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
     // =======>logout<=======
     logOut: (req, res) => {
         res.cookie('facultyjwt', '').json(true)

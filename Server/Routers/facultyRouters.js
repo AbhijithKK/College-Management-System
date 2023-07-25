@@ -37,5 +37,6 @@ router.post('/applypassword',faculty.applyPassword)
 router.post('/forgotPassword',faculty.ForgotPass)
 router.post('/shedulemeeting',facultyAuth,faculty.sheduleMeeting)
 router.get('/deletemeeting',facultyAuth,faculty.deleteMeeting)
+router.get('/clubstudent',facultyAuth,faculty.GetClubStudents)
 
 module.exports=router 

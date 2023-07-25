@@ -8,9 +8,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container } from 'react-bootstrap';
 import { Delete, MoreVert } from '@mui/icons-material';
-import { Dialog, DialogActions, DialogContent,  DialogTitle, IconButton, Menu, MenuItem, Select, TextField, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Menu,
+  MenuItem, Select, Table, TableBody, TableHead, TableRow, TextField, Tooltip, useMediaQuery, useTheme
+} from '@mui/material';
 import Swal from 'sweetalert2';
-import { FacultyClubDeleteMeeting, FacultyClubSheduleMeeting, FacultyDeleteClubs, FacultyGetClubs } from '../../api/FacultyApi';
+import {
+  FacultyClubDeleteMeeting, FacultyClubSheduleMeeting, FacultyClubStudentMeeting, FacultyDeleteClubs,
+  FacultyGetClubs
+} from '../../api/FacultyApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
 // ===========>DATE=======================
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -39,6 +45,7 @@ export default function ViewClubs() {
 
   // ======>modal<=====
   const [open, setOpen] = React.useState(false);
+  const [openStudent, setOpenStudent] = React.useState(false);
   const [openMoreinfo, setOpenMoreinfo] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -54,6 +61,13 @@ export default function ViewClubs() {
 
   const handleCloseMoreInfo = () => {
     setOpenMoreinfo(false);
+  };
+  const handleClickOpenStudent = () => {
+    setOpenStudent(true);
+  };
+
+  const handleCloseStudent = () => {
+    setOpenStudent(false);
   };
   const [add, useAdd] = React.useState(false)
 
@@ -147,7 +161,14 @@ export default function ViewClubs() {
       }
     });
   }
+  const[studentData,useStudent]=useState([])
+const HandleStudents=async()=>{
 
+  let data=await FacultyClubStudentMeeting(moreInfo._id)
+  useStudent(data)
+  handleClickOpenStudent()
+  console.log(data);
+}
   return (
     <>
       <SideBarFaculty />
@@ -258,6 +279,7 @@ export default function ViewClubs() {
                         onClose={handleMenuClose}
                       >
                         <MenuItem onClick={() => handleMoreInfo(data)}>More info</MenuItem>
+                        <MenuItem onClick={() => HandleStudents()}>View Students</MenuItem>
                         <MenuItem onClick={() => handleDelete(data._id)}>Delete Club</MenuItem>
                       </Menu>
                     </div>
@@ -277,24 +299,64 @@ export default function ViewClubs() {
                 >
                   <DialogTitle id="responsive-dialog-title">{"Scheduled Meetings"}</DialogTitle>
                   <DialogContent key={index}>
-  {data.meeting.map((val, index) => (
-    <React.Fragment key={index}>
-      <p>{val.date}</p>
-      <p>{val.time}</p>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <p>{val.place}</p>
-        <Tooltip title="Delete Meeting">
-          <Button onClick={() => DeleteSheduledMeetingHelper(index)}>
-            <Delete />
-          </Button>
-        </Tooltip>
-      </div>
-      <hr /> {/* Move the <hr> outside of the <p> element */}
-    </React.Fragment>
-  ))}
-</DialogContent>
+                    {data.meeting.map((val, index) => (
+                      <React.Fragment key={index}>
+                        <p>{val.date}</p>
+                        <p>{val.time}</p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <p>{val.place}</p>
+                          <Tooltip title="Delete Meeting">
+                            <Button onClick={() => DeleteSheduledMeetingHelper(index)}>
+                              <Delete />
+                            </Button>
+                          </Tooltip>
+                        </div>
+                        <hr /> {/* Move the <hr> outside of the <p> element */}
+                      </React.Fragment>
+                    ))}
+                  </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseMoreInfo} autoFocus>
+                      close
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+              {/* ==================================================================== */}
+              {/* =================================MODAL======================== */}
+              <div key={data._id}>
+                <Dialog
+                  fullScreen={fullScreen}
+                  open={openStudent}
+                  onClose={handleCloseStudent}
+                  aria-labelledby="responsive-dialog-title"
+                >
+                  <DialogTitle id="responsive-dialog-title">{"Joined Students"}</DialogTitle>
+                  <DialogContent key={index}>
+                   
+                    <>
+                    <Table>
+                    <TableHead>
+            <TableRow>
+                    <td style={{fontWeight:'bold'}}>Name</td>
+                    <td style={{fontWeight:'bold',paddingLeft:'10px'}}>Department</td>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {studentData.map((val)=>(
+          <TableRow key={val._id}>
+             <td >{val.studentName}</td>
+             <td style={{paddingLeft:'10px'}}>{val.department}</td>
+            </TableRow>
+             ))}
+                   
+          </TableBody>
+                    </Table>
+                    </>
+                  
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseStudent} autoFocus>
                       close
                     </Button>
                   </DialogActions>
