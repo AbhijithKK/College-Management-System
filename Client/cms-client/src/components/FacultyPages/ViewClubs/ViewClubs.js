@@ -278,7 +278,7 @@ const HandleStudents=async()=>{
                         open={Boolean(anchorEl)}
                         onClose={handleMenuClose}
                       >
-                        <MenuItem onClick={() => handleMoreInfo(data)}>More info</MenuItem>
+                        <MenuItem onClick={() => handleMoreInfo(data)}>View Meetings</MenuItem>
                         <MenuItem onClick={() => HandleStudents()}>View Students</MenuItem>
                         <MenuItem onClick={() => handleDelete(data._id)}>Delete Club</MenuItem>
                       </Menu>
