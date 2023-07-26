@@ -21,6 +21,7 @@ const { subject } = require("../models/subjectScheema")
 const { notice } = require("../models/noticeScheema")
 const { semester } = require("../models/semesterScheema")
 const { Pagination } = require("../heplers/pagination")
+const { approveModel } = require("../models/approveRequests")
 
 const OtpGen = () => {
     return otpGenerator.generate(6, {
@@ -342,6 +343,7 @@ let faculty = {
             let id = verify.data
 
             let updateData = {
+                id:id,
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -353,6 +355,8 @@ let faculty = {
                 qualifications: req.body.qualifications,
                 teachingArea: req.body.teachingArea,
                 address: req.body.address,
+                category:'faculty',
+                date:new Date().toLocaleDateString('en-GB')
             };
 
             if (req.file !== undefined) {
@@ -361,10 +365,10 @@ let faculty = {
 
             }
 
-            let data = await facultyModel.updateOne({ _id: id }, updateData);
+            let data = await approveModel.create(updateData);
 
             console.log(data);
-            res.json('Faculty Data Updated');
+            res.json('Update Request Successfully Done');
 
         } catch (err) {
 

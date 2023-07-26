@@ -488,3 +488,44 @@ export const ApiDeleteComplaint = async (id) => {
     return data
 }
 
+export const ApiViewApprovelists = async () => {
+    let { data } = await axios.get('/admin/approvelists', {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+    })
+
+    if (data === false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+        })
+    }
+
+    return data
+}
+export const ApiFacultyProfile = async (id) => {
+    let { data } = await axios.get('/admin/facultys',{params:{id}} ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data?.allFacultys
+  }
+export const ApiupdateRequests = async (id,category) => {
+    let { data } = await axios.get('/admin/updateRequests',{params:{id,category}} ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data
+  }
+export const ApiDeleteRequests = async (id) => {
+    let { data } = await axios.delete('/admin/approvelists',{params:{id}} ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data
+  }
+

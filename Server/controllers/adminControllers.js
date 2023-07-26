@@ -12,6 +12,7 @@ const { complaintScheema } = require('../models/complaintMode')
 const nodeMail = require('../heplers/nodeMailer')
 const otpGenerator = require('otp-generator')
 const { Pagination } = require('../heplers/pagination')
+const { approveModel } = require('../models/approveRequests')
 
 const passGen = () => {
     return otpGenerator.generate(8, {
@@ -377,14 +378,25 @@ let admin = {
 
     viewApproveLists: async (req, res) => {
         try {
-            // let allList=await approveListModel.find()
-            // res.json(allList)
+           
+            let allList=await approveModel.find().sort({_id:-1}).exec()
+           
+            res.json(allList)
         } catch (err) {
             console.log(err);
+            res.json(false)
         }
     },
 
     // <====DELETE CONTROLLS====>
+    deleteRequests:async(req,res)=>{
+        try{
+            await approveModel.deleteOne({_id:req.query.id})
+            res.json(true)
+        }catch(err){
+            res.json(false)
+        }
+    },
     deleteStudent: async (req, res) => {
         try {
             let id = req.query.id
@@ -458,6 +470,58 @@ let admin = {
         }
     },
     // <====UPDATE CONTROLLS====>
+    UpdateRequests:async(req,res)=>{
+        try{
+            let data= await approveModel.findOne({_id:req.query.id})
+            if (req.query.category==='faculty') {
+                const datas = {
+                    name: data.name,
+                    email: data.email,
+                    mobNumber: data.mobNumber,
+                    teachingArea: data.teachingArea,
+                    department: data.department,
+                    admYear: data.admYear,
+                    gender: data.gender,
+                    address: data.address,
+                    DOB: data.dob,
+                    adminOfClass: data.className,
+                    qualifications: data.qualifications,
+                }
+                if (data.image!='false') {
+                    updateData.image = data.image;
+                }
+               await facultyModel.updateOne({ _id: data.id }, datas)
+               await  approveModel.deleteOne({_id:req.query.id})
+                       
+                  
+            }else if(req.query.category==='student'){
+                const updateData = {
+                    name: data.name,
+                    email: data.email,
+                    mobNumber: data.mobNumber,
+                    DOB: data.dob,
+                    admYear: data.admYear,
+                    address: data.address,
+                    department: data.department,
+                    gender: data.gender,
+                    guardianName: data.guardianName,
+                    guardianNumber: data.guardianNumber,
+                    semester: data.semester,
+                    className: data.className
+                };
+                if (data.image!='false') {
+                    updateData.image = data.image;
+                }
+                await studentModel.updateOne({ _id:data.id }, updateData); 
+                await  approveModel.deleteOne({_id:req.query.id})
+            }
+           
+            res.json(true)
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
 
     postupdateStudent: async (req, res) => {
         try {

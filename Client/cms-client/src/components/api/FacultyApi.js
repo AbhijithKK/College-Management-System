@@ -39,7 +39,7 @@ export const FacultyProfileUpdateApi = async (name, email, mobNumber, dob, admYe
   Swal.fire({
     icon: 'success',
 
-    text: 'Profile Updated',
+    text: 'Profile Updated Request Send Successfully',
 
   })
 }

@@ -327,6 +327,7 @@ export default function Profile() {
                 value={department}
                 onChange={(event) => setdepartment(event.target.value)}
               >
+                <MenuItem hidden value={department}>{department}</MenuItem>
                 {totalDepartment.length>0 ?
                 totalDepartment.map((data, index) => (
 

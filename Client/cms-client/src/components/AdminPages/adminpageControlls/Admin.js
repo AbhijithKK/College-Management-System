@@ -16,6 +16,7 @@ import ViewClass from '../viewClass/ViewClass';
 import DashBoard from '../Dasgboard/DashBoard';
 import Addfaculty from '../AddFaculty/AddFaculty';
 import PrivateRoutes from '../../../Utils/PrivateRoutes';
+import ApproveList from '../ApproveRequests/ApproveRequests';
 
 
 const Admin = () => {
@@ -38,6 +39,7 @@ const Admin = () => {
           <Route path="/viewsubjects" element={<ViewSubjects />} />
           <Route path="/viewcomplaint" element={<ViewComplaint />} />
           <Route path="/uploadnotice" element={<UploadNotice />} />
+          <Route path="/approverequests" element={<ApproveList />} />
           <Route path="/logout" element={<Logout data={{ logout: '/admin' }} />} />
         </Route>
 

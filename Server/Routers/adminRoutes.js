@@ -12,7 +12,9 @@ const { adminLogin,addStudent, addFaculty, addClub,
        viewClass,
        addClass,
        deleteClass,
-       deleteComplaint} = require('../controllers/adminControllers')
+       deleteComplaint,
+       deleteRequests,
+       UpdateRequests} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 const { adminAuth } = require('../middlewere/adminMiddlewere')
 let router=express.Router()
@@ -36,13 +38,13 @@ router.get('/department',adminAuth,viewDepartment)
 router.get('/subjects',adminAuth,viewSubjects)
 router.get('/semester',adminAuth,viewSemester)
 router.get('/complaints',adminAuth,viewComplaints)
-router.get('/viewApproveLists',adminAuth,viewApproveLists)
-router.get('/viewApproveLists',adminAuth,viewApproveLists)
+router.get('/approvelists',adminAuth,viewApproveLists)
 router.get('/class',adminAuth,viewClass)
 router.get('/checkAuth',checkAuth)
 router.get('/logout',logOut)
 
 // <====DELETE API====>
+router.delete('/approvelists',adminAuth,deleteRequests)
 router.get('/deleteStudent',adminAuth,deleteStudent)
 router.get('/deleteFaculty',adminAuth,deleteFaculty)
 router.get('/deleteDepartment',adminAuth,deleteDepartment)
@@ -52,6 +54,7 @@ router.get('/deleteClass',adminAuth,deleteClass)
 router.get('/deleteComplaint',adminAuth,deleteComplaint)
 
 // <====UPDATE API====>
+router.get('/updateRequests',adminAuth,UpdateRequests)
 router.get('/updateFaculty',adminAuth,updateFaculty)
 router.get('/updateStudent',adminAuth,updateStudent)
 router.post('/updateStudent',adminAuth,upload.single('image'),postupdateStudent)

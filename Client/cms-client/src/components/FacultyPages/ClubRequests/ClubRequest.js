@@ -228,6 +228,7 @@ console.log(requests,search);
                   <Tooltip title='Reject' type='button' onClick={()=>Action(row._id,Reject)}>
                   <Button><Close/></Button>
                   </Tooltip>
+                  {/* <Tooltip title='delete request'><Button type='button' onClick={()=>DeleteRequest(row._id)}><Delete/></Button></Tooltip> */}
                    </>
                 }
                 <Tooltip title='delete request'><Button type='button' onClick={()=>DeleteRequest(row._id)}><Delete/></Button></Tooltip>
