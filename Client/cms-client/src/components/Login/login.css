@@ -85,3 +85,6 @@ margin-bottom: -8px;
     transform: scale(1.2);
     text-decoration: none;
 }
+.resenOtp:hover{
+cursor: pointer;
+}
