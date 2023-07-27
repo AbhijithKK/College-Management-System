@@ -526,3 +526,19 @@ export const FacultyClubStudentMeeting = async (id) => {
  
   return data
 }
+export const FacultyPreviousAttendance = async (search) => {
+  let { data } = await axios.get('/faculty/previousattendance', {params:{search} }, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+ 
+  return data
+}

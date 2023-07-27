@@ -136,20 +136,45 @@ let faculty = {
             res.json(false)
         }
     },
-    getAttendance: async (req, res) => {
-        try {
+    PreviousAttendance:async(req,res)=>{
+        try{
+            let key = ''
+            let datekey = ''
+            if (req.query.search) {
+              key= req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+              if (!key) {
+                key=''
+                   datekey= req.query.search.replace(/[^0-9/0-9/0-9]/g, "")
+              }
+            }
+            
             let verify = await jwtVerify(req.cookies.facultyjwt)
             let data = await facultyModel.findOne({ _id: verify.data })
+            let attendance=await attendenceScheema.find({$and:[{ facultyId: data._id }, { className: data.adminOfClass }, 
+                { studentName: new RegExp(key, 'i') }], date: new RegExp(datekey, 'i') }).sort({_id:-1}).exec()
+                res.json(attendance)
+        }catch(err){
+            res.json(false)
+        }
+    },
+    getAttendance: async (req, res) => {
+        try {
+            
+            let verify = await jwtVerify(req.cookies.facultyjwt)
+            let data = await facultyModel.findOne({ _id: verify.data })
+            console.log(data);
             let todayDate = new Date().toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
             })
-            let key = req.query.search.replace(/[^a-bA-B]/g, "").replace(/[^a-bA-B]/g, "")
+            let key = ''
+            if (req.query.search) {
+              key= req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+            }
             let temp = await attendenceScheema.find({ $and: [{ date: todayDate }, { facultyId: data._id }, { className: data.adminOfClass }, { studentName: new RegExp(key, 'i') }] }).lean()
-
             if (temp.length == 0) {
-                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }, { name: new RegExp(key, 'i') }] }).lean()
+                let stdnt = await studentModel.find({ $and: [{ department: data.department }, { className: data.adminOfClass }, { name: new RegExp(key, 'i') }] }).lean()               
                 let Array = []
                 if (stdnt.length == 0) {
                     res.json(Array)

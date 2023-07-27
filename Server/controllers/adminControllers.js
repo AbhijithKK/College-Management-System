@@ -491,7 +491,6 @@ let admin = {
                     gender: data.gender,
                     address: data.address,
                     DOB: data.dob,
-                    adminOfClass: data.className,
                     qualifications: data.qualifications,
                 }
                 if (data.image!='false') {
