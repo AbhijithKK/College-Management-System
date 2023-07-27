@@ -39,7 +39,7 @@ export default function Profile() {
   
   const [pic, setPic] = useState('')
 
-  console.log(FacultyData);
+ 
 
   const HandleClickOpen = async () => {
 

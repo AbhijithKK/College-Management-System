@@ -15,6 +15,7 @@ const { attendenceScheema } = require("../models/attendance")
 const { complaintScheema } = require("../models/complaintMode")
 const { semester } = require("../models/semesterScheema")
 const { Pagination } = require("../heplers/pagination")
+const { approveModel } = require("../models/approveRequests")
 
 const OtpGen=()=>{
     return   otpGenerator.generate(6, { upperCaseAlphabets: false, 
@@ -240,6 +241,7 @@ let student = {
                 let id=verify.data
 
             let updateData = {
+                id:id,
                 name: req.body.name,
                 email: req.body.email,
                 mobNumber: req.body.mobNumber,
@@ -251,6 +253,8 @@ let student = {
                 guardianName: req.body.guardianName,
                 guardianNumber: req.body.guardianNumber,
                 address: req.body.address,
+                category:'student',
+                date:new Date().toLocaleDateString('en-GB')
             };
 
             if (req.file!==undefined) {
@@ -259,10 +263,10 @@ let student = {
                 
             }
           
-            let data = await studentModel.updateOne({ _id: id }, updateData);
+            let data = await approveModel.create(updateData);
 
             console.log(data);
-            res.json('Student Data Updated');
+            res.json('Update Request Successfully Done');
 
         } catch (err) {
 

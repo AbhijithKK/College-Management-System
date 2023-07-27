@@ -224,9 +224,16 @@ let admin = {
             Total = Math.ceil(Total / 5)
 
             let Dep = req.query.Dep
+            let key=''
+            if (req.query.search) {
+                key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
+            }
             let allStudents
-            let key = req.query.search.replace(/[^a-zA-Z]/g, "").replace(/[^a-zA-Z]/g, "")
-            if (Dep == 'default') {
+            if(req.query.id){
+                console.log('lkk');
+                allStudents=await studentModel.findOne({_id:req.query.id})
+                console.log(allStudents);
+            }else if (Dep == 'default') {
                 allStudents = await studentModel.find({ name: new RegExp(key, 'i') }).skip(skip).limit(limit).sort({ _id: -1 }).exec()
             } else {
                 allStudents = await studentModel.find({ department: Dep, name: new RegExp(key, 'i') }).skip(skip).limit(limit).sort({ _id: -1 }).exec()
@@ -488,7 +495,7 @@ let admin = {
                     qualifications: data.qualifications,
                 }
                 if (data.image!='false') {
-                    updateData.image = data.image;
+                    datas.image = data.image;
                 }
                await facultyModel.updateOne({ _id: data.id }, datas)
                await  approveModel.deleteOne({_id:req.query.id})

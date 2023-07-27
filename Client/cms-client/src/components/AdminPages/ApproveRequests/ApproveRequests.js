@@ -18,7 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Container } from 'react-bootstrap';
 import './ApproveRequests.css';
 import SideBarStudent from '../SideBar/SideBar';
-import { ApiDeleteRequests, ApiFacultyProfile, ApiViewApprovelists, ApiupdateRequests } from '../../api/AdminApi';
+import { ApiDeleteRequests, ApiFacultyProfile, ApiStudentProfile, ApiViewApprovelists, ApiupdateRequests } from '../../api/AdminApi';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TableHead, Tooltip } from '@mui/material';
 import {  Delete, Done } from '@mui/icons-material';
 import Swal from 'sweetalert2';
@@ -107,9 +107,14 @@ const[updatedata,setupdatedata]=React.useState({})
 const[currentdata,setCurrentData]=React.useState({})
 const [open, setOpen] = React.useState(false);
 const handleClickOpen = async(data) => {
+  if(data.category==='faculty'){
     let faculty=await ApiFacultyProfile(data.id)
-    setupdatedata(data)
     setCurrentData(faculty)
+  }else if(data.category==='student'){
+    let student=await ApiStudentProfile(data.id)
+    setCurrentData(student)
+  }
+  setupdatedata(data)
   setOpen(true);
 };
 const handleClose = () => {

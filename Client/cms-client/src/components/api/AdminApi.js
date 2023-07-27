@@ -512,6 +512,15 @@ export const ApiFacultyProfile = async (id) => {
     })
     return data?.allFacultys
   }
+export const ApiStudentProfile = async (id) => {
+    let { data } = await axios.get('/admin/students',{params:{id}} ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    console.log(data,'kk');
+    return data?.allStudents
+  }
 export const ApiupdateRequests = async (id,category) => {
     let { data } = await axios.get('/admin/updateRequests',{params:{id,category}} ,{
       headers: {
