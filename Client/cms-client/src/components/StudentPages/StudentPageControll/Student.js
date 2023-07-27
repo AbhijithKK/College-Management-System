@@ -10,6 +10,7 @@ import LeaveStatus from '../LeaveStatus/LeaveStatus'
 import AddComplaint from '../AddComplaint/AddComplaint'
 import Logout from '../../Logout/Logout'
 import PrivateRoutes from '../../../Utils/PrivateRoutes'
+import Calander from '../Calendar/Calander'
 
 const Student = () => {
   return (
@@ -26,6 +27,7 @@ const Student = () => {
         <Route path='/applyleave' element={<LeaveLetterForm/>}></Route>
         <Route path='/leaveStatus' element={<LeaveStatus/>}></Route>
         <Route path='/addComplaint' element={<AddComplaint/>}></Route>
+        <Route path='/notificationCalander' element={<Calander/>}></Route>
         <Route path="/logout" element={<Logout data={{logout:'/student'}} />} />
         </Route>
         <Route  path="/*"  element={<Navigate to="/404" />} />

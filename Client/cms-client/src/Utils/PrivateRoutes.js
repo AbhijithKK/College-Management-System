@@ -32,7 +32,7 @@ const PrivateRoutes = ({ role, route }) => {
       })
     } else if (role === 'student') {
       axios.get('/student/checkAuth', {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },withCredentials:true
       }).then((data) => {
         if (data.data === true) {
           setAuth(true)
