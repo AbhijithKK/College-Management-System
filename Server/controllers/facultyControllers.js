@@ -41,7 +41,7 @@ let faculty = {
             } else {
                 let datas = await bcrypt.compare(req.body.password, data.password)
                 if (datas === true) {
-                    res.cookie('facultyjwt', await jwtSign(data._id), { withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "none", maxAge: 1000000 })
+                    res.cookie('facultyjwt', await jwtSign(data._id), { withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "Lax", maxAge: 1000000 })
                         .json(true)
 
                 } else {

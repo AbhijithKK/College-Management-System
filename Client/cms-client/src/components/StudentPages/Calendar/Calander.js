@@ -3,36 +3,11 @@ import Calanders from 'react-awesome-calendar';
 import SideBarStudent from '../SideBar/SideBarStudent';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
+import { ApiStudentCalender } from '../../api/StudentApi';
 
 const Calander = () => {
   const [notificationPermission, setNotificationPermission] = useState('default');
   const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    // Request permission for notifications when the component mounts
-    if ('Notification' in window) {
-      Notification.requestPermission().then((permission) => {
-        setNotificationPermission(permission);
-      });
-    }
-
-    // Set the events once on component mount
-    setEvents([
-      {
-        id: 1,
-        color: '#fd3153',
-        from: '2023-07-27T18:00:00+00:00',
-        to: '2023-07-28T19:00:00+00:00',
-        title: 'This is an event',
-      },
-      // Other events...
-    ]);
-  }, []);
-
-  const handleEventClick = (event) => {
-    showNotification(event.title);
-  };
-
   const showNotification = useCallback((eventTitle) => {
     if (notificationPermission === 'granted') {
       const notification = new Notification('Event Reminder', {
@@ -45,6 +20,24 @@ const Calander = () => {
     }
   }, [notificationPermission]);
 
+
+  useEffect(() => {
+    // Request permission for notifications when the component mounts
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        setNotificationPermission(permission);
+      });
+    }
+
+    // Set the events once on component mount
+    GetApi();
+  }, []);
+
+  const handleEventClick = useCallback((event) => {
+    showNotification(event.title);
+  }, [showNotification]);
+
+  
   const showUpcomingEventNotifications = useCallback(() => {
     const now = new Date().getTime();
 
@@ -59,10 +52,18 @@ const Calander = () => {
   }, [events, showNotification]);
 
   useEffect(() => {
+    // Set up an interval for upcoming event notifications when the component mounts
     const interval = setInterval(() => showUpcomingEventNotifications(), 60000);
 
     return () => clearInterval(interval);
   }, [showUpcomingEventNotifications]);
+
+  const GetApi = async () => {
+    let data = await ApiStudentCalender();
+    setEvents(data);
+  };
+
+  console.log(events);
 
   return (
     <div>

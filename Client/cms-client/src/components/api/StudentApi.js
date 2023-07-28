@@ -340,3 +340,18 @@ export const StudentClubrequestSend = async (studentName, department, semester,
   return data
 
 }
+export const ApiStudentCalender = async () => {
+  let { data } = await axios.get('/student/calender', {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}

@@ -32,7 +32,7 @@ let admin = {
             if (email === req.body.mail && password === req.body.password) {
 
 
-                res.cookie('jwtAdmin', await jwtSign(123456), { withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "none", maxAge: 1000000 })
+                res.cookie('jwtAdmin', await jwtSign(123456), { withCrdenttitals: true, httpOnly: false, secure: false, sameSite: "Lax", maxAge: 1000000 })
                     .json(true)
             } else {
                 res.json(false)
