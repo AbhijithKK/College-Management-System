@@ -1,0 +1,15 @@
+/* Add custom styles for the calendar component */
+/* Add custom styles for the calendar component */
+.eventTitle {
+    font-size: 0.9rem !important;
+    line-height: 22px !important;
+    font-weight: bold !important; /* You can adjust the font size as needed */
+  }
+  
+  
+  .maindivCalander{
+    margin-left:62px;
+  }
+  .dayCellEvent{
+    height: 26px !important;
+  }

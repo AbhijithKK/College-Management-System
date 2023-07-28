@@ -68,9 +68,13 @@ const Calander = () => {
   return (
     <div>
       <SideBarStudent />
+      <div className='maindivCalander'>
       <Container>
-        <Calanders events={events} onClickEvent={handleEventClick} />
+        <Calanders events={events} onClickEvent={handleEventClick}
+        style={{ '.awesome-calendar .event-list .event-title': { fontSize: '5px' } }}
+        />
       </Container>
+      </div>
     </div>
   );
 };
