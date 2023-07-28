@@ -265,19 +265,19 @@ let student = {
                         const isoFormat = date.toISOString().slice(0, -5);
 
                         // ===============================================================================
-                        let color
+                        let color=''
                         let currentDate=new Date().toISOString().slice(0,-5)
                         if (currentDate<isoFormat) { 
-                            color='green'
+                            color='#9df5aa'
                         }else{
-                            color='#fd3153'
+                            color='#ff8585'
                         }
                         let obj = {
                             id:Date.now()+j,
                             color:color ,
                            from:isoFormat+'+00:00',
                            to:isoFormat+'+00:00',
-                           title:`${notification[i].clubName} venue is ${notification[i].meeting[j].place}`
+                           title:`${notification[i].clubName} club, Venue : ${notification[i].meeting[j].place}`
                         }
                         newArr.push(obj)
                     }

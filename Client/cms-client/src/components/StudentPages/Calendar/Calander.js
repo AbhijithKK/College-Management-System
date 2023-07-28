@@ -1,3 +1,4 @@
+// Calander.js
 import './Calander.css';
 import Calanders from 'react-awesome-calendar';
 import SideBarStudent from '../SideBar/SideBarStudent';
@@ -8,6 +9,7 @@ import { ApiStudentCalender } from '../../api/StudentApi';
 const Calander = () => {
   const [notificationPermission, setNotificationPermission] = useState('default');
   const [events, setEvents] = useState([]);
+
   const showNotification = useCallback((eventTitle) => {
     if (notificationPermission === 'granted') {
       const notification = new Notification('Event Reminder', {
@@ -19,7 +21,6 @@ const Calander = () => {
       };
     }
   }, [notificationPermission]);
-
 
   useEffect(() => {
     // Request permission for notifications when the component mounts
@@ -37,7 +38,6 @@ const Calander = () => {
     showNotification(event.title);
   }, [showNotification]);
 
-  
   const showUpcomingEventNotifications = useCallback(() => {
     const now = new Date().getTime();
 
@@ -63,17 +63,21 @@ const Calander = () => {
     setEvents(data);
   };
 
-  console.log(events);
+  const handleRef = (ref) => {
+    if (ref) {
+      const elementHeight = ref.offsetHeight;
+      console.log('Element height:', elementHeight);
+    }
+  };
 
   return (
     <div>
       <SideBarStudent />
       <div className='maindivCalander'>
-      <Container>
-        <Calanders events={events} onClickEvent={handleEventClick}
-        style={{ '.awesome-calendar .event-list .event-title': { fontSize: '5px' } }}
-        />
-      </Container>
+        <Container>
+          {/* Use the handleRef callback to get the ref */}
+          <Calanders ref={handleRef} events={events} onClickEvent={handleEventClick} />
+        </Container>
       </div>
     </div>
   );
