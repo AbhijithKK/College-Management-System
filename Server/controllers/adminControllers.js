@@ -13,6 +13,7 @@ const nodeMail = require('../heplers/nodeMailer')
 const otpGenerator = require('otp-generator')
 const { Pagination } = require('../heplers/pagination')
 const { approveModel } = require('../models/approveRequests')
+const { paymentModel } = require('../models/payment')
 
 const passGen = () => {
     return otpGenerator.generate(8, {
@@ -205,7 +206,13 @@ let admin = {
     payment:async(req,res)=>{
         try{
             const {title,amount,dueDate}=req.body
-
+           let d= await paymentModel.create({
+                title:title,
+                amount:amount,
+                date:dueDate
+            })
+            console.log(d);
+            res.json(true)
         }catch(err){
             res.json(false)
         }
@@ -213,8 +220,14 @@ let admin = {
     // <====VIEW CONTROLLS===>
     viewPayment:async(req,res)=>{
         try{
-
+            let key=''
+            if(req.query.search){
+                key=req.query.search.replace(/[^a-zA-Z]/g,'').replace(/[^a-zA-Z]/g,'')
+            }
+            let pay=await paymentModel.find({title:new RegExp(key,'i')}).sort({_id:-1}).exec()
+            res.json(pay)
         }catch(err){
+            console.log(err);
             res.json(false)
         }
     },
@@ -412,7 +425,7 @@ let admin = {
     // <====DELETE CONTROLLS====>
     deletePayment:async(req,res)=>{
         try{
-            await this.payment.deleteOne({_id:req.query.id})
+            await paymentModel.deleteOne({_id:req.query.id})
             res.json(true)
         }catch(err){
             res.json(false)

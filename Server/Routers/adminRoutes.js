@@ -45,7 +45,7 @@ router.get('/semester',adminAuth,viewSemester)
 router.get('/complaints',adminAuth,viewComplaints)
 router.get('/approvelists',adminAuth,viewApproveLists)
 router.get('/class',adminAuth,viewClass)
-router.post('/payment',adminAuth,viewPayment)
+router.get('/payment',adminAuth,viewPayment)
 router.get('/checkAuth',checkAuth)
 router.get('/logout',logOut)
 

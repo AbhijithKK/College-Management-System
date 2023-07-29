@@ -540,7 +540,7 @@ export const ApiDeleteRequests = async (id) => {
 
   export const ApiPayment = async (title,amount,dueDate) => {
     let { data } = await axios.post('/admin/payment', { title,amount,dueDate}, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
     if (data === false) {
@@ -558,7 +558,7 @@ export const ApiDeleteRequests = async (id) => {
     })
     return data
 }
-export const ApiDeleteCalander = async (id) => {
+export const ApiDeletepayment = async (id) => {
     let { data } = await axios.delete('/admin/payment',{params:{id}} ,{
       headers: {
         'Content-Type': 'application/json'
@@ -566,8 +566,9 @@ export const ApiDeleteCalander = async (id) => {
     })
     return data
   }
-  export const ApiGetCalender = async () => {
-    let { data } = await axios.get('/admin/payment',{
+  export const ApiGetpayment = async (search) => {
+   
+    let { data } = await axios.get('/admin/payment',{params:{search}},{
       headers: {
         'Content-Type': 'application/json'
       }
