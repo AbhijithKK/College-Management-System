@@ -17,7 +17,8 @@ const { semester } = require("../models/semesterScheema")
 const { Pagination } = require("../heplers/pagination")
 const { approveModel } = require("../models/approveRequests")
 const { paymentModel } = require("../models/payment")
-
+require('dotenv')
+const stripe = require('stripe')(process.env.STRIP_KEY)
 const OtpGen = () => {
     return otpGenerator.generate(6, {
         upperCaseAlphabets: false,
@@ -466,6 +467,35 @@ let student = {
         } catch (err) {
             res.json(false);
         }
+    },
+    viewPaymentPost:async(req,res)=>{
+        try{
+            const {title,amount}=req.body
+            let amounts=parseInt(amount)
+        const session = await stripe.checkout.sessions.create({
+            line_items: [
+              {
+                price_data: {
+                  currency: 'inr',
+                  product_data: {
+                    name: title,
+                  },
+                  unit_amount:amounts * 100,
+                },
+                quantity: 1,
+              },
+            ],
+            mode: 'payment',
+            success_url: `${process.env.BASE_URL}`,
+            cancel_url: `${process.env.BASE_URL}`,
+          });
+        
+          res.json(session.url);
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+        
     },
     // =======>logout<=======
     logOut: (req, res) => {

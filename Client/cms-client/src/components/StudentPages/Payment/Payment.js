@@ -1,11 +1,11 @@
 import './Payment.css'
 import * as React from 'react';
-import { ApiStudentPayment, StudentNoticeApi } from '../../api/StudentApi';
+import { ApiStudentPayment, ApiStudentPaymentpost,  } from '../../api/StudentApi';
 import SideBarStudent from '../SideBar/SideBarStudent';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
+import Swal from 'sweetalert2';
 export default function Payment() {
   const [notice, setNotice] = React.useState([])
   const [search, setSearch] = React.useState('')
@@ -23,6 +23,19 @@ export default function Payment() {
     }
     ApiHelper()
   }, [search, currentPage])
+  const PayHelper=async(title,amount)=>{
+    let res=await ApiStudentPaymentpost(title,amount)
+    if (res===false) {
+                Swal.fire({
+                  icon: 'error',
+                  text: 'Payment Gateway error',
+                });
+            } else{
+
+                window.location.href=res
+            }  
+    }
+  
   return (
     <>
       <SideBarStudent />
@@ -53,7 +66,8 @@ export default function Payment() {
                     />
                     <Card.Body>
                       <Card.Title>{data.title}</Card.Title>
-                      <Button variant="primary" >
+                      <Card.Title>{data.amount}</Card.Title>
+                      <Button onClick={()=>PayHelper(data.title,data.amount)} variant="primary" >
                         Pay
                       </Button>
                     </Card.Body>

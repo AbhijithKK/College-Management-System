@@ -370,3 +370,18 @@ export const ApiStudentPayment = async () => {
   }
   return data
 }
+export const ApiStudentPaymentpost = async (title,amount) => {
+  let { data } = await axios.post('/student/payment',{title,amount}, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}

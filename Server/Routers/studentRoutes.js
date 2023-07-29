@@ -17,6 +17,7 @@ router.get('/semester',studentAuth,student.viewSemester)
 router.get('/department',studentAuth,student.viewDepartment)
 router.get('/calender',studentAuth,student.calander)
 router.get('/payment',studentAuth,student.viewPayment)
+router.post('/payment',studentAuth,student.viewPaymentPost)
 
 router.post('/applypassword',student.applyPassword)
 router.post('/forgotPassword',student.ForgotPass)
