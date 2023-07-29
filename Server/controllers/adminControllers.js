@@ -202,8 +202,22 @@ let admin = {
             res.json(false)
         }
     },
-    // <====VIEW CONTROLLS===>
+    payment:async(req,res)=>{
+        try{
+            const {title,amount,dueDate}=req.body
 
+        }catch(err){
+            res.json(false)
+        }
+    },
+    // <====VIEW CONTROLLS===>
+    viewPayment:async(req,res)=>{
+        try{
+
+        }catch(err){
+            res.json(false)
+        }
+    },
     dashBord: async (req, res) => {
         try {
             let totalStudent = await studentModel.count()
@@ -396,6 +410,14 @@ let admin = {
     },
 
     // <====DELETE CONTROLLS====>
+    deletePayment:async(req,res)=>{
+        try{
+            await this.payment.deleteOne({_id:req.query.id})
+            res.json(true)
+        }catch(err){
+            res.json(false)
+        }
+    },
     deleteRequests:async(req,res)=>{
         try{
             await approveModel.deleteOne({_id:req.query.id})

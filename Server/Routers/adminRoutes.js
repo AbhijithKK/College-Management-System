@@ -14,7 +14,10 @@ const { adminLogin,addStudent, addFaculty, addClub,
        deleteClass,
        deleteComplaint,
        deleteRequests,
-       UpdateRequests} = require('../controllers/adminControllers')
+       UpdateRequests,
+       payment,
+       viewPayment,
+       deletePayment} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 const { adminAuth } = require('../middlewere/adminMiddlewere')
 let router=express.Router()
@@ -29,6 +32,8 @@ router.post('/semester',adminAuth,addSemester)
 router.post('/Subject',adminAuth,addSubject)
 router.post('/uploadNotice',adminAuth,upload.single('files'),uploadNotice)
 router.post('/class',adminAuth,addClass)
+router.post('/payment',adminAuth,payment)
+
 
 // <====VIEW PAGE API====>
 router.get('/home',adminAuth,dashBord)
@@ -40,18 +45,20 @@ router.get('/semester',adminAuth,viewSemester)
 router.get('/complaints',adminAuth,viewComplaints)
 router.get('/approvelists',adminAuth,viewApproveLists)
 router.get('/class',adminAuth,viewClass)
+router.post('/payment',adminAuth,viewPayment)
 router.get('/checkAuth',checkAuth)
 router.get('/logout',logOut)
 
 // <====DELETE API====>
 router.delete('/approvelists',adminAuth,deleteRequests)
-router.get('/deleteStudent',adminAuth,deleteStudent)
-router.get('/deleteFaculty',adminAuth,deleteFaculty)
-router.get('/deleteDepartment',adminAuth,deleteDepartment)
-router.get('/deleteSubject',adminAuth,deleteSubject)
-router.get('/deleteSemester',adminAuth,deleteSemester)
-router.get('/deleteClass',adminAuth,deleteClass)
-router.get('/deleteComplaint',adminAuth,deleteComplaint)
+router.delete('/payment',adminAuth,deletePayment)
+router.delete('/student',adminAuth,deleteStudent)
+router.delete('/faculty',adminAuth,deleteFaculty)
+router.delete('/department',adminAuth,deleteDepartment)
+router.delete('/subject',adminAuth,deleteSubject)
+router.delete('/semester',adminAuth,deleteSemester)
+router.delete('/class',adminAuth,deleteClass)
+router.delete('/complaint',adminAuth,deleteComplaint)
 
 // <====UPDATE API====>
 router.get('/updateRequests',adminAuth,UpdateRequests)

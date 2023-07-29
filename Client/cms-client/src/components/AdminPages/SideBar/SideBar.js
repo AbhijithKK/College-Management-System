@@ -32,6 +32,7 @@ import {
   VerifiedSharp,
   UploadFileSharp,
   MailSharp,
+  PriceCheckSharp,
  
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
@@ -118,6 +119,7 @@ const view = [
   { text: 'View Subjects', link: '/admin/viewsubjects', icon: <LocalLibrarySharp /> },
 ];
 const links1 = [
+  { text: 'Create Payment', link: '/admin/payment', icon: <PriceCheckSharp/>},
   { text: 'Check Complaint', link: '/admin/viewcomplaint', icon: <MailSharp /> },
   { text: 'Upload Notice', link: '/admin/uploadnotice', icon: <UploadFileSharp /> },
   { text: 'Approve Requests', link: '/admin/approverequests', icon: <VerifiedSharp /> },

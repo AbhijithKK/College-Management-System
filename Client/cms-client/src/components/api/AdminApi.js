@@ -39,7 +39,7 @@ export const ApiAddDepartment = async (datas) => {
     return data
 }
 export const ApiDeleteDepartment = async (id) => {
-    let { data } = await axios.get('/admin/deleteDepartment', { params: { id } }, {
+    let { data } = await axios.delete('/admin/department', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -99,7 +99,7 @@ export const ApiAddSemester = async (datas) => {
 }
 export const ApiDeleteSemester = async (id) => {
     console.log(id);
-    let { data } = await axios.get('/admin/deleteSemester', { params: { id } }, {
+    let { data } = await axios.delete('/admin/semester', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -155,7 +155,7 @@ export const ApiAddSubjects = async (datas, department, className) => {
     return data
 }
 export const ApiDeleteSubjects = async (id) => {
-    let { data } = await axios.get('/admin/deleteSubject', { params: { id } }, {
+    let { data } = await axios.delete('/admin/subject', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -240,7 +240,7 @@ export const ApiStudentUpdatePost = async (id, name, email, mobNumber, address, 
 }
 
 export const ApiStudentDelete = async (id) => {
-    let data = await axios.get('/admin//deleteStudent', { params: { id } }, {
+    let data = await axios.delete('/admin/student', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' }, withCredentials: true
 
     })
@@ -312,7 +312,7 @@ export const ApiAddFaculty = (value) => {
 }
 
 export const ApiDeleteFaculty = async (id) => {
-    let { data } = await axios.get('/admin/deleteFaculty', { params: { id } }, {
+    let { data } = await axios.delete('/admin/faculty', { params: { id } }, {
         headers: {
             'Content-Type': 'application/json'
         }, withCredentials: true
@@ -436,7 +436,7 @@ export const ApiAddClass = async (datas) => {
     return data
 }
 export const ApiDeleteClass = async (id) => {
-    let { data } = await axios.get('/admin/deleteClass', { params: { id } }, {
+    let { data } = await axios.delete('/admin/class', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -472,7 +472,7 @@ export const ApiViewComplaint = async (search,pageNo) => {
 }
 
 export const ApiDeleteComplaint = async (id) => {
-    let { data } = await axios.get('/admin/deleteComplaint', { params: { id } }, {
+    let { data } = await axios.delete('/admin/complaint', { params: { id } }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
     })
@@ -538,3 +538,39 @@ export const ApiDeleteRequests = async (id) => {
     return data
   }
 
+  export const ApiPayment = async (title,amount,dueDate) => {
+    let { data } = await axios.post('/admin/payment', { title,amount,dueDate}, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true
+    })
+    if (data === false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something Wrong',
+
+        })
+
+    }
+    Swal.fire({
+        icon: 'success',
+        text: data,
+    })
+    return data
+}
+export const ApiDeleteCalander = async (id) => {
+    let { data } = await axios.delete('/admin/payment',{params:{id}} ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data
+  }
+  export const ApiGetCalender = async () => {
+    let { data } = await axios.get('/admin/payment',{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data
+  }

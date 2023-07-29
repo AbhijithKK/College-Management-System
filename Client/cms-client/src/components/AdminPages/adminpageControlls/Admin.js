@@ -17,6 +17,7 @@ import DashBoard from '../Dasgboard/DashBoard';
 import Addfaculty from '../AddFaculty/AddFaculty';
 import PrivateRoutes from '../../../Utils/PrivateRoutes';
 import ApproveList from '../ApproveRequests/ApproveRequests';
+import CreatePayment from '../CreatePayment/CreatePayment';
 
 
 const Admin = () => {
@@ -40,6 +41,7 @@ const Admin = () => {
           <Route path="/viewcomplaint" element={<ViewComplaint />} />
           <Route path="/uploadnotice" element={<UploadNotice />} />
           <Route path="/approverequests" element={<ApproveList />} />
+          <Route path="/payment" element={<CreatePayment />} />
           <Route path="/logout" element={<Logout data={{ logout: '/admin' }} />} />
         </Route>
 
