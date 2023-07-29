@@ -355,3 +355,18 @@ export const ApiStudentCalender = async () => {
   }
   return data
 }
+export const ApiStudentPayment = async () => {
+  let { data } = await axios.get('/student/payment', {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+  })
+
+  if (data === false) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something Wrong',
+    })
+  }
+  return data
+}
