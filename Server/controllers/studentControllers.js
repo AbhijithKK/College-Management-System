@@ -17,6 +17,8 @@ const { semester } = require("../models/semesterScheema")
 const { Pagination } = require("../heplers/pagination")
 const { approveModel } = require("../models/approveRequests")
 const { paymentModel } = require("../models/payment")
+const { paymentHistoryModel } = require("../models/paymentHistory")
+const { isObjectIdOrHexString } = require("mongoose")
 require('dotenv')
 const stripe = require('stripe')(process.env.STRIP_KEY)
 const OtpGen = () => {
@@ -214,15 +216,46 @@ let student = {
             res.json(false)
         }
     },
-    viewPayment:async(req,res)=>{
-        try{
-            let key=''
-            if(req.query.search){
-                key=req.query.search.replace(/[^a-zA-Z]/g,'').replace(/[^a-zA-Z]/g,'')
+    viewPayment: async (req, res) => {
+        try {
+            let key = ''
+            if (req.query.search) {
+                console.log('search');
+                key = req.query.search.replace(/[^a-zA-Z]/g, '').replace(/[^a-zA-Z]/g, '')
             }
-            let pay=await paymentModel.find({title:new RegExp(key,'i')}).sort({_id:-1}).exec()
-            res.json(pay)
-        }catch(err){
+
+            let pay = await paymentModel.find({ title: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
+            let history = await paymentHistoryModel.find()
+            let verify = await jwtVerify(req.cookies.studentjwt)
+
+            let arr=[]
+            if (history) {
+                for (let i = 0; i < pay.length; i++) {
+                    let s = ''
+                    for (let j = 0; j < history.length; j++) {
+
+                        if (pay[i]._id.equals(history[j].paymentId) && history[j].studentId == verify.data) {
+
+                            s = history[j].status
+
+                        }
+
+                    }
+                    let obj={
+                        _id:pay[i]._id,
+                        status:s,
+                        title:pay[i].title,
+                        amount:pay[i].amount
+                    }
+                    arr.push(obj)
+                    
+                }
+            }
+
+            let newarr=[...new Set(arr)]
+           
+            res.json(newarr)
+        } catch (err) {
             console.log(err);
             res.json(false)
         }
@@ -264,41 +297,41 @@ let student = {
                         notification.push(obj)
                     }
                 }
-               
+
                 // ==============================================================================
-               
+
                 for (let i = 0; i < notification.length; i++) {
                     for (let j = 0; j < notification[i].meeting?.length; j++) {
                         // ===================TIME AND DATE CONVERT TO ISO==============================
                         const [time, meridiem] = notification[i].meeting[j].time.split(" ");
                         const [hours, minutes] = time.split(":").map(Number);
 
-                        
+
                         const [day, month, year] = notification[i].meeting[j].date.split("/").map(Number);
                         const adjustedHours = meridiem.toLowerCase() === "pm" ? hours + 12 : hours;
                         const date = new Date(year, month - 1, day, adjustedHours, minutes);
                         const isoFormat = date.toISOString().slice(0, -5);
 
                         // ===============================================================================
-                        let color=''
-                        let currentDate=new Date().toISOString().slice(0,-5)
-                        if (currentDate<isoFormat) { 
-                            color='#9df5aa'
-                        }else{
-                            color='#ff8585'
+                        let color = ''
+                        let currentDate = new Date().toISOString().slice(0, -5)
+                        if (currentDate < isoFormat) {
+                            color = '#9df5aa'
+                        } else {
+                            color = '#ff8585'
                         }
                         let obj = {
-                            id:Date.now()+j,
-                            color:color ,
-                           from:isoFormat+'+00:00',
-                           to:isoFormat+'+00:00',
-                           title:`${notification[i].clubName} club, Venue : ${notification[i].meeting[j].place}`
+                            id: Date.now() + j,
+                            color: color,
+                            from: isoFormat + '+00:00',
+                            to: isoFormat + '+00:00',
+                            title: `${notification[i].clubName} club, Venue : ${notification[i].meeting[j].place}`
                         }
                         newArr.push(obj)
                     }
 
                 }
-                
+
             }
             res.json(newArr)
         } catch (err) {
@@ -468,34 +501,74 @@ let student = {
             res.json(false);
         }
     },
-    viewPaymentPost:async(req,res)=>{
-        try{
-            const {title,amount}=req.body
-            let amounts=parseInt(amount)
-        const session = await stripe.checkout.sessions.create({
-            line_items: [
-              {
-                price_data: {
-                  currency: 'inr',
-                  product_data: {
-                    name: title,
-                  },
-                  unit_amount:amounts * 100,
-                },
-                quantity: 1,
-              },
-            ],
-            mode: 'payment',
-            success_url: `${process.env.BASE_URL}`,
-            cancel_url: `${process.env.BASE_URL}`,
-          });
-        
-          res.json(session.url);
-        }catch(err){
+    viewPaymentPost: async (req, res) => {
+        try {
+            const { title, amount, id } = req.body
+            let sid = await jwtVerify(req.cookies.studentjwt)
+            let data = await paymentHistoryModel.create({
+                paymentId: id,
+                studentId: sid.data
+            })
+            let amounts = parseInt(amount)
+            const session = await stripe.checkout.sessions.create({
+                line_items: [
+                    {
+                        price_data: {
+                            currency: 'inr',
+                            product_data: {
+                                name: title,
+                            },
+                            unit_amount: amounts * 100,
+                        },
+                        quantity: 1,
+                    },
+                ],
+                mode: 'payment',
+                success_url: `${process.env.URL_SUCCESS}?id=${data._id}`,
+                cancel_url: `${process.env.URL_CANCEL}?id=${data._id}`,
+            });
+
+            console.log(data);
+            res.json({ url: session.url, id: data._id });
+        } catch (err) {
             console.log(err);
             res.json(false)
         }
-        
+
+    },
+    PaymentSuccess: async (req, res) => {
+        try {
+            // ===========================================================================================
+            let id = await jwtVerify(req.cookies.studentjwt)
+
+            let data = await paymentHistoryModel.updateOne({ _id: req.query.id }, { status: true })
+
+            let da = await paymentHistoryModel.deleteMany({ _id: id.data, status: 'process' });
+            console.log(da);
+
+            // ===========================================================================================
+            console.log(data);
+            res.redirect(`${process.env.BASE_URL}`)
+        } catch (err) {
+            res.redirect(`${process.env.BASE_URL}`)
+        }
+    },
+    PaymentCancel: async (req, res) => {
+        try {
+            // ===========================================================================================
+            let id = await jwtVerify(req.cookies.studentjwt)
+
+            let data = await paymentHistoryModel.updateOne({ _id: req.query.id }, { status: false })
+
+            let da = await paymentHistoryModel.deleteMany({ _id: id.data, status: 'process' });
+            console.log(da);
+
+            // ===========================================================================================
+            console.log(data);
+            res.redirect(`${process.env.BASE_URL}`)
+        } catch (err) {
+            res.redirect(`${process.env.BASE_URL}`)
+        }
     },
     // =======>logout<=======
     logOut: (req, res) => {
