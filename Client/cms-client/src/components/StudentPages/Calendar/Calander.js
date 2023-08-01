@@ -71,7 +71,7 @@ const Calander = () => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor:'gray' ,height:'100vh'}}>
       <SideBarStudent />
       <div className='maindivCalander'>
         <Container>

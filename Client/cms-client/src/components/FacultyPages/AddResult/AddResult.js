@@ -95,7 +95,7 @@ useEffect(()=>{
 
 // console.log(student);
   return (
-    <div>
+    <div style={{backgroundColor:'gray',height:'100vh '}}>
       <SideBarFaculty/>
       <Container>
         <Row>

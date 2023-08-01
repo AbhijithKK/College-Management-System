@@ -165,8 +165,9 @@ console.log(requests,search);
 
   return (
     <><SideBarFaculty/>
+    <div style={{backgroundColor:'gray',marginTop:'-65px' ,height:'100vh ',overflow:'hidden '}}>
     <Container>
-      <h1>Club Requests</h1>
+      <h1 className='clubReqTitle'>Club Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
 
         {/* ==================================== */}
@@ -266,6 +267,7 @@ console.log(requests,search);
       </TableContainer>
       
     </Container>
+    </div>
     </>
   );
 }

@@ -575,3 +575,12 @@ export const ApiDeletepayment = async (id) => {
     })
     return data
   }
+  export const ApiGetpaymentHistory = async () => {
+   
+    let { data } = await axios.get('/admin/paymentHistory',{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return data
+  }

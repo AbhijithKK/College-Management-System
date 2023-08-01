@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { FacultyProfileApi, FacultyProfileUpdateApi, FacultySubmitpassApi, FacultyVerifyMail,ApiViewDepartment } from '../../api/FacultyApi';
 import SideBarFaculty from '../SideBar/SideBarFaculty';
+import { Container } from 'react-bootstrap';
 export default function Profile() {
   const [FacultyData, setFacultyData] = useState({})
   const ApiHelper = async () => {
@@ -161,7 +162,7 @@ export default function Profile() {
   }
   // ======================================================================
   return (
-    <>
+    < div style={{backgroundColor:'gray',height:'100vh '}}>
       <SideBarFaculty/>
 
       {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
@@ -428,7 +429,8 @@ export default function Profile() {
         </Dialog>
       </div>
       {/* ======================= */}
-      <section className="" style={{ backgroundColor: '#f4f5f7' }}>
+      <Container>
+     < section className="" style={{ backgroundColor: 'gray' }}>
         <MDBContainer className="py-5 h-100">
           <MDBRow className="justify-content-center align-items-center h-100 leftarrange">
             <MDBCol lg="6" className="mb-4 mb-lg-0 leftarrange1">
@@ -499,6 +501,7 @@ export default function Profile() {
           </MDBRow>
         </MDBContainer>
       </section>
-    </>
+      </Container>
+    </div>
   );
 }

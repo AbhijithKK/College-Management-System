@@ -140,9 +140,9 @@ const handleClose = () => {
 
 
   return (
-    <><SideBarStudent/>
+    <div style={{backgroundColor:'gray',height:'100vh',overflow:'hidden '}}><SideBarStudent/>
     <Container>
-         <h1>Result</h1>
+         <h1 className='clubReqTitle'>Result</h1>
         {/* ===========================DROP DOWN======================
          */}
 
@@ -249,6 +249,6 @@ const handleClose = () => {
       </TableContainer>
       
     </Container>
-    </>
+    </div>
   );
 }

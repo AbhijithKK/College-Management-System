@@ -89,19 +89,19 @@ TablePaginationActions.propTypes = {
 
 export default function ViewStudents() {
 
-  const [AllStudents,SetAllStudents]=React.useState([])
-  
-  
-  
-  
-   const[search,setSearch]=React.useState('')
-  React.useEffect(()=>{
-    const HandleApi=async()=>{
-      let data =await FacultyGetDepStudents(search)
+  const [AllStudents, SetAllStudents] = React.useState([])
+
+
+
+
+  const [search, setSearch] = React.useState('')
+  React.useEffect(() => {
+    const HandleApi = async () => {
+      let data = await FacultyGetDepStudents(search)
       SetAllStudents(data)
     }
     HandleApi()
-  },[search])
+  }, [search])
 
   //         ======================>TABLE<===============================
   const [page, setPage] = React.useState(0);
@@ -114,7 +114,7 @@ export default function ViewStudents() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -123,84 +123,86 @@ export default function ViewStudents() {
 
   return (
     <>
-    <SideBarFaculty/>
-    <Container>
-      <h1>All Students</h1>
-      <TableContainer component={Paper} className="StudentResultTablests">
-        {/* ==================================== */}
-        <div style={{display:'grid'}}>
-            <TextField
-              margin="dense"
-              label='Search'
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+      <div style={{ backgroundColor: 'gray',height:'100vh' }}>
+        <SideBarFaculty />
+        <Container>
+          <h1 className='clubReqTitle'>All Students</h1>
+          <TableContainer component={Paper} className="StudentResultTablests">
+            {/* ==================================== */}
+            <div style={{ display: 'grid' }}>
+              <TextField
+                margin="dense"
+                label='Search'
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
             {/* ==================================== */}
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-          <TableBody>
-            <TableRow>
-              <TableCell style={{fontWeight:"bold"}}  >Name</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Email</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >Semester</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >guardian Name</TableCell>
-              <TableCell style={{fontWeight:"bold"}} >guardian Number</TableCell>
-              
-            </TableRow>
-            {AllStudents.length>0 ? (rowsPerPage > 0
-              ? AllStudents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : AllStudents
-            ).map((row,index) => (
-              <TableRow key={index}>
-                <TableCell style={{ width: 160 }} >
-                {row.name}
-                </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.email}
-                </TableCell>
-                <TableCell style={{ width: 160 }} >
-                  {row.semester}
-                </TableCell>
-                <TableCell style={{ width: 160 }}  >
-                  {row.guardianName}
-                </TableCell>
-                <TableCell style={{ width: 160 }}  >
-                  {row.guardianNo}
-                </TableCell>
-                
-              </TableRow>
-            )):<div>Students Not Found</div>}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={3} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={AllStudents.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-      
-    </Container>
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+              <TableBody>
+                <TableRow>
+                  <TableCell style={{ fontWeight: "bold" }}  >Name</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }} >Email</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }} >Semester</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }} >guardian Name</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }} >guardian Number</TableCell>
+
+                </TableRow>
+                {AllStudents.length > 0 ? (rowsPerPage > 0
+                  ? AllStudents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : AllStudents
+                ).map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ width: 160 }} >
+                      {row.name}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }} >
+                      {row.email}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }} >
+                      {row.semester}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }}  >
+                      {row.guardianName}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }}  >
+                      {row.guardianNo}
+                    </TableCell>
+
+                  </TableRow>
+                )) : <div>Students Not Found</div>}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={3} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={AllStudents.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        'aria-label': 'rows per page',
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+
+        </Container>
+      </div>
     </>
   );
 }

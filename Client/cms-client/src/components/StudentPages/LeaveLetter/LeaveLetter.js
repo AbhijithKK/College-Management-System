@@ -43,9 +43,10 @@ const LeaveLetterForm = () => {
 console.log(selectedDate);
 // =============================================================================
   return (
-    <div>
+    <div style={{backgroundColor:'gray',height:'100vh'}}>
       <SideBarStudent/>
-      <Container>
+     <div className="leetterformStayle">
+     <Container>
         <Row>
           <Col>
             <div className="leave-form uplodformleave">
@@ -86,6 +87,7 @@ console.log(selectedDate);
           </Col> 
         </Row>
       </Container>
+     </div>
     </div>
   );
 };

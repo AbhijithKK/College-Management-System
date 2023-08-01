@@ -33,6 +33,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Delete } from '@mui/icons-material';
+import PaymentHistory from '../../PaymentHistory/PaymentHistory';
+import { Container } from 'react-bootstrap';
 
 
 
@@ -104,7 +106,7 @@ function CreatePayment() {
     const [Date, setDate] = useState('')
     const [errMsg, setErrmsg] = useState('')
     const sendComplaint = async () => {
-        if (title.trim() && Amount.trim() && Date.trim()) {
+        if (title.trim() && Amount.trim() && Date.trim()&& Amount>100&& Date>currentDate) {
             let data = await ApiPayment(title, Amount, Date)
             if (data === true) {
                 Swal.fire({
@@ -116,6 +118,7 @@ function CreatePayment() {
                 setTitle('')
                 setErrmsg('')
                 setDate('')
+                REfreshHelper()
             }
         } else {
             setErrmsg('Fill all the fileds')
@@ -189,100 +192,115 @@ function CreatePayment() {
 
 
     }
-
+    const[hSeter,Hsetter]=useState(false)
+    const handleClickHistory = () => {
+        Hsetter(!hSeter)
+    }
+    const currentDate = new window.Date().toISOString().slice(0, 10);
     return (
-        <><SideBarStudent />
-            <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image'>
-                <div className='mask gradient-custom-3'></div>
-                <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
-                    <MDBCardBody className='px-5'>
-                        <h2 className="text-uppercase text-center mb-5">Create Payment</h2>
-                        <p style={{ color: 'red' }}>{errMsg}</p>
-                        <MDBInput wrapperClass='mb-4' value={title} onChange={(e) => setTitle(e.target.value)} label='Title' size='lg' id='form1' type='text' />
-                        <MDBInput label='Amount' value={Amount} onChange={(e) => setAmount(e.target.value)}
-                            id='textAreaExample' rows={4} wrapperClass='mb-4' type='number' size='lg' />
-                        <MDBInput wrapperClass='mb-4' value={Date} onChange={(e) => setDate(e.target.value)} label='Due Date' size='lg' id='form1' type='date' />
+        <>
+            <div style={{ backgroundColor: 'gray', marginTop: '0px', height: '100vh' }}><SideBarStudent />
+                <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image'>
+                    <div className='mask gradient-custom-3'></div>
+                    <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
+                        <MDBCardBody className='px-5'>
+                            <h2 className="text-uppercase text-center mb-5">Create Payment</h2>
+                            <p style={{ color: 'red' }}>{errMsg}</p>
+                            <MDBInput wrapperClass='mb-4' value={title} onChange={(e) => setTitle(e.target.value)} label='Title' size='lg' id='form1' type='text' />
+                            <MDBInput label='Amount Min(100)' value={Amount} onChange={(e) => setAmount(e.target.value)}
+                                id='textAreaExample' rows={4} wrapperClass='mb-4' type='number' size='lg'  minLength={100} required />
+                            <MDBInput wrapperClass='mb-4' value={Date} onChange={(e) => setDate(e.target.value)} label='Due Date' size='lg' id='form1' type='date' minLength={currentDate} required />
 
-                        <MDBBtn className='mb-4 w-100 gradient-custom-4' type='button' onClick={sendComplaint} size='lg'>Register</MDBBtn>
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' type='button' onClick={sendComplaint} size='lg'>Register</MDBBtn>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
 
-                            <Button onClick={handleClickOpen}>
-                                view Created Payments
-                            </Button>
-                        </div>
-                    </MDBCardBody>
-                </MDBCard>
+                                <Button onClick={handleClickOpen}>
+                                    view Created Payments
+                                </Button><br />
+                                <Button onClick={handleClickHistory}>
+                                    {hSeter===false? 'view Payments history':'close Payments history'}
+                                </Button>
+                            </div>
+                        </MDBCardBody>
+                    </MDBCard>
 
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>All Patments</DialogTitle>
-                    <DialogContent>
+                    <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>All Patments</DialogTitle>
+                        <DialogContent>
 
-                        {/* ================================================================ */}
-                        {/* ========================================================== */}
-                        <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">Title</TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">Amount</TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">Due Date</TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">Action</TableCell>
-                                </TableRow>
-                                {result.length > 0 ? (rowsPerPage > 0
-                                    ? result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    : result
-                                ).map((row, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell align="center">
-                                            {row.title}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row.amount}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row.date}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <Button onClick={() => deleteApi(i)}><Delete /></Button>
-                                        </TableCell>
-
+                            {/* ================================================================ */}
+                            {/* ========================================================== */}
+                            <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell style={{ fontWeight: "bold" }} align="center">Title</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }} align="center">Amount</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }} align="center">Due Date</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }} align="center">Action</TableCell>
                                     </TableRow>
-                                )) : <div>Result not found</div>}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{ height: 53 * emptyRows }}>
-                                        <TableCell colSpan={3} />
+                                    {result.length > 0 ? (rowsPerPage > 0
+                                        ? result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : result
+                                    ).map((row, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell align="center">
+                                                {row.title}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {row.amount}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {row.date}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Button onClick={() => deleteApi(i)}><Delete /></Button>
+                                            </TableCell>
+
+                                        </TableRow>
+                                    )) : <div>Result not found</div>}
+                                    {emptyRows > 0 && (
+                                        <TableRow style={{ height: 53 * emptyRows }}>
+                                            <TableCell colSpan={3} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <TablePagination
+                                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                            colSpan={3}
+                                            count={result.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            SelectProps={{
+                                                inputProps: {
+                                                    'aria-label': 'rows per page',
+                                                },
+                                                native: true,
+                                            }}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                            ActionsComponent={TablePaginationActions}
+                                        />
                                     </TableRow>
-                                )}
-                            </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={3}
-                                        count={result.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        SelectProps={{
-                                            inputProps: {
-                                                'aria-label': 'rows per page',
-                                            },
-                                            native: true,
-                                        }}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                        ActionsComponent={TablePaginationActions}
-                                    />
-                                </TableRow>
-                            </TableFooter>
-                        </Table>
-                        {/* ================================================================ */}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Close</Button>
+                                </TableFooter>
+                            </Table>
+                            {/* ================================================================ */}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Close</Button>
 
-                    </DialogActions>
-                </Dialog>
+                        </DialogActions>
+                    </Dialog>
 
-            </MDBContainer>
+                </MDBContainer>
+                <div>
+                    <Container>
+                      {hSeter &&   <PaymentHistory />}
+                    </Container>
+                </div>
+
+            </div>
         </>
     );
 }

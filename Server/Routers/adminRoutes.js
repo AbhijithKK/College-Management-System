@@ -2,22 +2,15 @@ const express =require('express')
 const { adminLogin,addStudent, addFaculty, addClub,
      addDepartment, addSemester, addSubject, uploadNotice, 
      dashBord, viewStudents, viewFacultys, viewDepartment, 
-     viewSubjects, viewSemester, viewComplaints, viewClubRequests,
+     viewSubjects, viewSemester, viewComplaints,
       viewApproveLists, deleteStudent, deleteFaculty, deleteDepartment, 
       deleteSubject, deleteSemester, updateFaculty, updateStudent, 
-      postupdateStudent,
-       postupdateFaculty,
-       checkAuth,
-       logOut,
-       viewClass,
-       addClass,
-       deleteClass,
-       deleteComplaint,
-       deleteRequests,
-       UpdateRequests,
-       payment,
-       viewPayment,
-       deletePayment} = require('../controllers/adminControllers')
+      postupdateStudent, postupdateFaculty,
+       checkAuth, logOut,viewClass, addClass, deleteClass,
+       deleteComplaint,deleteRequests,UpdateRequests,
+       payment, viewPayment,
+       deletePayment,
+       viewPaymentHistory} = require('../controllers/adminControllers')
 const upload = require('../heplers/multer')
 const { adminAuth } = require('../middlewere/adminMiddlewere')
 let router=express.Router()
@@ -46,6 +39,7 @@ router.get('/complaints',adminAuth,viewComplaints)
 router.get('/approvelists',adminAuth,viewApproveLists)
 router.get('/class',adminAuth,viewClass)
 router.get('/payment',adminAuth,viewPayment)
+router.get('/paymentHistory',adminAuth,viewPaymentHistory)
 router.get('/checkAuth',checkAuth)
 router.get('/logout',logOut)
 

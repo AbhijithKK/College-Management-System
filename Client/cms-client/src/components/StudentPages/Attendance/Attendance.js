@@ -156,9 +156,9 @@ React.useEffect(() => {
 
 // ===================================================================
   return (
-    <><SideBarStudent/>
+    <div style={{backgroundColor:'gray',height:'100vh',overflow:'hidden '}}><SideBarStudent/>
     <Container>
-      <h1>Attendance</h1>
+      <h1 className='clubReqTitle'>Attendance</h1>
       <TableContainer component={Paper} className="StudentResultTable">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
@@ -221,6 +221,6 @@ React.useEffect(() => {
     />
     {/* =============================================== */}
     </Container>
-    </>
+    </div>
   );
 }

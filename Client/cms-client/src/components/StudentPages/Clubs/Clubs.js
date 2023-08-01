@@ -91,11 +91,12 @@ const handleClose = () => {
   };
 
   return (
-    <><SideBarStudent />
+    <div style={{backgroundColor:'gray',height:'100vh'}}><SideBarStudent />
       <Container>
-        {clubs.length === 0 ? <h1>No Clubs Created</h1> : <h1>Your Clubs</h1>}
+        {clubs.length === 0 ? <h1 className='clubReqTitle'>No Clubs Created</h1> : <h1 className='clubReqTitle'>Your Clubs</h1>}
+        <div className='clubReqTitle'>
         {/* ======================================================================= */}
-        <div>
+        <div >
           <Menu
             id="demo-positioned-menu"
             aria-labelledby="demo-positioned-button"
@@ -133,6 +134,7 @@ const handleClose = () => {
         {dropVal===''? 'All Clubs':dropVal===null?'New Clubs':dropVal}  <ArrowDropDownCircleOutlined/>
       </Button>
       <hr/>
+      </div>
       {/* ===================================================== */}
         {clubss.length > 0 ? clubss.map((data, index) => (
           <Box key={index} className='Clubcard'>
@@ -173,6 +175,6 @@ const handleClose = () => {
         </Stack>
         <br />
       </Container>
-    </>
+    </div>
   );
 }

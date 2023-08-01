@@ -184,9 +184,11 @@ ApiHelper()
 let url=`http://localhost:4000/images/`
 // ===================================================================
   return (
+    <div     style={{backgroundColor:'gray',marginTop:'0px',height:'100vh' }}
+    >
     <><SideBarStudent/>
     <Container>
-      <h1>Approve Requests</h1>
+      <h1 className='reqTitle'>Approve Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
@@ -374,5 +376,6 @@ let url=`http://localhost:4000/images/`
       {/* ======================================================================================== */}
     </Container>
     </>
+    </div>
   );
 }

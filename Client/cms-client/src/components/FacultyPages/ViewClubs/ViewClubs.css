@@ -23,6 +23,11 @@
     display: flex;
     justify-content: center;
 }
+@media (min-width:770px)and(max-width:880px) {
+    .clubsHeads{
+        margin-left: 100px;
+    }
+}
 
 @media (max-width:767px) {
     .complientMain{

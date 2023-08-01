@@ -8,3 +8,8 @@
 .formleavedate{
     padding-left: 11rem !important;
 }
+@media (max-width:388px) {
+    .leetterformStayle{
+        margin-left: 10px;
+    }
+}

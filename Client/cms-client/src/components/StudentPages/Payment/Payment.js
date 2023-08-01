@@ -16,23 +16,24 @@ export default function Payment() {
     setCurrentPage(page);
   }
   const [payment,setPayment]=React.useState([])
+  const [historyid,setHistoryid]=React.useState('')
   React.useEffect(() => {
     const ApiHelper = async () => {
-      let data = await ApiStudentPayment()
+      let data = await ApiStudentPayment(search,historyid)
       setPayment(data)
     }
     ApiHelper()
-  }, [search, currentPage])
-  const PayHelper=async(title,amount)=>{
-    let res=await ApiStudentPaymentpost(title,amount)
+  }, [search, currentPage,historyid])
+  const PayHelper=async(title,amount,id)=>{
+    let res=await ApiStudentPaymentpost(title,amount,id)
     if (res===false) {
                 Swal.fire({
                   icon: 'error',
                   text: 'Payment Gateway error',
                 });
             } else{
-
-                window.location.href=res
+                setHistoryid(res.id)
+                window.location.href=res.url
             }  
     }
   
@@ -67,9 +68,16 @@ export default function Payment() {
                     <Card.Body>
                       <Card.Title>{data.title}</Card.Title>
                       <Card.Title>{data.amount}</Card.Title>
-                      <Button onClick={()=>PayHelper(data.title,data.amount)} variant="primary" >
-                        Pay
+                      {data.status==='true'? <div style={{backgroundColor:'green',color:'white'}}>Payment completed</div>:data.status==='true' ?
+                      <>
+                      <div style={{backgroundColor:'red',color:'white'}}>Payment faild</div>
+                      <Button onClick={()=>PayHelper(data.title,data.amount,data._id)} variant="primary" >
+                        Pay 
                       </Button>
+                      </> :
+                      <Button onClick={()=>PayHelper(data.title,data.amount,data._id)} variant="primary" >
+                      Pay 
+                    </Button>}
                     </Card.Body>
                   </Card>
                 </Col>

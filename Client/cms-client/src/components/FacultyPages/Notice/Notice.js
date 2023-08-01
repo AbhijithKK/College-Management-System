@@ -39,9 +39,9 @@ export default function Notice() {
   React.useEffect(() => {
     const ApiHelper = async () => {
       let data = await FacultyNoticeApi(search, currentPage)
-      setNotice(data.data)
+      setNotice(data?.data)
       console.log(data);
-      setTotal(data.total)
+      setTotal(data?.total)
     }
     ApiHelper()
   }, [search,currentPage])

@@ -35,8 +35,9 @@ function AddComplaint() {
         }
     }
   return (
-    <><SideBarStudent/>
+    <div style={{backgroundColor:'gray',height:'100vh '}}><SideBarStudent/>
     <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image'>
+      <div style={{marginLeft:'20px '}}>
       <div className='mask gradient-custom-3'></div>
       <MDBCard className='m-5' style={{maxWidth: '600px'}}>
         <MDBCardBody className='px-5'>
@@ -48,8 +49,9 @@ function AddComplaint() {
           <MDBBtn className='mb-4 w-100 gradient-custom-4' type='button' onClick={sendComplaint} size='lg'>Register</MDBBtn>
         </MDBCardBody>
       </MDBCard>
+      </div>
     </MDBContainer>
-    </>
+    </div>
   );
 }
 

@@ -179,18 +179,18 @@ function AddAttendanceTable() {
     setPage1(0);
   };
 
-  const Action = async(status) => {
+  const Action = async (status) => {
     studentDetail.status = status;
     console.log(studentDetail);
 
 
-   FacultyAttendencePostApi(studentDetail)
-    if (status==='Present') {
-      
+    FacultyAttendencePostApi(studentDetail)
+    if (status === 'Present') {
+
       enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'success' })
-    }else if(status==='Absent'){
-    enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'error' })
-    }else{
+    } else if (status === 'Absent') {
+      enqueueSnackbar(`${studentDetail.studentName} is ${status}`, { variant: 'error' })
+    } else {
       enqueueSnackbar(`${studentDetail.studentName} is taiken ${status} leave`, { variant: 'info' })
 
     }
@@ -207,40 +207,40 @@ function AddAttendanceTable() {
     };
     handleApi();
   }, []);
-  const [prevAttendance,setprevAttendance]=React.useState([])
+  const [prevAttendance, setprevAttendance] = React.useState([])
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Student.length) : 0;
   const emptyRows1 = page1 > 0 ? Math.max(0, (1 + page1) * rowsPerPage1 - prevAttendance.length) : 0;
 
   // ======>modal<=====
-const [openModal, setOpen] = React.useState(false);
-const [search,setSearch]=React.useState('')
-const handleClickOpenModal = async() => {
- 
-  setOpen(true);
-};
-React.useEffect(()=>{
-  const PrevApi=async()=>{
-    let prevAttendance=await FacultyPreviousAttendance(search)
-    setprevAttendance(prevAttendance)
-   }
-   PrevApi()
-},[search])
+  const [openModal, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState('')
+  const handleClickOpenModal = async () => {
 
-const handleCloseModal = () => {
-  setOpen(false);
-};
+    setOpen(true);
+  };
+  React.useEffect(() => {
+    const PrevApi = async () => {
+      let prevAttendance = await FacultyPreviousAttendance(search)
+      setprevAttendance(prevAttendance)
+    }
+    PrevApi()
+  }, [search])
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
 
 
-console.log(search);
-// ===================
+  console.log(search);
+  // ===================
 
   return (
     <Container>
-      <h1>Attendance</h1>
+      <h1 className='clubReqTitle'>Attendance</h1>
       <TableContainer component={Paper} className="facultyResultTable">
-       
+
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
             <TableRow>
@@ -249,9 +249,9 @@ console.log(search);
               <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
               <TableCell style={{ fontWeight: 'bold' }}>Actions</TableCell>
             </TableRow>
-            {Student.length>0 ? (rowsPerPage > 0
-              ?  Student.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              :  Student 
+            {Student.length > 0 ? (rowsPerPage > 0
+              ? Student.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : Student
             ).map((row, i) => (
               <TableRow key={i}>
                 <TableCell>{row.date}</TableCell>
@@ -290,7 +290,7 @@ console.log(search);
                   </div>
                 </TableCell>
               </TableRow>
-            )) :<div>Attends Not found</div>}
+            )) : <div>Attends Not found</div>}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={4} />
@@ -327,8 +327,8 @@ console.log(search);
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogTitle>Previous Days Attendance </DialogTitle>
         <DialogContent>
-                   {/* ================>SEARCH<==================== */}
-      <div style={{display:'grid',width:'100%'}}>
+          {/* ================>SEARCH<==================== */}
+          <div style={{ display: 'grid', width: '100%' }}>
             <TextField
               margin="dense"
               label='Search by Name or date(dd/mm/yyyy)'
@@ -336,64 +336,64 @@ console.log(search);
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            </div>
-            {/* ==================================== */}
+          </div>
+          {/* ==================================== */}
           {/* =============================================================================================================== */}
           {/* <TableContainer component={Paper} className="facultyResultTable"> */}
-       
-       <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
-         <TableBody>
-           <TableRow>
-             <TableCell style={{ fontWeight: 'bold' }}>Date</TableCell>
-             <TableCell style={{ fontWeight: 'bold' }}>Student Name</TableCell>
-             <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
-            
-           </TableRow>
-           {prevAttendance.length>0 ? (rowsPerPage1 > 0
-             ?  prevAttendance.slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
-             :  prevAttendance 
-           ).map((row, i) => (
-             <TableRow key={i}>
-               <TableCell>{row.date}</TableCell>
-               <TableCell>{row.studentName}</TableCell>
-               <TableCell>{row.status}</TableCell>
-              
-             </TableRow>
-           )) :<div>Attends Not found</div>}
-           {emptyRows1 > 0 && (
-             <TableRow style={{ height: 53 * emptyRows1 }}>
-               <TableCell colSpan={4} />
-             </TableRow>
-           )}
-         </TableBody>
-         <TableFooter>
-           <TableRow>
-           
-             <TablePagination
-               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-               colSpan={4}
-               count={prevAttendance.length}
-               rowsPerPage={rowsPerPage1}
-               page={page1}
-               SelectProps={{
-                 inputProps: {
-                   'aria-label': 'rows per page',
-                 },
-                 native: true,
-               }}
-               onPageChange={handleChangePage1}
-               onRowsPerPageChange={handleChangeRowsPerPage1}
-               ActionsComponent={TablePaginationActions1}
-             />
-           </TableRow>
-         </TableFooter>
-       </Table>
-     {/* </TableContainer> */}
+
+          <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
+            <TableBody>
+              <TableRow>
+                <TableCell style={{ fontWeight: 'bold' }}>Date</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Student Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
+
+              </TableRow>
+              {prevAttendance.length > 0 ? (rowsPerPage1 > 0
+                ? prevAttendance.slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
+                : prevAttendance
+              ).map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell>{row.date}</TableCell>
+                  <TableCell>{row.studentName}</TableCell>
+                  <TableCell>{row.status}</TableCell>
+
+                </TableRow>
+              )) : <div>Attends Not found</div>}
+              {emptyRows1 > 0 && (
+                <TableRow style={{ height: 53 * emptyRows1 }}>
+                  <TableCell colSpan={4} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  colSpan={4}
+                  count={prevAttendance.length}
+                  rowsPerPage={rowsPerPage1}
+                  page={page1}
+                  SelectProps={{
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage1}
+                  onRowsPerPageChange={handleChangeRowsPerPage1}
+                  ActionsComponent={TablePaginationActions1}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+          {/* </TableContainer> */}
           {/* =============================================================================================================== */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal}>Close</Button>
-        
+
         </DialogActions>
       </Dialog>
       {/* ====================================================================================== */}
@@ -405,8 +405,10 @@ export default function AddAttendance() {
   return (
     <SnackbarProvider maxSnack={3}>
       <>
-      <SideBarFaculty/>
-      <AddAttendanceTable />
+      <div style={{backgroundColor:'gray',height:'100vh'}}>
+        <SideBarFaculty />
+        <AddAttendanceTable />
+        </div>
       </>
     </SnackbarProvider>
   );

@@ -119,10 +119,10 @@ console.log(requests);
   // ============================================================================
 
   return (
-    <>
+    <div style={{backgroundColor:'gray',height:'100vh' ,overflow:'hidden'}}>
     <SideBarStudent/>
     <Container>
-      <h1>Leave Status</h1>
+      <h1 className='clubReqTitle'>Leave Status</h1>
       <TableContainer component={Paper} className="StudentResultTablests">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableBody>
@@ -183,6 +183,6 @@ console.log(requests);
       </TableContainer>
       
     </Container>
-    </>
+    </div>
   );
 }

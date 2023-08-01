@@ -136,8 +136,9 @@ console.log(requests);
 
   return (
     <><SideBarFaculty/>
+    <div style={{backgroundColor:'gray',height: '100vh',marginTop:'-75px',overflow:'hidden '}}>
     <Container>
-      <h1>Leave Requests</h1>
+      <h1 className='clubReqTitle' style={{paddingTop:'10px'}}>Leave Requests</h1>
       <TableContainer component={Paper} className="StudentResultTable">
         {/* ==================================== */}
         <div style={{display:'grid'}}>
@@ -236,6 +237,7 @@ console.log(requests);
       </TableContainer>
       
     </Container>
+    </div>
     </>
   );
 }

@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
-
+require('dotenv')
 module.exports=function db(){
-    mongoose.connect('mongodb://127.0.0.1:27017/CMSM')
+    mongoose.connect(process.env.DB,{
+      useNewUrlParser: true,
+  useUnifiedTopology: true,
+    })
   .then(() => console.log('Server Connected!')).catch((err)=>{
     console.log(err);
   })

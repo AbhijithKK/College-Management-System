@@ -191,7 +191,7 @@ const [totalClass,setCls]=React.useState([])
   return (
     <>
     <SideBar/>
-    <div style={{backgroundColor:'gray',marginTop:'-65',height:'100vh'}}>
+    <div style={{backgroundColor:'gray',marginTop:'-65px',height:'100vh'}}>
     <Container>
     <Row style={{marginLeft:'72px',paddingTop:'18px'}}>
           <Col xs={12} md={12} lg={12}>

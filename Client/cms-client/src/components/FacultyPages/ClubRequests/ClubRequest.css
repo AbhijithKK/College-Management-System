@@ -1,3 +1,11 @@
 .StudentResultTable{
     margin-left: 50px;
 }
+.clubReqTitle{
+    margin-top: 10px;
+}
+@media (max-width:880px) {
+    .clubReqTitle{
+        margin-left: 50px;
+    }
+}

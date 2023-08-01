@@ -7,9 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container } from 'react-bootstrap';
-import { Delete, MoreVert } from '@mui/icons-material';
+import { Delete,  MoreVert } from '@mui/icons-material';
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Menu,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Menu,
   MenuItem, Select, Table, TableBody, TableHead, TableRow, TextField, Tooltip, useMediaQuery, useTheme
 } from '@mui/material';
 import Swal from 'sweetalert2';
@@ -161,214 +161,224 @@ export default function ViewClubs() {
       }
     });
   }
-  const[studentData,useStudent]=useState([])
-const HandleStudents=async()=>{
+  const [studentData, useStudent] = useState([])
+  const HandleStudents = async () => {
 
-  let data=await FacultyClubStudentMeeting(moreInfo._id)
-  useStudent(data)
-  handleClickOpenStudent()
-  console.log(data);
-}
+    let data = await FacultyClubStudentMeeting(moreInfo._id)
+    useStudent(data)
+    handleClickOpenStudent()
+    console.log(data);
+  }
   return (
     <>
       <SideBarFaculty />
-      <Container>
-        {allClubs.length === 0 ? (
-          <h1>You are Not An Admin of Clubs</h1>
-        ) : (
-          <div>
-            <h1>Your Clubs</h1>
-            <br />
-          </div>
-        )}
-        {/* ==================================== */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <TextField
-            style={{ width: '95%' }}
-            margin="dense"
-            label="Search by Name"
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {/* =======================SHEDULE MEETING===================================== */}
-          <div className="addbtn">
-            <Button
-              variant="outlined"
-              className="departmentAddBtn1"
-              onClick={handleClickOpen}
-            >
-              schedule meeting
-            </Button>
-          </div>
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add New Department</DialogTitle>
-            <DialogContent>
-              <p style={{ color: 'red' }}>{errMsg}</p>
-              <Select
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-                variant="standard"
-                label="Select Semester"
-                name="semester"
-                value={name}
-              >
-                <MenuItem hidden value="def">
-                  Select Club
-                </MenuItem>
-                {allClubs.length > 0 &&
-                  allClubs.map((val) => (
-                    <MenuItem key={val._id} value={val._id}>
-                      {val.name}
-                    </MenuItem>
-                  ))}
-              </Select>
-              {/* ==================DATE============================ */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                  <DatePicker onChange={setDate} label="Basic date picker" />
-                </DemoContainer>
-              </LocalizationProvider>
-              {/* =============================================== */}
-              {/* ===========================TIME=================================== */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['TimePicker']}>
-                  <TimePicker onChange={setTime} label="Basic time picker" />
-                </DemoContainer>
-              </LocalizationProvider>
-              {/* ===================================================================== */}
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Enter Meeting Place"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setPlace(e.target.value)}
-                value={place}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={SheduleHelper}>Add</Button>
-            </DialogActions>
-          </Dialog>
-          {/* ============================================================================= */}
-        </div>
-        {/* ==================================== */}
+      <div style={{ marginLeft: '50px', backgroundColor: 'gray', height: '100vh', marginTop: '-65px' }}>
+        <Container>
+          {allClubs.length === 0 ? (
+            <h1 style={{ marginTop: '50px' }}>You are Not An Admin of Clubs</h1>
+          ) : (
+            <div>
+              <h1>Your Clubs</h1>
+              <br />
+            </div>
+          )}
 
-        {allClubs.length > 0 ? (
-          allClubs.map((data, index) => (
-            <Box key={index} className="Clubcard">
-              <Card variant="outlined" className="clubcard">
-                <CardContent>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="h5" component="div">
-                      {data.name}
-                    </Typography>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <Tooltip title="Menu">
-                        <IconButton onClick={(e) => handleMenuOpen(e, data)}>
-                          <MoreVert />
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleMenuClose}
-                      >
-                        <MenuItem onClick={() => handleMoreInfo(data)}>View Meetings</MenuItem>
-                        <MenuItem onClick={() => HandleStudents()}>View Students</MenuItem>
-                        <MenuItem onClick={() => handleDelete(data._id)}>Delete Club</MenuItem>
-                      </Menu>
-                    </div>
-                  </div>
-                  <Typography sx={{ mb: 1.8 }} color="text.secondary"></Typography>
-                  <Typography variant="body2">{data.discription}</Typography>
-                </CardContent>
-                <CardActions></CardActions>
-              </Card>
-              {/* =================================MODAL======================== */}
-              <div key={index}>
-                <Dialog
-                  fullScreen={fullScreen}
-                  open={openMoreinfo}
-                  onClose={handleCloseMoreInfo}
-                  aria-labelledby="responsive-dialog-title"
+          <div className='clubsHeads'>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <TextField
+                style={{ width: '95%' }}
+                margin="dense"
+                label="Search by Name"
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              {/* =======================SHEDULE MEETING===================================== */}
+              <div className="addbtn">
+                <Button
+                  variant="outlined"
+                  className="departmentAddBtn1"
+                  onClick={handleClickOpen}
                 >
-                  <DialogTitle id="responsive-dialog-title">{"Scheduled Meetings"}</DialogTitle>
-                  <DialogContent key={index}>
-                    {data.meeting.map((val, index) => (
-                      <React.Fragment key={index}>
-                        <p>{val.date}</p>
-                        <p>{val.time}</p>
+                  schedule meeting
+                </Button>
+              </div>
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add New Department</DialogTitle>
+                <DialogContent>
+                  <p style={{ color: 'red' }}>{errMsg}</p>
+                  <Select
+                    onChange={(e) => setName(e.target.value)}
+                    fullWidth
+                    variant="standard"
+                    label="Select Semester"
+                    name="semester"
+                    value={name}
+                  >
+                    <MenuItem hidden value="def">
+                      Select Club
+                    </MenuItem>
+                    {allClubs.length > 0 &&
+                      allClubs.map((val) => (
+                        <MenuItem key={val._id} value={val._id}>
+                          {val.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  {/* ==================DATE============================ */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DatePicker']}>
+                      <DatePicker onChange={setDate} label="Basic date picker" />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                  {/* =============================================== */}
+                  {/* ===========================TIME=================================== */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['TimePicker']}>
+                      <TimePicker onChange={setTime} label="Basic time picker" />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                  {/* ===================================================================== */}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Enter Meeting Place"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => setPlace(e.target.value)}
+                    value={place}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={SheduleHelper}>Add</Button>
+                </DialogActions>
+              </Dialog>
+              {/* ============================================================================= */}
+            </div>
+          </div>
+          {/* ==================================== */}
+
+          <Grid container spacing={2}>
+            {allClubs.length > 0 ? (
+              allClubs.map((data, index) => (
+                <Grid item xs={12} sm={12} md={12} key={index}>
+                  <Box className="Clubcardk">
+                    <Card variant="outlined" className="clubcardk">
+                      <CardContent>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p>{val.place}</p>
-                          <Tooltip title="Delete Meeting">
-                            <Button onClick={() => DeleteSheduledMeetingHelper(index)}>
-                              <Delete />
-                            </Button>
-                          </Tooltip>
+                          <Typography variant="h5" component="div">
+                            {data.name}
+                          </Typography>
+                          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Tooltip title="Menu">
+                              <IconButton onClick={(e) => handleMenuOpen(e, data)}>
+                                <MoreVert />
+                              </IconButton>
+                            </Tooltip>
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={Boolean(anchorEl)}
+                              onClose={handleMenuClose}
+                            >
+                              <MenuItem onClick={() => handleMoreInfo(data)}>View Meetings</MenuItem>
+                              <MenuItem onClick={() => HandleStudents()}>View Students</MenuItem>
+                              <MenuItem onClick={() => handleDelete(data._id)}>Delete Club</MenuItem>
+                            </Menu>
+                          </div>
                         </div>
-                        <hr /> {/* Move the <hr> outside of the <p> element */}
-                      </React.Fragment>
-                    ))}
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseMoreInfo} autoFocus>
-                      close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </div>
-              {/* ==================================================================== */}
-              {/* =================================MODAL======================== */}
-              <div key={data._id}>
-                <Dialog
-                  fullScreen={fullScreen}
-                  open={openStudent}
-                  onClose={handleCloseStudent}
-                  aria-labelledby="responsive-dialog-title"
-                >
-                  <DialogTitle id="responsive-dialog-title">{"Joined Students"}</DialogTitle>
-                  <DialogContent key={index}>
-                   
-                    <>
-                    <Table>
-                    <TableHead>
-            <TableRow>
-                    <td style={{fontWeight:'bold'}}>Name</td>
-                    <td style={{fontWeight:'bold',paddingLeft:'10px'}}>Department</td>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {studentData.map((val)=>(
-          <TableRow key={val._id}>
-             <td >{val.studentName}</td>
-             <td style={{paddingLeft:'10px'}}>{val.department}</td>
-            </TableRow>
-             ))}
-                   
-          </TableBody>
-                    </Table>
-                    </>
-                  
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseStudent} autoFocus>
-                      close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </div>
-              {/* ==================================================================== */}
-            </Box>
-          ))
-        ) : (
-          <div>clubs not Found</div>
-        )}
-      </Container>
+                        <Typography sx={{ mb: 1.8 }} color="text.secondary"></Typography>
+                        <Typography variant="body2">{data.discription}</Typography>
+                      </CardContent>
+                      <CardActions></CardActions>
+                    </Card>
+                    {/* =================================MODAL======================== */}
+                    <div key={index}>
+                      <Dialog
+                        fullScreen={fullScreen}
+                        open={openMoreinfo}
+                        onClose={handleCloseMoreInfo}
+                        aria-labelledby="responsive-dialog-title"
+                      >
+                        <DialogTitle id="responsive-dialog-title">{"Scheduled Meetings"}</DialogTitle>
+                        <DialogContent key={index}>
+                          {data.meeting.map((val, index) => (
+                            <React.Fragment key={index}>
+                              <p>{val.date}</p>
+                              <p>{val.time}</p>
+                              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <p>{val.place}</p>
+                                <Tooltip title="Delete Meeting">
+                                  <Button onClick={() => DeleteSheduledMeetingHelper(index)}>
+                                    <Delete />
+                                  </Button>
+                                </Tooltip>
+                              </div>
+                              <hr /> {/* Move the <hr> outside of the <p> element */}
+                            </React.Fragment>
+                          ))}
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleCloseMoreInfo} autoFocus>
+                            close
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                    {/* ==================================================================== */}
+                    {/* =================================MODAL======================== */}
+                    <div key={data._id}>
+                      <Dialog
+                        fullScreen={fullScreen}
+                        open={openStudent}
+                        onClose={handleCloseStudent}
+                        aria-labelledby="responsive-dialog-title"
+                      >
+                        <DialogTitle id="responsive-dialog-title">{"Joined Students"}</DialogTitle>
+                        <DialogContent key={index}>
+
+                          <>
+                            <Table>
+                              <TableHead>
+                                <TableRow>
+                                  <td style={{ fontWeight: 'bold' }}>Name</td>
+                                  <td style={{ fontWeight: 'bold', paddingLeft: '10px' }}>Department</td>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {studentData.map((val) => (
+                                  <TableRow key={val._id}>
+                                    <td >{val.studentName}</td>
+                                    <td style={{ paddingLeft: '10px' }}>{val.department}</td>
+                                  </TableRow>
+                                ))}
+
+                              </TableBody>
+                            </Table>
+                          </>
+
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleCloseStudent} autoFocus>
+                            close
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                    {/* ==================================================================== */}
+                  </Box>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <div>clubs not Found</div>
+              </Grid>
+            )}
+          </Grid>
+        </Container>
+      </div>
     </>
   );
 }

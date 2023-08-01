@@ -14,6 +14,7 @@ const otpGenerator = require('otp-generator')
 const { Pagination } = require('../heplers/pagination')
 const { approveModel } = require('../models/approveRequests')
 const { paymentModel } = require('../models/payment')
+const { paymentHistoryModel } = require('../models/paymentHistory')
 
 const passGen = () => {
     return otpGenerator.generate(8, {
@@ -228,6 +229,27 @@ let admin = {
             res.json(pay)
         }catch(err){
             console.log(err);
+            res.json(false)
+        }
+    },
+    viewPaymentHistory:async(req,res)=>{
+        try{
+            console.log('lkkk');
+            let history= await paymentHistoryModel.find()
+            .populate( {
+                path:'studentId',
+                select:'name department'
+            })
+                .populate({
+                    path:'paymentId',
+                    select:'title amount date'
+                })
+                .sort({_id:-1}).exec()
+            console.log(history,';;;');
+            res.json(history)
+
+        }catch(err){
+           
             res.json(false)
         }
     },

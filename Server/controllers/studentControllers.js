@@ -228,7 +228,7 @@ let student = {
             let history = await paymentHistoryModel.find()
             let verify = await jwtVerify(req.cookies.studentjwt)
 
-            let arr=[]
+            let arr = []
             if (history) {
                 for (let i = 0; i < pay.length; i++) {
                     let s = ''
@@ -241,19 +241,19 @@ let student = {
                         }
 
                     }
-                    let obj={
-                        _id:pay[i]._id,
-                        status:s,
-                        title:pay[i].title,
-                        amount:pay[i].amount
+                    let obj = {
+                        _id: pay[i]._id,
+                        status: s,
+                        title: pay[i].title,
+                        amount: pay[i].amount
                     }
                     arr.push(obj)
-                    
+
                 }
             }
 
-            let newarr=[...new Set(arr)]
-           
+            let newarr = [...new Set(arr)]
+
             res.json(newarr)
         } catch (err) {
             console.log(err);
@@ -305,8 +305,6 @@ let student = {
                         // ===================TIME AND DATE CONVERT TO ISO==============================
                         const [time, meridiem] = notification[i].meeting[j].time.split(" ");
                         const [hours, minutes] = time.split(":").map(Number);
-
-
                         const [day, month, year] = notification[i].meeting[j].date.split("/").map(Number);
                         const adjustedHours = meridiem.toLowerCase() === "pm" ? hours + 12 : hours;
                         const date = new Date(year, month - 1, day, adjustedHours, minutes);
@@ -333,9 +331,32 @@ let student = {
                 }
 
             }
+
+            // ========================================PAYMENT=================================================
+            let payHistory = await paymentModel.find().sort({ _id: -1 }).exec()
+            if (payHistory) {
+                for (let i = 0; i < payHistory.length; i++) {
+                    let color = ''
+                    let isoFormat = new Date(payHistory[i].date).toISOString().slice(0, -5)
+                    let currentDate = new Date().toISOString().slice(0, -5)
+                    if (currentDate < isoFormat) {
+                        color = '#9df5aa'
+                    } else {
+                        color = '#ff8585'
+                    }
+                    let obj = {
+                        id: Date.now() + i,
+                        color: color,
+                        from: isoFormat + '+00:00',
+                        to: isoFormat + '+00:00',
+                        title: `${payHistory[i].title} Due Date`
+                    }
+                    newArr.push(obj)
+                }
+            }
+            // ================================================================================================
             res.json(newArr)
         } catch (err) {
-            console.log(err);
             res.json(false)
         }
     },
@@ -505,9 +526,11 @@ let student = {
         try {
             const { title, amount, id } = req.body
             let sid = await jwtVerify(req.cookies.studentjwt)
+            let currentDate = new Date().toLocaleDateString('en-GB')
             let data = await paymentHistoryModel.create({
                 paymentId: id,
-                studentId: sid.data
+                studentId: sid.data,
+                payDate: currentDate
             })
             let amounts = parseInt(amount)
             const session = await stripe.checkout.sessions.create({
@@ -543,9 +566,8 @@ let student = {
 
             let data = await paymentHistoryModel.updateOne({ _id: req.query.id }, { status: true })
 
-            let da = await paymentHistoryModel.deleteMany({ _id: id.data, status: 'process' });
+            let da = await paymentHistoryModel.deleteMany({ studentId: id.data, status: 'process' });
             console.log(da);
-
             // ===========================================================================================
             console.log(data);
             res.redirect(`${process.env.BASE_URL}`)
@@ -560,7 +582,7 @@ let student = {
 
             let data = await paymentHistoryModel.updateOne({ _id: req.query.id }, { status: false })
 
-            let da = await paymentHistoryModel.deleteMany({ _id: id.data, status: 'process' });
+            let da = await paymentHistoryModel.deleteMany({ studentId: id.data, status: 'process' });
             console.log(da);
 
             // ===========================================================================================
