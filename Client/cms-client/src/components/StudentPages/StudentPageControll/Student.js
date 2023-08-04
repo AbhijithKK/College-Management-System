@@ -12,6 +12,7 @@ import Logout from '../../Logout/Logout'
 import PrivateRoutes from '../../../Utils/PrivateRoutes'
 import Calander from '../Calendar/Calander'
 import Payment from '../Payment/Payment'
+import Chat from '../Chat/Chat'
 
 const Student = () => {
   return (
@@ -29,6 +30,7 @@ const Student = () => {
         <Route path='/leaveStatus' element={<LeaveStatus/>}></Route>
         <Route path='/addComplaint' element={<AddComplaint/>}></Route>
         <Route path='/payment' element={<Payment/>}></Route>
+        <Route path='/chat' element={<Chat/>}></Route>
         <Route path='/notificationCalander' element={<Calander/>}></Route>
         <Route path="/logout" element={<Logout data={{logout:'/student'}} />} />
         </Route>

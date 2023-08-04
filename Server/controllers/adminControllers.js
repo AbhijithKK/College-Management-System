@@ -154,11 +154,12 @@ let admin = {
     },
     uploadNotice: (req, res) => {
         try {
-            console.log(req.body);
-            console.log(req.file);
+            let date=new Date().toLocaleDateString('en-GB')
+       
             notice.create({
                 name: req.body.title,
-                filePath: req.file.filename
+                filePath: req.file.filename,
+                date:date
             })
             res.json('notice uploaded')
         } catch (err) {

@@ -27,7 +27,8 @@ import {
   PendingActionsSharp,
   CalendarMonthSharp,
   MarkEmailUnreadSharp,
-  PriceCheckSharp
+  PriceCheckSharp,
+  Chat
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 
@@ -111,6 +112,7 @@ const view = [
   { text: 'Check Notice', link: '/student/notice', icon: <MarkEmailUnreadSharp /> },
   { text: 'Add Comlaint', link: '/student/addComplaint', icon: <UploadFileSharp /> },
   { text: 'Payment', link: '/student/payment', icon: <PriceCheckSharp/> },
+  { text: 'Chat', link: '/student/chat', icon: <Chat/> },
   { text: 'Logout', link: '/student/logout', icon: <LogoutSharp /> },
 ];
 

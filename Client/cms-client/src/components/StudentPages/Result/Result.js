@@ -137,8 +137,6 @@ const handleClose = () => {
 
 // =================================================
 
-
-
   return (
     <div style={{backgroundColor:'gray',height:'100vh',overflow:'hidden '}}><SideBarStudent/>
     <Container>
@@ -199,6 +197,7 @@ const handleClose = () => {
           <TableBody>
             <TableRow>
               <TableCell style={{fontWeight:"bold"}} align="center">Subject</TableCell>
+              <TableCell style={{fontWeight:"bold"}} align="center">Semester</TableCell>
               <TableCell style={{fontWeight:"bold"}} align="center">Mark</TableCell>
               <TableCell style={{fontWeight:"bold"}} align="center">Grade</TableCell>
             </TableRow>
@@ -209,6 +208,9 @@ const handleClose = () => {
               <TableRow key={i}>
                 <TableCell align="center">
                   {row.subject}
+                </TableCell>
+                <TableCell align="center">
+                  {row.semester}
                 </TableCell>
                 <TableCell align="center">
                   {row.mark}

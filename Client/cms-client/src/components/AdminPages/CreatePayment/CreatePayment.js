@@ -215,10 +215,10 @@ function CreatePayment() {
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
 
                                 <Button onClick={handleClickOpen}>
-                                    view Created Payments
+                                    view Payments
                                 </Button><br />
                                 <Button onClick={handleClickHistory}>
-                                    {hSeter===false? 'view Payments history':'close Payments history'}
+                                    {hSeter===false? 'view History':'close history'}
                                 </Button>
                             </div>
                         </MDBCardBody>
@@ -294,7 +294,7 @@ function CreatePayment() {
                     </Dialog>
 
                 </MDBContainer>
-                <div>
+                <div className='PayHistoryAdmin'>
                     <Container>
                       {hSeter &&   <PaymentHistory />}
                     </Container>

@@ -218,13 +218,23 @@ let student = {
     },
     viewPayment: async (req, res) => {
         try {
+            let {limit,skip,total}=await Pagination(req.query.page,paymentModel,8)
+            let val={
+                limit:await paymentModel.count(),
+                skip:0,
+                total:0
+            }
+            if (req.query.page) {
+                val.limit=limit
+                val.skip=skip
+                val.total=total
+            }
             let key = ''
             if (req.query.search) {
-                console.log('search');
                 key = req.query.search.replace(/[^a-zA-Z]/g, '').replace(/[^a-zA-Z]/g, '')
             }
 
-            let pay = await paymentModel.find({ title: new RegExp(key, 'i') }).sort({ _id: -1 }).exec()
+            let pay = await paymentModel.find({ title: new RegExp(key, 'i') }).limit(val.limit).skip(val.skip).sort({ _id: -1 }).exec()
             let history = await paymentHistoryModel.find()
             let verify = await jwtVerify(req.cookies.studentjwt)
 
@@ -254,7 +264,7 @@ let student = {
 
             let newarr = [...new Set(arr)]
 
-            res.json(newarr)
+            res.json({payment:newarr,total:val.total})
         } catch (err) {
             console.log(err);
             res.json(false)

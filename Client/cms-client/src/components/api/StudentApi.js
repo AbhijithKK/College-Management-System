@@ -355,8 +355,8 @@ export const ApiStudentCalender = async () => {
   }
   return data
 }
-export const ApiStudentPayment = async (search,id) => {
-  let { data } = await axios.get('/student/payment',{params:{search,id}}, {
+export const ApiStudentPayment = async (search,id,page) => {
+  let { data } = await axios.get('/student/payment',{params:{search,id,page}}, {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true
   })

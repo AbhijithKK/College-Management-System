@@ -210,16 +210,18 @@ React.useEffect(() => {
             </TableRow>
           </TableFooter>
         </Table>
-      </TableContainer>
-      {/* =================>pie Chart<============ */}
+        {/* =================>pie Chart<============ */}
       <Chart
       chartType="PieChart"
       data={pie}
       options={options}
       width={"100%"}
-      height={"400px"}
+      height={"300px"}
     />
     {/* =============================================== */}
+    
+      </TableContainer>
+      
     </Container>
     </div>
   );

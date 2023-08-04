@@ -76,6 +76,7 @@ export default function Notice() {
                     />
                     <Card.Body>
                       <Card.Title>{data.name}</Card.Title>
+                      <Card.Title>Issued date:{data.date}</Card.Title>
                       <Button variant="primary" onClick={() => DownloadFile(data.filePath, data.name)}>
                         Download PDF
                       </Button>

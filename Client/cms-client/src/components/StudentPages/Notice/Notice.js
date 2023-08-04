@@ -34,9 +34,9 @@ export default function Notice() {
   React.useEffect(() => {
     const ApiHelper = async () => {
       let data = await StudentNoticeApi(search, currentPage)
-      setNotice(data.data)
+      setNotice(data?.data)
       console.log(data);
-      setTotal(data.total)
+      setTotal(data?.total)
     }
     ApiHelper()
   }, [search, currentPage])
@@ -70,6 +70,7 @@ export default function Notice() {
                     />
                     <Card.Body>
                       <Card.Title>{data.name}</Card.Title>
+                      <Card.Title>Issued Date:{data.date}</Card.Title>
                       <Button variant="primary" onClick={() => DownloadFile(data.filePath, data.name)}>
                         Download PDF
                       </Button>
