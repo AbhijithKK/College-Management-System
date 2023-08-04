@@ -1,5 +1,5 @@
 import React from 'react';
-import pic from '../assets/404.jpg';
+import pic from '../assets/404page.gif';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,9 +9,9 @@ const Fpage = () => {
   return (
     <div
       style={{
-        backgroundColor:'red',
+        backgroundColor:'rgb(156 222 239)',
         backgroundImage: `url(${pic})`,
-        backgroundSize: 'cover',
+        backgroundSize: 'auto',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         
