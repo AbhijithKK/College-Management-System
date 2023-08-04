@@ -46,6 +46,7 @@ function App() {
           <Route exact path='/faculty/*' element={<Faculty />} />
           <Route exact path='/faculty/' element={<Navigate to="/faculty/profile" />} />
 
+         
           <Route path='/404' element={<Fpage />} />
           <Route path="/*" element={<Navigate to="/404" />} />
         </Routes>

@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Container,Row,Col} from 'react-bootstrap'
 import './MainPage.css'
 import admin from "../../assets/admin.png";
 import student from "../../assets/student.png";
 import faculty from "../../assets/faculty.png";
 import { Link } from 'react-router-dom';
+import LoaderPage from '../../Utils/LoaderPage';
 const MainPage = () => {
+  const [loader,setLoader]=useState(true)
+useEffect(()=>{
+  setTimeout(() => {
+    setLoader(false)
+  }, 3000);
+},[])
+
   return (
-    <div className='mainpage'>
+   <>
+   {loader===true
+   ? <LoaderPage/>
+   :<div  className='mainpage'>
     <Container >
       <Row>
         <Col sm={12}>
@@ -38,7 +49,8 @@ const MainPage = () => {
         
       </Row>
     </Container>
-    </div>
+    </div>}
+   </>
   )
 }
 

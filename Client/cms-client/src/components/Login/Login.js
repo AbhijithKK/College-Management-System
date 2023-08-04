@@ -16,7 +16,7 @@ const LoginForm = (props) => {
   const [mail, useMail] = useState('');
   const [password, usePassword] = useState('');
   const [errMsg, useErrmsg] = useState('');
-  const history = useNavigate();
+  const Navigate = useNavigate();
   const dispatch = useDispatch()
   const HandleEmailChange = (value) => {
     useMail(value);
@@ -42,7 +42,8 @@ const LoginForm = (props) => {
         withCredentials: true
       }).then((e) => {
         if (e.data === true) {
-          history('/admin/dashboard');
+          Navigate('/admin/dashboard');
+
 
           dispatch({ type: 'refresh' })
         } else {
@@ -55,7 +56,8 @@ const LoginForm = (props) => {
 
         ErrMsg('Invalid username or password')
       } else {
-        history('/student/profile');
+
+        Navigate('/student/profile');
 
         dispatch({ type: 'refresh' })
       }
@@ -65,7 +67,10 @@ const LoginForm = (props) => {
 
         ErrMsg('Invalid username or password')
       } else {
-        history('/faculty/profile');
+
+
+        Navigate('/faculty/profile');
+
 
         dispatch({ type: 'refresh' })
       }
@@ -78,9 +83,6 @@ const LoginForm = (props) => {
   const ForgotPass = () => {
     handleClickOpenPas()
   }
-
-
-
 
   //   ===========>PASSWORD MODAL<============
   const [openPas, setOpenPas] = React.useState(false);
@@ -113,7 +115,7 @@ const LoginForm = (props) => {
       if (data.otp === false) {
         setErrMsg(data.text)
       } else {
-        count=count+1
+        count = count + 1
         setCounts(count)
         startTimer()
         setcameOtp(data.otp)
@@ -127,26 +129,26 @@ const LoginForm = (props) => {
     }
   }
 
-  let [count,setCounts]=useState(1)
+  let [count, setCounts] = useState(1)
   const ResendOtp = () => {
-  
-    if(count<3){
-    handleVerify()
-    }else{
+
+    if (count < 3) {
+      handleVerify()
+    } else {
       setErrMsg('time is up Start again')
     }
   }
   console.log(cameOtp);
   const [timer, setCount] = useState(50);
   let intervalId;
- 
+
   const startTimer = () => {
 
     let start = 50;
     let count = 1;
     intervalId = setInterval(() => {
       if (start - count >= 0) {
-        
+
         setCount(start - count);
         count++;
       } else {
@@ -201,6 +203,7 @@ const LoginForm = (props) => {
     }
   }
   // =====================================================================
+
   return (
     <div className="mainpage">
 
@@ -280,8 +283,8 @@ const LoginForm = (props) => {
               fullWidth
             />
             {btnText === 'Verify' ? timer === 0 ?
-             <p className="resenOtp" onClick={ResendOtp} style={{ color: 'blue', textDecoration: 'underline' }}>Resend otp</p> 
-            : <p>Resend 00:{timer}</p> : ''}
+              <p className="resenOtp" onClick={ResendOtp} style={{ color: 'blue', textDecoration: 'underline' }}>Resend otp</p>
+              : <p>Resend 00:{timer}</p> : ''}
           </DialogContent>
 
           <DialogActions>
@@ -294,10 +297,6 @@ const LoginForm = (props) => {
       </div>
 
       {/* ======================================== */}
-
-
-
-
 
       <Container>
         <Row>
