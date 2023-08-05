@@ -6,10 +6,12 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Swal from 'sweetalert2';
+import { ClipLoader, PulseLoader} from 'react-spinners';
 export default function Payment() {
   const [search, setSearch] = React.useState('')
 
   const [Total, setTotal] = React.useState(0)
+  const [loading, setLoading] = React.useState({})
   const [currentPage, setCurrentPage] = React.useState(1);
   const ChangePage = (event, page) => {
     setCurrentPage(page);
@@ -25,6 +27,7 @@ export default function Payment() {
     ApiHelper()
   }, [search, currentPage, historyid])
   const PayHelper = async (title, amount, id) => {
+    setLoading({[id]:true})
     let res = await ApiStudentPaymentpost(title, amount, id)
     if (res === false) {
       Swal.fire({
@@ -35,6 +38,7 @@ export default function Payment() {
       setHistoryid(res.id)
       window.location.href = res.url
     }
+    setLoading({})
   }
 
   return (
@@ -77,11 +81,13 @@ export default function Payment() {
                           ?<>
                             <div style={{ backgroundColor: 'red', color: 'white' }}>Payment faild</div>
                             <Button onClick={() => PayHelper(data.title, data.amount, data._id)} variant="primary" >
-                              Pay
+                              Pay {"   "}
+                          {loading[data._id] && <PulseLoader  color='white' size={10}/>}
                             </Button>
                           </>
                           :<Button onClick={() => PayHelper(data.title, data.amount, data._id)} variant="primary" >
-                            Pay
+                            Pay {"   "}
+                          {loading[data._id] && <PulseLoader  color='white' size={10}/>}
                           </Button>}
                     </Card.Body>
                   </Card>

@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const Conversation = () => {
+const Conversation = ({data,currentUserId}) => {
+    const [userData,SetUserData]=useState(null)
+    useEffect(()=>{
+        const userId=data.members.find((id)=>id!==currentUserId)
+        
+    },[])
   return (
     <div>
       <>
