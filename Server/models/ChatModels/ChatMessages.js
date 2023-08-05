@@ -1,10 +1,11 @@
 const mongoose=require('mongoose')
 
 const message=mongoose.Schema({
+    chatId:{type:String},
     senderId:{type:String},
-    receiverId:{type:String}
+    text:{type:String},
 },{
-    timestamp:true
+    timestamps:true
 })
 const chatmessagemodel=mongoose.model('chatMessages',message)
 module.exports={chatmessagemodel}
