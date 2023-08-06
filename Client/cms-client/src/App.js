@@ -11,6 +11,9 @@ import Admin from './components/AdminPages/adminpageControlls/Admin';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
+
+
+
 const selectAdmin = (state) => state.admin;
 const selectStudent = (state) => state.student;
 const selectFaculty = (state) => state.faculty;

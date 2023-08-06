@@ -28,6 +28,7 @@ import {
   
   MarkEmailUnreadSharp,
   PeopleAltSharp,
+  Chat,
   
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
@@ -109,6 +110,7 @@ const links = [
   { text: 'Check Leave Letters', link: '/faculty/Checkleaveletters', icon: <PendingActionsSharp /> },
 ];
 const view = [ 
+  { text: 'Chat', link: '/faculty/chat', icon: <Chat /> },
   { text: 'Check Notice', link: '/faculty/notice', icon: <MarkEmailUnreadSharp /> },
   { text: 'Add Comlaint', link: '/faculty/addComplaint', icon: <UploadFileSharp /> },
  

@@ -1,5 +1,7 @@
 const { chatmessagemodel } = require("../models/ChatModels/ChatMessages");
-const { chatModel } = require("../models/ChatModels/ChatModel")
+const { chatModel } = require("../models/ChatModels/ChatModel");
+const { facultyModel } = require("../models/facultyScheema");
+const { studentModel } = require("../models/studentScheema");
 
 let chats = {
     createChat: async (req, res) => {
@@ -39,6 +41,7 @@ let chats = {
     },
     // ================================MESSAGE=======================
     addMessage:async(req,res)=>{
+        console.log(req.body);
         const {chatId,senderId,text}=req.body
         const message=new chatmessagemodel({
             chatId,
@@ -60,6 +63,27 @@ let chats = {
                 chatId
             })
             res.status(200).json(result)
+        }catch(err){
+            console.log(err);
+            res.json(false)
+        }
+    },
+    getUser:async(req,res)=>{
+        console.log('lllll');
+        try{
+            console.log(req.params.userId);
+            id=req.params.userId
+            let user=null
+            if (id) {
+            user=await studentModel.findOne({_id:id})
+            console.log(user,'s');
+            }
+            if(user==null ){
+            user=await facultyModel.findOne({_id:id})
+            console.log(user,'');
+            }
+            console.log(user);
+            res.json(user)
         }catch(err){
             console.log(err);
             res.json(false)

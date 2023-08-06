@@ -13,6 +13,7 @@ import ViewClubs from './ViewClubs/ViewClubs'
 import ViewStudents from './ViewStudents/ViewStudents'
 import Notice from './Notice/Notice'
 import PrivateRoutes from '../../Utils/PrivateRoutes'
+import Chat from './Chat/Chat'
 
 const Faculty = () => (
   <div>
@@ -29,6 +30,7 @@ const Faculty = () => (
       <Route path='/clubmanage' element={<ViewClubs/>}></Route>
       <Route path='/allstudents' element={<ViewStudents/>}></Route>
       <Route path='/notice' element={<Notice/>}></Route>
+      <Route path='/chat' element={<Chat/>}></Route>
       <Route path="/logout" element={<Logout data={{logout:'/faculty'}} />} />
 
       </Route>

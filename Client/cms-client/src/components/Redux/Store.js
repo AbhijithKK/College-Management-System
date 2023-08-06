@@ -4,8 +4,8 @@ import {createStore} from 'redux'
 const initialState={
     refresh:true,
     admin:{login:false},
-    student:{login:false},
-    faculty:{login:false},
+    student:{login:false,data:{}},
+    faculty:{login:false,data:{}},
     
 }
 

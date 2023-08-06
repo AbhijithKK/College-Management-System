@@ -1,5 +1,5 @@
 const express =require('express')
-const { createChat, userChats, findChat, addMessage, getMessage } = require('../controllers/chatControllers')
+const { createChat, userChats, findChat, addMessage, getMessage, getUser } = require('../controllers/chatControllers')
 
 
 
@@ -11,4 +11,7 @@ router.get('/find/:fId/:sId',findChat)
 // =================MESSSAG ROUTE=============================
 router.post('/message',addMessage)
 router.get('/message/:chatId',getMessage)
+
+// ===================USER====================================
+router.get('/user/:userId',getUser)
 module.exports=router

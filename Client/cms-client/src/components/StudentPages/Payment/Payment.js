@@ -6,7 +6,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Swal from 'sweetalert2';
-import { ClipLoader, PulseLoader} from 'react-spinners';
+import {  PulseLoader} from 'react-spinners';
 export default function Payment() {
   const [search, setSearch] = React.useState('')
 

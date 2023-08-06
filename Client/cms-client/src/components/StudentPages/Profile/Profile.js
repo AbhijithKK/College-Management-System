@@ -10,10 +10,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SideBarStudent from '../SideBar/SideBarStudent';
 export default function Profile() {
+
   const [studetnData, setStudetnData] = useState({})
   const ApiHelper = async () => {
     let data = await StudentProfileApi()
+
     setStudetnData(data)
+    localStorage.setItem('sid',data._id)
+
   }
   const [refresh, setRefresh] = useState(false)
   useEffect(() => {
@@ -39,7 +43,7 @@ export default function Profile() {
   const [semester, setsemester] = React.useState('')
   const [pic, setPic] = useState('')
 
-  console.log(studetnData);
+
 
   const HandleClickOpen = async () => {
 
@@ -160,6 +164,7 @@ export default function Profile() {
     }
   }
   // ======================================================================
+  
   return (
     <>
 <SideBarStudent/>
@@ -438,7 +443,7 @@ export default function Profile() {
                 <MDBRow className="g-0">
                   <MDBCol md="4" className="gradient-custom text-center text-black"
                     style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                    <MDBCardImage src={studetnData.image === 'noImg' ? 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp' : `http://localhost:4000/images/${studetnData.image}`}
+                    <MDBCardImage src={studetnData?.image === 'noImg' ? 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp' : `http://localhost:4000/images/${studetnData?.image}`}
                       alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
                     <MDBTypography tag="h5">{studetnData.name}</MDBTypography>
                     {/* <MDBCardText>Web Designer</MDBCardText> */}
