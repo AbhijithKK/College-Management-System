@@ -11,9 +11,11 @@ const ChatBox = ({ chat, currentUserId,setSendMessage,receiveMessage }) => {
         setNewMessage(msg)
     }
     useEffect(() => {
+        console.log('box',chat);
         const userId = chat?.members?.find((id) => id !== currentUserId)
         const GetSecondUserData = async () => {
             let user = await getUserChatApi(userId)
+            console.log(user);
             SetUserData(user)
         }
         if (chat !== null) GetSecondUserData()
@@ -26,16 +28,19 @@ const ChatBox = ({ chat, currentUserId,setSendMessage,receiveMessage }) => {
         if (chat !== null) GetMessages()
     }, [chat])
     const handleSend = async (e) => {
+       
         e.preventDefault()
+       let name= localStorage.getItem('fname')
         const message = {
             senderId: currentUserId,
             text: newMessage,
-            chatId: chat._id
+            chatId: chat._id,
+            name:name
         }
         const data=await addMessage(message)
-        setOldMessage([...oldMessage,data])
+        setOldMessage([...oldMessage,data.data])
         setNewMessage('')
-        const receiverId=chat.members.find((id)=>id !==currentUserId)
+        const receiverId=chat.members.filter((id)=>id !==currentUserId)
         console.log(receiverId,'ll');
         setSendMessage({...message,receiverId})
     }
@@ -43,7 +48,7 @@ const ChatBox = ({ chat, currentUserId,setSendMessage,receiveMessage }) => {
         if(receiveMessage!==null && receiveMessage.chatId===chat._id){
             setOldMessage([...oldMessage,receiveMessage])
         }
-    },[receiveMessage])
+    },[receiveMessage,chat])
     const scoll=useRef()
     useEffect(()=>{
         scoll.current?.scrollIntoView({behvior:"smooth"})
@@ -87,6 +92,7 @@ const ChatBox = ({ chat, currentUserId,setSendMessage,receiveMessage }) => {
                                         {messages.senderId === currentUserId ?
                                             "message own" : "message"}
                                     >
+                                        <span>{messages.name}</span>
                                         <span>{messages.text}</span>{" "}
                                         <span>{messages.createdAt}</span>
                                     </div>
@@ -95,7 +101,7 @@ const ChatBox = ({ chat, currentUserId,setSendMessage,receiveMessage }) => {
                         </div>
                         {/* chat-sender */}
                         <div className="chat-sender">
-                            <div>+</div>
+                            <div style={{color:'black '}}>+</div>
                             <InputEmoji
                                 value={newMessage}
                                 onChange={handleChange}

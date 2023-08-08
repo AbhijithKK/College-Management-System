@@ -5,7 +5,7 @@ import './Chat.css'
 import Conversation from './Conversation';
 import ChatBox from './ChatBox';
 import { StudentProfileApi } from '../../api/StudentApi';
-import { userChats } from '../../api/ChatApi';
+import { userChats, userCreateChats } from '../../api/ChatApi';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 const Chat = () => {
@@ -24,13 +24,16 @@ const Chat = () => {
     
     const ChatApi=async()=>{
       let user=await StudentProfileApi()
+      userCreateChats(user._id)
       setUserData(user)
+      console.log('chats:',user._id);
       let chats=await userChats(user._id)
       setChats(chats)
       
     }
     ChatApi()
   },[refresh])
+  console.log(chats,'chatsssss');
   useEffect(()=>{
     
     let id= localStorage.getItem('sid')
@@ -48,11 +51,11 @@ const Chat = () => {
  
   useEffect(()=>{
     socket.current.on("receiver-message",(data)=>{
-      console.log('receiver',data);
+      console.log('received message',data);
       setReceiveMessage(data)
     })
   },[])
-  console.log(receiveMessage,'rr');
+  
   const checkOnlineStatus = (chat) => {
     const chatMember = chat.members.find((member) => member !== userData._id);
     const online = onlineUsers.find((user) => user.userId === chatMember);
@@ -67,7 +70,7 @@ const Chat = () => {
         <div className="Chat">
       {/* Left Side */}
       <div className="Left-side-chat">
-       searchlogo
+      
         <div className="Chat-container">
           <h2>Chats</h2>
           <div className="Chat-list">

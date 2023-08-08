@@ -6,9 +6,12 @@
   }
   
   .Left-side-chat {
+    background-color: #696969;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: white;
   }
   
   .Chat-container {
@@ -30,9 +33,13 @@
   }
   
   .Right-side-chat {
+    background-color: #696969;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: white;
+
   }
   .conversation:hover {
     background: #80808038;

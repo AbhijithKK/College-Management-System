@@ -21,7 +21,7 @@
 
 .message {
 
-  background: var(--buttonBg);
+ background-color: #f09e24;
   color: white;
   padding: 0.7rem;
   border-radius: 1rem 1rem 1rem 0;
@@ -32,11 +32,17 @@
   gap: 0.5rem;
 }
 
-.message>span:nth-child(2){
+.message>span:last-child{
     font-size: 0.7rem;
     color: var(--textColor);
     align-self: end;
 }
+.message > span:nth-child(2) {
+    font-size: 1rem;
+    color: var(--textColor);
+    align-self: end;
+}
+
 
 .own {
   align-self: flex-end;

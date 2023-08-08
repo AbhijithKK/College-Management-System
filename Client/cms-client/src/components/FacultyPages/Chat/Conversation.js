@@ -3,12 +3,15 @@ import { getUserChatApi } from '../../api/ChatApi'
 const Conversation = ({ data, currentUserId ,online}) => {
     const [userData, SetUserData] = useState(null)
     useEffect(() => {
-        const userId = data?.members?.find((id) => id !== currentUserId)
+        // const userId = data?.find((id) => id !== currentUserId)
+       
         const GetSecondUserData = async () => {
-            let user = await getUserChatApi(userId)
+            let user = await getUserChatApi(data)
             SetUserData(user)
         }
+         if (data!== currentUserId) {
         GetSecondUserData()
+        }
     }, [currentUserId, data])
 
     return (

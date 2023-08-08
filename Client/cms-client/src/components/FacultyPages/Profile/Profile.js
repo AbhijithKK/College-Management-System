@@ -15,6 +15,7 @@ export default function Profile() {
   const ApiHelper = async () => {
     let data = await FacultyProfileApi()
     localStorage.setItem('fid',data._id)
+    localStorage.setItem('fname',data.name)
     setFacultyData(data)
   }
   const [refresh, setRefresh] = useState(false)

@@ -4,6 +4,8 @@ const message=mongoose.Schema({
     chatId:{type:String},
     senderId:{type:String},
     text:{type:String},
+    name:{type:String},
+    
 },{
     timestamps:true
 })

@@ -81,3 +81,12 @@
     height: 70%;
     padding: 0px 15px 0px 15px;
 }
+.send-button{
+    color: #000000;
+}
+.send-button:hover{
+cursor: pointer;
+background-color: green;
+border-radius: 5px;
+color: #ffff;
+}

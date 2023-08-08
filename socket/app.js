@@ -27,13 +27,16 @@ io.on("connection",(socket)=>{
         let receiverId=msg?.receiverId
         console.log(receiverId);
 
-        const user=activeUsers.find((user)=>user.userId==receiverId)
+        for (let i = 0; i <= receiverId?.length; i++ ) {
+            console.log('enterd');
+        const user=activeUsers.find((user)=>user.userId==receiverId[i])
         console.log(user);
         if (user) {
             console.log('receiver',user);
             io.to(user.socketId).emit("receiver-message",msg)
             console.log('active rr',activeUsers);
         }
+    }
     })
 
     socket.on("disconnect",()=>{

@@ -17,6 +17,7 @@ export default function Profile() {
 
     setStudetnData(data)
     localStorage.setItem('sid',data._id)
+    localStorage.setItem('sname',data.name)
 
   }
   const [refresh, setRefresh] = useState(false)
