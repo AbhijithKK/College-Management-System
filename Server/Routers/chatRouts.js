@@ -1,17 +1,18 @@
-const express =require('express')
+const express = require('express')
 const { createChat, userChats, findChat, addMessage, getMessage, getUser } = require('../controllers/chatControllers')
+const { chatAuth } = require('../middlewere/chatMiddlewere')
 
 
 
-let router=express.Router()
-router.post('/',createChat)
-router.get('/:userId',userChats)
-router.get('/find/:fId/:sId',findChat)
+let router = express.Router()
+router.post('/',chatAuth, createChat)
+router.get('/:userId',chatAuth, userChats)
+router.get('/find/:fId/:sId',chatAuth, findChat)
 
 // =================MESSSAG ROUTE=============================
-router.post('/message',addMessage)
-router.get('/message/:chatId',getMessage)
+router.post('/message',chatAuth, addMessage)
+router.get('/message/:chatId',chatAuth, getMessage)
 
 // ===================USER====================================
-router.get('/user/:userId',getUser)
-module.exports=router
+router.get('/user/:userId',chatAuth, getUser)
+module.exports = router

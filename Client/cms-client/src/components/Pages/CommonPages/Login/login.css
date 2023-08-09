@@ -1,0 +1,83 @@
+.emailInput {
+  background-color: rgba(255, 255, 255, 0.384) !important;
+  border-color: black !important;
+  border-style: solid !important;
+  color: rgb(0, 0, 0) !important;
+  position: relative;
+  margin-top: 18px;
+}
+.emailText {
+  margin-left: 10px;
+  color: rgb(0, 0, 0);
+  margin-top: -2rem;
+  position: absolute;
+  transform: scale(1.2);
+  transition: all 0.1s ease-in;
+}
+.emailInput:focus {
+  box-shadow: 0px 0px 10px rgb(18, 100, 223) !important;
+}
+.emailInput:focus ~ .emailText,
+.emailInput:valid ~ .emailText {
+  /* background-color: rgba(240, 248, 255, 0.137); */
+  margin-top: -3.5rem;
+  margin-left: 10px;
+  font-weight: bold;
+  color: rgb(20, 51, 192);
+  transform: scale(1);
+  text-shadow: 2px 3px 10px rgb(18, 90, 223);
+}
+.formContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.button1 {
+  margin-top: 5px;
+  margin-left: 5rem;
+}
+.rounded {
+  border: 2px;
+  height: 120px;
+  width: 130px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 50px;
+  display: grid;
+  justify-content: center;
+}
+.rounded h6 {
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 0px 0px 5px rgb(17, 132, 240);
+}
+.rounded img {
+  width: 75px;
+  margin-left: 16px;
+  margin-bottom: -8px;
+}
+.roundedContainer {
+  padding-top: 8rem;
+  display: flex;
+  justify-content: center;
+}
+
+.forgotPass {
+  color: white;
+  text-decoration: underline;
+  font-weight: bolder;
+  transform: scale(1);
+  transition: ease-in, 1.8s, all;
+  text-shadow: 1px 1px 1px rgb(0, 68, 255);
+}
+.forgotPass:hover {
+  cursor: pointer;
+  text-shadow: 1px, 3px, 5px, blue;
+  transform: scale(1.2);
+  text-decoration: none;
+}
+.resenOtp:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,31 @@
+.Clubcard {
+  /* margin-left: 100px; */
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 676px) {
+  .Clubcard {
+    display: grid;
+    justify-content: center;
+    margin-left: 25px;
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 335px) {
+  .Clubcard {
+    display: grid;
+    justify-content: center;
+    margin-left: 30px;
+  }
+}
+@media (min-width: 768px) and (max-width: 888px) {
+  .Clubcard {
+    margin-left: 30px;
+  }
+}
+@media (min-width: 992px) and (max-width: 2000px) {
+  .Clubcard {
+    margin-left: 40px;
+  }
+}

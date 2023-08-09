@@ -1,0 +1,16 @@
+/* Add custom styles for the calendar component */
+/* Add custom styles for the calendar component */
+.eventTitle {
+  font-size: 0.9rem !important;
+
+  font-weight: bold !important;
+
+  color: rgb(6, 6, 17) !important;
+  line-height: 18px !important;
+}
+
+@media (max-width: 1102px) {
+  .maindivCalander {
+    margin-left: 50px;
+  }
+}

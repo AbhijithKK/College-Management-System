@@ -1,15 +1,15 @@
 
 
-const Pagination=async(pages,modules,c)=>{
-    
-    if (c==undefined) {
-        c=5
+const Pagination = async (pages, modules, count) => {
+
+    if (count == undefined) {
+        count = 5
     }
-        let page=pages
-        let limit=page*c
-        let skip=(page-1)*c
-        let total=await modules.countDocuments()
-        total=Math.ceil(total/c)
-        return {limit,skip,total}
+    let page = pages
+    let limit = page * count
+    let skip = (page - 1) * count
+    let total = await modules.countDocuments()
+    total = Math.ceil(total / count)
+    return { limit, skip, total }
 }
-module.exports={Pagination}
+module.exports = { Pagination }

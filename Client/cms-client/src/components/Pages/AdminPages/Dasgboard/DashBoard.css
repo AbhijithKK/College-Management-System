@@ -1,0 +1,52 @@
+.paper {
+  height: 150px;
+  width: 14rem;
+  margin-top: 1rem;
+  padding-top: 30px;
+}
+.paper1 {
+  height: 150px;
+  width: 14rem;
+  margin-top: 1rem;
+  padding-top: 30px;
+  background-color: gray !important;
+}
+.paper h3 {
+  text-align: center;
+}
+.paper h1 {
+  text-align: center;
+}
+.mainpaperdiv {
+  display: grid;
+  justify-content: center;
+  padding-top: 3rem;
+}
+
+@media (max-width: 768px) {
+  .mainpaperdiv {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .paper {
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 368px) {
+  .paper {
+    height: 150px;
+    width: 10rem;
+    margin-top: 1rem;
+    padding-top: 30px;
+    margin-left: -30px;
+  }
+  .paper1 {
+    height: 150px;
+    width: 10rem;
+    margin-top: 1rem;
+    padding-top: 30px;
+    margin-left: -30px;
+  }
+}

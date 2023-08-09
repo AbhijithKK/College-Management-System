@@ -1,0 +1,39 @@
+.tables {
+  margin-left: 71px;
+  display: flex;
+  justify-content: center;
+  /* max-width: 50%; */
+}
+.addbtn {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 15px;
+  margin-right: 15px;
+}
+.departmentAddBtn {
+  border-radius: 5px;
+  height: 50px;
+  color: rgb(255, 255, 255) !important;
+  background-color: black !important;
+  border-color: rgb(20, 124, 172);
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+.departmentAddBtn:hover {
+  color: rgb(0, 0, 0) !important;
+  background-color: rgb(255, 255, 255) !important;
+
+  border-color: rgb(0, 0, 0) !important;
+}
+.tables .MuiTableCell-root {
+  width: 0%;
+}
+
+@media (max-width: 600px) {
+  .tables {
+    margin-left: 71px;
+  }
+  .rowWidth {
+    width: 5% !important;
+  }
+}

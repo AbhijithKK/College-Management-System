@@ -1,13 +1,13 @@
 import './App.css';
 import React from 'react';
-import LoginForm from './components/Login/Login';
-import MainPage from './components/mainpage/MainPage';
+import LoginForm from './components/Pages/CommonPages/Login/Login';
+import MainPage from './components/Pages/CommonPages/mainpage/MainPage';
 import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
-import Student from './components/StudentPages/StudentPageControll/Student';
-import Faculty from './components/FacultyPages/FacultyControlls';
-import Fpage from './components/404page';
+import Student from './components/Routers/StudentRoute';
+import Faculty from './components/Routers/FacultyRoute';
+import Fpage from './components/Pages/CommonPages/404page';
 
-import Admin from './components/AdminPages/adminpageControlls/Admin';
+import Admin from './components/Routers/AdminRoute';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 

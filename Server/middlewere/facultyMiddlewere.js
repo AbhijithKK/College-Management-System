@@ -4,16 +4,14 @@ const { facultyModel } = require("../models/facultyScheema");
 const facultyAuth = async (req, res, next) => {
     try {
         let verify = await jwtVerify(req.cookies.facultyjwt)
-        console.log(verify);
         let data = await facultyModel.findOne({ _id: verify.data })
         if (data !== null) {
-
+            console.log('success');
             next()
         } else {
             res.json(false)
         }
     } catch (err) {
-        console.log(err);
         res.json(false)
     }
 }
