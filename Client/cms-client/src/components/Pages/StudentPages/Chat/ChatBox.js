@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ChatBox.css";
 import InputEmoji from "react-input-emoji";
-import Timeago from 'react-timeago'
+import Timeago from "react-timeago";
 import {
   addMessage,
   getMessageChatApi,
@@ -57,6 +57,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
   useEffect(() => {
     scoll.current?.scrollIntoView({ behvior: "smooth" });
   }, [oldMessage]);
+  const DefaultImg = "https://freepngimg.com/thumb/chat/1-2-chat-png-image.png";
+
   return (
     <>
       <div className="ChatBox-container">
@@ -67,13 +69,13 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
               <div className="follower">
                 <div>
                   <img
-                    src="https://freepngimg.com/thumb/chat/1-2-chat-png-image.png"
+                    src={DefaultImg }
                     alt="Profile"
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
                   <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>{userData?.name}</span>
+                    <span>{userData?.department}__{userData?.adminOfClass} GROUP</span>
                   </div>
                 </div>
               </div>
@@ -97,9 +99,13 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
                       : "message"
                   }
                 >
-                  <span>{messages.name}</span>
+                  <span>{
+                  messages.senderId === currentUserId ?'You':
+                  messages.name}</span>
                   <span>{messages.text}</span>
-                  <span><Timeago date={messages.createdAt}/></span>
+                  <span>
+                    <Timeago date={messages.createdAt} />
+                  </span>
                 </div>
               ))}
             </div>

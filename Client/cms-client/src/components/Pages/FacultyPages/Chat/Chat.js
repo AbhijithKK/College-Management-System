@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import SideBarStudent from "../SideBar/SideBarFaculty";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import "./Chat.css";
 import Conversation from "./Conversation";
 import ChatBox from "./ChatBox";
@@ -37,7 +37,7 @@ const Chat = () => {
   useEffect(() => {
     let id = localStorage.getItem("fid");
 
-    socket.current = io("http://localhost:4001");
+    socket.current = io(process.env.REACT_APP_SOCKET_IO);
     socket.current.emit("new-user-add", id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
@@ -45,12 +45,10 @@ const Chat = () => {
   }, [refresh]);
   useEffect(() => {
     socket.current.emit("send-message", sendMessage);
-    console.log("sendMessage", sendMessage);
   }, [sendMessage]);
 
   useEffect(() => {
     socket.current.on("receiver-message", (data) => {
-      console.log("receiver", data);
       setReceiveMessage(data);
     });
   }, []);
@@ -67,18 +65,17 @@ const Chat = () => {
     setCurrentChat(updatedChat);
   }, []);
 
-  console.log(currentChat);
   return (
-    <div style={{ backgroundColor: "gray" }}>
+    <div style={{ backgroundColor: "gray",marginLeft:'60px ' }}>
       <SideBarStudent />
-      <div>
+      
         <Container>
-          <>
+          <Row>
             <div className="Chat">
               {/* Left Side */}
               <div className="Left-side-chat">
                 <div className="Chat-container">
-                  <h2>Chats</h2>
+                  <h2>Members</h2>
                   <div className="Chat-list">
                     {chats.map((chat, i) => (
                       <div key={i}>
@@ -117,9 +114,9 @@ const Chat = () => {
                 />
               </div>
             </div>
-          </>
+          </Row>
         </Container>
-      </div>
+      
     </div>
   );
 };

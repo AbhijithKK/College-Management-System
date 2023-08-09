@@ -4,7 +4,7 @@
   outline: none !important;
   border-color: transparent !important;
   background: none !important;
-  color: blue !important;
+  color:#206a3d !important;
   border-style: none !important;
   text-transform: none !important;
 }
@@ -29,5 +29,8 @@
   }
   .leftarrange {
     overflow: hidden;
+  }
+  .ProfileStyle{
+    margin-left:5px;
   }
 }

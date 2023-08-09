@@ -10,6 +10,7 @@ const Conversation = ({ data, currentUserId, online }) => {
     };
     GetSecondUserData();
   }, [currentUserId, data]);
+  const DefaultImg="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
 
   return (
     <div>
@@ -18,10 +19,14 @@ const Conversation = ({ data, currentUserId, online }) => {
           <div>
             {<div className="online-dot"></div>}
             <img
-              src="https://freepngimg.com/thumb/chat/1-2-chat-png-image.png"
+              src={
+                userData?.image === "noImg"
+                  ? DefaultImg
+                  : process.env.REACT_APP_IMG_URL + userData?.image
+              }
               alt="Profile"
               className="followerImage"
-              style={{ width: "50px", height: "50px" }}
+              style={{ width: "50px", height: "50px" ,borderRadius:"25px"}}
             />
             <div className="name" style={{ fontSize: "0.8rem" }}>
               <span>{userData?.name}</span>

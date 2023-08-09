@@ -182,6 +182,7 @@ export default function Result() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
+            style={{color:"#206a3d "}}
           >
             sort by semester <ArrowDropDownIcon />
           </Button>

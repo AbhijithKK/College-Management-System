@@ -18,7 +18,7 @@ const Approve=mongoose.Schema({
     className:{type:String,default:false},
     qualifications:{type:String,default:false},
     teachingArea:{type:String,default:false},
-    image:{type:String ,default:false},
+    image:{type:String ,default:'noImg'},
     category:{type:String ,default:false},
     date:{type:String ,default:false},
 })

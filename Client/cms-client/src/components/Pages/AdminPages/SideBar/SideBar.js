@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   DashboardSharp,
   PersonAddAlt1Sharp,
@@ -112,8 +112,7 @@ const links = [
     icon: <PersonAddAlt1Sharp />,
   },
   { text: "Add Club", link: "/admin/addclub", icon: <Groups2Sharp /> },
-];
-const view = [
+
   { text: "View Students", link: "/admin/viewstudents", icon: <SchoolSharp /> },
   {
     text: "View Facultys",
@@ -136,8 +135,7 @@ const view = [
     link: "/admin/viewsubjects",
     icon: <LocalLibrarySharp />,
   },
-];
-const links1 = [
+
   { text: "Create Payment", link: "/admin/payment", icon: <PriceCheckSharp /> },
   {
     text: "Check Complaint",
@@ -168,6 +166,15 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const[selectedItem,setSelectedItem]=React.useState(null)
+  const{state}=useLocation()
+  React.useEffect(()=>{
+    let val=0
+    if (state?.index) {
+      val=state?.index
+    } 
+    setSelectedItem(val)
+  },[state])
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -205,11 +212,15 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List> 
           {links.map((item, index) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
+            <ListItem key={item.text} disablePadding sx={{ display: "block",
+            backgroundColor:selectedItem===index ?"#1976d2":"transparent",
+            color:selectedItem===index ?"white":"",
+            }}>
               <ListItemButton
                 component={Link}
+                state={{index}}
                 to={item.link}
                 sx={{
                   minHeight: 48,
@@ -224,6 +235,7 @@ export default function MiniDrawer() {
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
                     }}
+                    style={{ color:selectedItem===index ?"white":"",}}
                   >
                     {item.icon}
                   </ListItemIcon>
@@ -237,68 +249,7 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
-        <List>
-          {view.map((item, index) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                component={Link}
-                to={item.link}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Tooltip title={item.text}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                </Tooltip>
-                <ListItemText
-                  primary={item.text}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <List>
-          {links1.map((item, index) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                component={Link}
-                to={item.link}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Tooltip title={item.text}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                </Tooltip>
-                <ListItemText
-                  primary={item.text}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+       
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

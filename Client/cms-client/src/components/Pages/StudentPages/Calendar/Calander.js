@@ -73,7 +73,7 @@ const Calander = () => {
   
 
   return (
-    <div style={{ backgroundColor: "gray", height: "100vh" }}>
+    <div>
       <SideBarStudent />
       <div className="maindivCalander">
         <Container>

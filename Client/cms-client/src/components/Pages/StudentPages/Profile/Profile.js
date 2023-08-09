@@ -35,14 +35,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import SideBarStudent from "../SideBar/SideBarStudent";
+import { Container } from "react-bootstrap";
 export default function Profile() {
   const [studetnData, setStudetnData] = useState({});
   const ApiHelper = async () => {
     let data = await StudentProfileApi();
 
     setStudetnData(data);
-    localStorage.setItem("sid", data._id);
-    localStorage.setItem("sname", data.name);
+    localStorage.setItem("sid", data?._id);
+    localStorage.setItem("sname", data?.name);
   };
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
@@ -201,7 +202,7 @@ export default function Profile() {
   return (
     <>
       <SideBarStudent />
-
+    <Container>
       {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
       <div>
         <Dialog
@@ -276,6 +277,7 @@ export default function Profile() {
           </DialogContent>
 
           <DialogActions>
+            <Button onClick={handleClosepas}>Close</Button>
             <Button
               onClick={btnText === "Verify" ? VerifyOtp : handleVerify}
               autoFocus
@@ -478,32 +480,35 @@ export default function Profile() {
                 <MDBRow className="g-0">
                   <MDBCol
                     md="4"
-                    className="gradient-custom text-center text-black"
+                    className="gradient-custom text-center text-black ProfileStyle"
                     style={{
                       borderTopLeftRadius: ".5rem",
                       borderBottomLeftRadius: ".5rem",
+                      backgroundColor:'#4144413d'
                     }}
                   >
                     <MDBCardImage
                       src={
                         studetnData?.image === "noImg"
                           ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                          : `http://localhost:4000/images/${studetnData?.image}`
+                          : `${process.env.REACT_APP_IMG_URL+studetnData?.image}`
                       }
+
                       alt="Avatar"
                       className="my-5"
-                      style={{ width: "80px" }}
+                      style={{ width: "80px",height:"80px",borderRadius:"40px" }}
                       fluid
                     />
                     <MDBTypography tag="h5">{studetnData.name}</MDBTypography>
                     {/* <MDBCardText>Web Designer</MDBCardText> */}
                     <Button onClick={HandleClickOpen}>
-                      <MDBIcon far icon="edit mb-5" />
+                      <MDBIcon  style={{color:"#206a3d",fontWeight:"bold"}} far icon="edit mb-5" />
                     </Button>{" "}
                     <br />
-                    <Button
+                    <Button 
                       onClick={handleClickOpenPas}
                       className="text-blue psBtn"
+                      style={{color:"#206a3d !importent"}}
                     >
                       Change password?
                     </Button>
@@ -589,6 +594,7 @@ export default function Profile() {
           </MDBRow>
         </MDBContainer>
       </section>
+      </Container>
     </>
   );
 }

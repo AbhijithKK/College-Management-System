@@ -10,7 +10,7 @@ export default function Notice() {
   const [notice, setNotice] = React.useState([]);
   const [search, setSearch] = React.useState("");
   const DownloadFile = async (path, name) => {
-    const downloadUrl = `http://localhost:4000/images/${path}`;
+    const downloadUrl = `${process.env.REACT_APP_IMG_URL+path}`;
     try {
       const response = await fetch(downloadUrl);
       const blob = await response.blob();
@@ -78,6 +78,7 @@ export default function Notice() {
                       <Card.Title>{data.name}</Card.Title>
                       <Card.Title>Issued Date:{data.date}</Card.Title>
                       <Button
+                      style={{backgroundColor:"#206a3d "}}
                         variant="primary"
                         onClick={() => DownloadFile(data.filePath, data.name)}
                       >

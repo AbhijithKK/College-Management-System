@@ -70,7 +70,7 @@ function AddClub() {
     <div>
       <SideBar />
       <div
-        style={{ backgroundColor: "gray", marginTop: "-64px", height: "100vh" }}
+        style={{ backgroundColor: "gray", marginTop: "-64px", height: "100vh",overflow:"hidden" }}
       >
         <Container>
           <Row>

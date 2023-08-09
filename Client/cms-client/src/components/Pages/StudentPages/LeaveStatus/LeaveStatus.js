@@ -144,24 +144,22 @@ export default function LeaveStatus() {
                     )
                   : requests
                 ).map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell style={{ width: 160 }}>
+                  <TableRow key={index}
+                  className={
+                    row.status === "Leave Approved"
+                      ? "leaveApprove"
+                      : row.status === "Applyed"
+                      ? "leaveRequest"
+                      : "leaveCancel"
+                  }>
+                    <TableCell style={{ width: 160,color:"white"  }}>
                       {new Date(row.date).toLocaleDateString()}
                     </TableCell>
-                    <TableCell style={{ width: 160 }}>{row.reson}</TableCell>
-                    <TableCell style={{ width: 160 }}>
+                    <TableCell style={{ width: 160,color:"white" }}>{row.reson}</TableCell>
+                    <TableCell style={{ width: 160 ,color:"white" }}>
                       {row.adminName ? row.adminName : "Not Checked"}
                     </TableCell>
-                    <TableCell
-                      style={{ width: 160 }}
-                      className={
-                        row.status === "Leave Approved"
-                          ? "leaveApprove"
-                          : row.status === "Applyed"
-                          ? "leaveRequest"
-                          : "leaveCancel"
-                      }
-                    >
+                    <TableCell style={{ width: 160,color:"white"  }}>
                       {row.status}
                     </TableCell>
                   </TableRow>

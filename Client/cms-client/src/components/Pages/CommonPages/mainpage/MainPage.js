@@ -5,7 +5,7 @@ import admin from "../../../../assets/admin.png";
 import student from "../../../../assets/student.png";
 import faculty from "../../../../assets/faculty.png";
 import { Link } from "react-router-dom";
-import LoaderPage from "../../../../Utils/LoaderPage";
+import LoaderPage from "../LoaderPage";
 const MainPage = () => {
   const [loader, setLoader] = useState(true);
   useEffect(() => {

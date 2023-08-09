@@ -34,7 +34,7 @@ const Chat = () => {
   useEffect(() => {
     let id = localStorage.getItem("sid");
     console.log(id, "kk");
-    socket.current = io("http://localhost:4001");
+    socket.current = io(process.env.REACT_APP_SOCKET_IO);
     socket.current.emit("new-user-add", id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
@@ -57,7 +57,7 @@ const Chat = () => {
     return online ? true : false;
   };
   return (
-    <div style={{ backgroundColor: "gray" }}>
+    <div style={{ backgroundColor: "gray",marginLeft:"60px" }}>
       <SideBarStudent />
       <div>
         <Container>

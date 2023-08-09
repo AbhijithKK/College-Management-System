@@ -72,6 +72,7 @@ function AddComplaint() {
                 type="button"
                 onClick={sendComplaint}
                 size="lg"
+                style={{backgroundColor:"#206a3d"}}
               >
                 Register
               </MDBBtn>

@@ -101,7 +101,7 @@ export default function Clubs() {
   };
 
   return (
-    <div style={{ backgroundColor: "gray", height: "100vh" }}>
+    <div style={{ backgroundColor: "gray", height: "100vh",overflow:"hidden" }}>
       <SideBarStudent />
       <Container>
         {clubs?.length === 0 ? (
@@ -111,7 +111,7 @@ export default function Clubs() {
         )}
         <div className="clubReqTitle">
           {/* ======================================================================= */}
-          <div>
+          <div style={{backgroundColor:'red'}}>
             <Menu
               id="demo-positioned-menu"
               aria-labelledby="demo-positioned-button"
@@ -127,16 +127,17 @@ export default function Clubs() {
                 horizontal: "left",
               }}
               value={dropVal}
+              className="clubDrp"
             >
-              <MenuItem onClick={() => setDropVal("")}>All Clubs </MenuItem>
-              <MenuItem onClick={() => setDropVal(null)}>New Clubs </MenuItem>
-              <MenuItem onClick={() => setDropVal("Now Your a Member")}>
+              <MenuItem style={{color:"#206a3d"}} onClick={() => setDropVal("")}>All Clubs </MenuItem>
+              <MenuItem style={{color:"#206a3d"}} onClick={() => setDropVal(null)}>New Clubs </MenuItem>
+              <MenuItem style={{color:"#206a3d"}} onClick={() => setDropVal("Now Your a Member")}>
                 Join Clubs{" "}
               </MenuItem>
-              <MenuItem onClick={() => setDropVal("Request Send")}>
+              <MenuItem style={{color:"#206a3d"}} onClick={() => setDropVal("Request Send")}>
                 Pending Requests{" "}
               </MenuItem>
-              <MenuItem onClick={() => setDropVal("Request Rejected")}>
+              <MenuItem style={{color:"#206a3d"}} onClick={() => setDropVal("Request Rejected")}>
                 Rejected Requests{" "}
               </MenuItem>
             </Menu>
@@ -144,6 +145,7 @@ export default function Clubs() {
           {/* ======================================================================= */}
           {/* ====================DROP DOWN bUTTON================ */}
           <Button
+          style={{color:"#206a3d" ,backgroundColor:"#ffff",borderRadius:"25px"}}
             id="demo-positioned-button"
             aria-controls={open ? "demo-positioned-menu" : undefined}
             aria-haspopup="true"
@@ -177,7 +179,8 @@ export default function Clubs() {
                   {data.clubStatus ? (
                     <p
                       key={index}
-                      style={{
+                      style={{color:"#ffff",
+                        borderRadius:"3px",
                         backgroundColor:
                           data.clubStatus === "Request Send"
                             ? "orange"
@@ -186,7 +189,7 @@ export default function Clubs() {
                             : "red",
                       }}
                     >
-                      {data.clubStatus}
+                      &nbsp;{data.clubStatus} &nbsp;
                     </p>
                   ) : (
                     <Button

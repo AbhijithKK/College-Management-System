@@ -123,7 +123,7 @@ export default function ViewStudents() {
 
   return (
     <>
-      <div style={{ backgroundColor: "gray", height: "100vh" }}>
+      <div style={{ backgroundColor: "gray", height: "100vh" ,overflow:"hidden"}}>
         <SideBarFaculty />
         <Container>
           <h1 className="clubReqTitle">All Students</h1>

@@ -18,6 +18,7 @@ const { approveModel } = require("../models/approveRequests");
 const { paymentModel } = require("../models/payment");
 const { paymentHistoryModel } = require("../models/paymentHistory");
 const { isObjectIdOrHexString } = require("mongoose");
+const { department } = require("../models/departmentScheema");
 require("dotenv");
 const stripe = require("stripe")(process.env.STRIP_KEY);
 const OtpGen = () => {

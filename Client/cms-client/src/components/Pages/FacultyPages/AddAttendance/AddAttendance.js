@@ -450,7 +450,7 @@ export default function AddAttendance() {
   return (
     <SnackbarProvider maxSnack={3}>
       <>
-        <div style={{ backgroundColor: "gray", height: "100vh" }}>
+        <div style={{ backgroundColor: "gray", height: "100vh",overflow:"hidden" }}>
           <SideBarFaculty />
           <AddAttendanceTable />
         </div>

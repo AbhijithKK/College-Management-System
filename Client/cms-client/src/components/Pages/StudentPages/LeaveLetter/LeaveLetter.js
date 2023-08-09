@@ -70,7 +70,7 @@ const LeaveLetterForm = () => {
                     />
                   </Form.Group>
 
-                  <Button type="submit">Apply Leave</Button>
+                  <Button style={{backgroundColor:"#206a3d"}} type="submit">Apply Leave</Button>
                 </Form>
               </div>
             </Col>

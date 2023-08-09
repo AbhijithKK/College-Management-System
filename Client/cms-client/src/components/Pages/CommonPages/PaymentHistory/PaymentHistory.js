@@ -146,20 +146,21 @@ export default function PaymentHistory() {
                 )
               : result
             ).map((row, i) => (
-              <TableRow key={i}>
-                <TableCell align="center">{row?.studentId.name}</TableCell>
-                <TableCell align="center">
+              <TableRow key={i} 
+              style={{
+                backgroundColor: row.status === "true" ? "green" : "red",
+              }}>
+                <TableCell style={{color:"#ffff"}} align="center">{row?.studentId.name}</TableCell>
+                <TableCell style={{color:"#ffff"}} align="center">
                   {row?.studentId.department}
                 </TableCell>
-                <TableCell align="center">{row?.paymentId.title}</TableCell>
-                <TableCell align="center">{row?.paymentId.amount}</TableCell>
-                <TableCell align="center">{row.payDate}</TableCell>
-                <TableCell align="center">{row?.paymentId.date}</TableCell>
+                <TableCell style={{color:"#ffff"}} align="center">{row?.paymentId.title}</TableCell>
+                <TableCell style={{color:"#ffff"}} align="center">{row?.paymentId.amount}</TableCell>
+                <TableCell style={{color:"#ffff"}} align="center">{row.payDate}</TableCell>
+                <TableCell style={{color:"#ffff"}} align="center">{row?.paymentId.date}</TableCell>
                 <TableCell
                   align="center"
-                  style={{
-                    backgroundColor: row.status === "true" ? "green" : "red",
-                  }}
+                  style={{color:"#ffff"}}
                 >
                   {row.status === "true" ? "Paid Successfully" : "Faild"}
                 </TableCell>

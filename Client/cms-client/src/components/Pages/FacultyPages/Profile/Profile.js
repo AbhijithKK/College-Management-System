@@ -446,7 +446,7 @@ export default function Profile() {
                   <MDBRow className="g-0">
                     <MDBCol
                       md="4"
-                      className="gradient-custom text-center text-black"
+                      className="gradient-custom text-center text-black ProfileStyle"
                       style={{
                         borderTopLeftRadius: ".5rem",
                         borderBottomLeftRadius: ".5rem",
@@ -457,11 +457,11 @@ export default function Profile() {
                         src={
                           FacultyData.image === "noImg"
                             ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                            : `http://localhost:4000/images/${FacultyData?.image}`
+                            : `${process.env.REACT_APP_IMG_URL+FacultyData?.image}`
                         }
                         alt="Avatar"
                         className="my-5"
-                        style={{ width: "80px" }}
+                        style={{ width: "80px",height:"80px",borderRadius:'40px' }}
                         fluid
                       />
                       <MDBTypography tag="h5">{FacultyData?.name}</MDBTypography>

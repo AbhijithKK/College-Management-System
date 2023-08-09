@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Diversity3Sharp,
   LogoutSharp,
@@ -104,8 +104,7 @@ const links = [
   { text: "Result", link: "/student/result", icon: <CheckCircleSharp /> },
   { text: "Clubs", link: "/student/clubs", icon: <Diversity3Sharp /> },
   { text: "Attendance", link: "/student/attendance", icon: <HowToRegSharp /> },
-];
-const view = [
+
   {
     text: "Leave Status",
     link: "/student/leaveStatus",
@@ -147,11 +146,19 @@ export default function SideBarStudent() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+const [selectedItem,setSelectedItem]=React.useState(null)
+const{state}=useLocation()
+React.useState(()=>{
+let val=0
+if (state?.index) {
+  val=state.index
+}
+setSelectedItem(val)
+},[state])
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar style={{backgroundColor:"#206a3d"}} position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -186,9 +193,14 @@ export default function SideBarStudent() {
         <Divider />
         <List>
           {links.map((item, index) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
+            <ListItem key={index} disablePadding sx={{ display: "block",
+            backgroundColor:selectedItem===index ?"#206a3d":"transparent",
+            color:selectedItem===index ? 'white':""
+            
+            }}>
               <ListItemButton
                 component={Link}
+                state={{index}}
                 to={item.link}
                 sx={{
                   minHeight: 48,
@@ -203,8 +215,10 @@ export default function SideBarStudent() {
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
                     }}
+                    style={{color:selectedItem===index ? 'white':""}}
                   >
                     {item.icon}
+                    
                   </ListItemIcon>
                 </Tooltip>
                 <ListItemText
@@ -216,37 +230,7 @@ export default function SideBarStudent() {
           ))}
         </List>
         <Divider />
-        <List>
-          {view.map((item, index) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                component={Link}
-                to={item.link}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Tooltip title={item.text}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                </Tooltip>
-                <ListItemText
-                  primary={item.text}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

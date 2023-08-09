@@ -161,7 +161,11 @@ export default function SideBarFaculty() {
   const [currentlySelected,setCurrentlySelected]=React.useState(null)
   const {state}=useLocation()
   React.useEffect(()=>{
-    setCurrentlySelected(state?.index)
+    let val=0;
+    if(state?.index){
+      val=state?.index
+    }
+    setCurrentlySelected(val)
   },[state])
   return (
     <Box sx={{ display: "flex" }}>
@@ -204,7 +208,8 @@ export default function SideBarFaculty() {
             <ListItem key={index} 
             disablePadding sx={{
                display: "block",
-               backgroundColor:currentlySelected===index ?'#1e0f0f':'transparent',
+               backgroundColor:currentlySelected===index 
+               ?'#1e0f0f':'transparent',
                color:currentlySelected===index ?'white':'black',
                
                }}>

@@ -10,7 +10,7 @@ export default function Notice() {
 
   const [search, setSearch] = React.useState("");
   const DownloadFile = async (path, name) => {
-    const downloadUrl = `http://localhost:4000/images/${path}`;
+    const downloadUrl = `${process.env.REACT_APP_IMG_URL+path}`;
 
     try {
       const response = await fetch(downloadUrl);

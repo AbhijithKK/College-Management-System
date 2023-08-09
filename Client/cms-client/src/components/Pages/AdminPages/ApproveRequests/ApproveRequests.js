@@ -204,7 +204,7 @@ export default function ApproveList() {
   let url = `http://localhost:4000/images/`;
   // ===================================================================
   return (
-    <div style={{ backgroundColor: "gray", marginTop: "0px", height: "100vh" }}>
+    <div style={{ backgroundColor: "gray", marginTop: "0px", height: "100vh",overflow:"hidden" }}>
       <>
         <SideBarStudent />
         <Container>
@@ -271,7 +271,7 @@ export default function ApproveList() {
                     </TableRow>
                   ))
                 ) : (
-                  <div>list not found</div>
+                  <div style={{paddingLeft:"20px"}}>list not found</div>
                 )}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
