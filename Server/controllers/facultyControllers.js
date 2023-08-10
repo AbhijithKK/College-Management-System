@@ -43,8 +43,8 @@ let faculty = {
           res
             .cookie("facultyjwt", await jwtSign(data._id), {
               withCrdenttitals: true,
-              httpOnly: false,
-              secure: false,
+              httpOnly: true,
+              secure: true,
               sameSite: "Lax",
               maxAge: 1000000,
             })

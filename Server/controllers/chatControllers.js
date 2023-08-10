@@ -41,9 +41,9 @@ let chats = {
             let ff=facultyData._id.toString()
             console.log(ff);
             let chats=await chatModel.findOne({members:{$all:[ff]}})
-            console.log('chatss',chats);
+            
             if (chats) {
-                console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+               
                 for (let i = 0; i < students.length; i++) {
                     console.log(students[i]._id);
                   receiverIds.push(students[i]._id);

@@ -34,14 +34,13 @@ let admin = {
         if (admin) {
             password=await bcript.compare(password,admin.password)
             if (password==true) {
-                res
-                .cookie("jwtAdmin", await jwtSign(admin._id), {
-                  withCredenttitals: true,
-                  httpOnly: false,
-                  secure: false,
-                  sameSite: "Lax",
-                  maxAge: 1000000,
-                })
+              res.cookie("studentjwt", yourTokenValue, {
+                httpOnly: true,  
+                secure: true,    
+                sameSite: "Lax", 
+                maxAge: 1000000, 
+              })
+              
                 .json(true);
             }else{
                 res.json(false);
