@@ -15,7 +15,7 @@ const xss = require('xss-clean')
 require('dotenv')
 
 app.use(bodyparser.urlencoded({ extended: false }))
-app.use(cors({ origin: [process.env.BASE_URL], credentials: true }))
+app.use(cors({ origin: [process.env.BASE_URL_REACT], credentials: true }))
 app.use(morgan("dev"))
 app.use(express.json());
 app.use(cookieParser())
