@@ -1,13 +1,14 @@
+require("dotenv").config()
 const io = require("socket.io")(4001, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.REACT_URL,
   },
 });
 
 let activeUsers = [];
-console.log("lkkk");
+console.log("started");
 io.on("connection", (socket) => {
-  console.log("socketttt");
+  
   socket.on("new-user-add", (newUserId) => {
     console.log(newUserId, "newuser");
     if (!activeUsers.some((user) => user.userId === newUserId)) {
