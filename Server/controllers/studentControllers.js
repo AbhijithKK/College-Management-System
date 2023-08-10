@@ -44,7 +44,7 @@ let student = {
               withCredentials: true,
               httpOnly: true,
               secure: true,
-              sameSite: "Lax",
+              sameSite: "None",
               maxAge: 1000000,
             })
             .json(true);

@@ -37,7 +37,7 @@ let admin = {
               res.cookie("studentjwt", yourTokenValue, {
                 httpOnly: true,  
                 secure: true,    
-                sameSite: "Lax", 
+                sameSite: "None", 
                 maxAge: 1000000, 
               })
               
