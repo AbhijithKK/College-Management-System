@@ -3,3 +3,4 @@ Client/cms-client/node_modules
 server/node_modules
 Server/.env
 socket/.env
+socket/node_modules
