@@ -22,7 +22,7 @@ const DefaultImg="https://w7.pngwing.com/pngs/205/731/png-transparent-default-av
             {<div className="online-dot"></div>}
             <img
               src={userData?.image==="noImg" 
-              ? DefaultImg 
+              ? DefaultImg :userData?.image===undefined ? DefaultImg
               :process.env.REACT_APP_IMG_URL+userData?.image }
               alt="Profile"
               className="followerImage"

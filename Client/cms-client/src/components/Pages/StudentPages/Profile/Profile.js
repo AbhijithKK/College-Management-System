@@ -491,7 +491,8 @@ export default function Profile() {
                       src={
                         studetnData?.image === "noImg"
                           ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                          : `${process.env.REACT_APP_IMG_URL+studetnData?.image}`
+                          : studetnData?.image===undefined ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                          :`${process.env.REACT_APP_IMG_URL+studetnData?.image}`
                       }
 
                       alt="Avatar"

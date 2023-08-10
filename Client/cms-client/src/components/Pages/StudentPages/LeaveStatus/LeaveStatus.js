@@ -165,7 +165,11 @@ export default function LeaveStatus() {
                   </TableRow>
                 ))
               ) : (
-                <div>Leave Status not found</div>
+                <TableRow>
+                <TableCell>
+                Leave Status Not Found
+                </TableCell>
+                </TableRow>
               )}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>

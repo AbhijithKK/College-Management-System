@@ -175,7 +175,11 @@ export default function ViewStudents() {
                     </TableRow>
                   ))
                 ) : (
-                  <div>Students Not Found</div>
+                  <TableRow>
+                <TableCell>
+               Students not Found
+                </TableCell>
+                </TableRow>
                 )}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>

@@ -15,6 +15,7 @@ const { Pagination } = require("../heplers/pagination");
 const { approveModel } = require("../models/approveRequests");
 const { paymentModel } = require("../models/payment");
 const { paymentHistoryModel } = require("../models/paymentHistory");
+const { adminModel } = require("../models/adminModel");
 
 const passGen = () => {
   return otpGenerator.generate(8, {
@@ -28,21 +29,27 @@ let admin = {
   // <====LOGIN VERIFY====>
   adminLogin: async (req, res) => {
     try {
-      const email = "admin@gmail.com";
-      const password = "password";
-      if (email === req.body.mail && password === req.body.password) {
-        res
-          .cookie("jwtAdmin", await jwtSign(123456), {
-            withCredenttitals: true,
-            httpOnly: false,
-            secure: false,
-            sameSite: "Lax",
-            maxAge: 1000000,
-          })
-          .json(true);
-      } else {
-        res.json(false);
-      }
+        let {mail,password}=req.body
+        let admin=await adminModel.findOne({email:mail})
+        if (admin) {
+            password=await bcript.compare(password,admin.password)
+            if (password==true) {
+                res
+                .cookie("jwtAdmin", await jwtSign(admin._id), {
+                  withCredenttitals: true,
+                  httpOnly: false,
+                  secure: false,
+                  sameSite: "Lax",
+                  maxAge: 1000000,
+                })
+                .json(true);
+            }else{
+                res.json(false);
+            }
+        }else{
+            res.json(false);
+        }
+    
     } catch (err) {
       res.json(false);
     }
@@ -51,7 +58,8 @@ let admin = {
   checkAuth: async (req, res) => {
     try {
       let loginverify = await jwtVerify(req.cookies.jwtAdmin);
-      if (loginverify.data == 123456) {
+      let admin=await adminModel.findOne({_id:loginverify.data})
+      if (admin!=null) {
         res.json(true);
       } else {
         res.json(false);

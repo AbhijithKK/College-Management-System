@@ -21,7 +21,7 @@ const Conversation = ({ data, currentUserId, online }) => {
             <img
               src={
                 userData?.image === "noImg"
-                  ? DefaultImg
+                  ? DefaultImg:userData?.image===undefined ? DefaultImg
                   : process.env.REACT_APP_IMG_URL + userData?.image
               }
               alt="Profile"

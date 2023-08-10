@@ -167,7 +167,11 @@ export default function PaymentHistory() {
               </TableRow>
             ))
           ) : (
+           <TableRow>
+            <TableCell>
             <div>Result not found</div>
+            </TableCell>
+           </TableRow>
           )}
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>

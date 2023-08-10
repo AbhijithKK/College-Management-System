@@ -349,7 +349,11 @@ export default function ViewSubjects() {
                       </StyledTableRow>
                     ))
                   ) : (
+                    <StyledTableRow>
+                    <StyledTableCell>
                     <div>There is no Subject Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                   )}
                 </TableBody>
               </Table>

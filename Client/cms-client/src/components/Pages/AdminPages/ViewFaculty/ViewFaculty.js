@@ -491,7 +491,11 @@ export default function ViewFaculty() {
                     </StyledTableRow>
                   ))
                 ) : (
-                  <div>There is no Facultys Found</div>
+                  <StyledTableRow>
+                    <StyledTableCell>
+                    <div>There is no Faculty Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 )}
               </TableBody>
             </Table>

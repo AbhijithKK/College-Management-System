@@ -9,8 +9,8 @@ import { userChats, userCreateChats } from "../../../api/ChatApi";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 const Chat = () => {
-  const { refresh } = useSelector((state) => {
-    return state;
+  const  refresh  = useSelector((state) => {
+    return state.refresh;
   });
   const [chats, setChats] = useState([]);
   const [userData, setUserData] = useState({});
@@ -24,16 +24,16 @@ const Chat = () => {
       let user = await StudentProfileApi();
       userCreateChats(user._id);
       setUserData(user);
-      console.log("chats:", user._id);
+     
       let chats = await userChats(user._id);
       setChats(chats);
     };
     ChatApi();
   }, [refresh]);
-  console.log(chats, "chatsssss");
+ 
   useEffect(() => {
     let id = localStorage.getItem("sid");
-    console.log(id, "kk");
+    
     socket.current = io(process.env.REACT_APP_SOCKET_IO);
     socket.current.emit("new-user-add", id);
     socket.current.on("get-users", (users) => {
@@ -46,7 +46,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket.current.on("receiver-message", (data) => {
-      console.log("received message", data);
+     
       setReceiveMessage(data);
     });
   }, []);

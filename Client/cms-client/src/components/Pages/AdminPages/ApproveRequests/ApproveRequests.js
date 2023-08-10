@@ -271,7 +271,11 @@ export default function ApproveList() {
                     </TableRow>
                   ))
                 ) : (
-                  <div style={{paddingLeft:"20px"}}>list not found</div>
+                  <TableRow>
+                    <TableCell>
+                    <div style={{paddingLeft:"20px"}}>list not found</div>
+                    </TableCell>
+                  </TableRow>
                 )}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>

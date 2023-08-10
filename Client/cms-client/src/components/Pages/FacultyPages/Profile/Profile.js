@@ -455,8 +455,9 @@ export default function Profile() {
                     >
                       <MDBCardImage
                         src={
-                          FacultyData.image === "noImg"
+                          FacultyData?.image === "noImg"
                             ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                            :FacultyData?.image===undefined ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                             : `${process.env.REACT_APP_IMG_URL+FacultyData?.image}`
                         }
                         alt="Avatar"

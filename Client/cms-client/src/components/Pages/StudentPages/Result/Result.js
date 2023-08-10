@@ -220,7 +220,11 @@ export default function Result() {
                   </TableRow>
                 ))
               ) : (
-                <div>Result not found</div>
+                <TableRow>
+                <TableCell>
+                Result Not Found
+                </TableCell>
+                </TableRow>
               )}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>

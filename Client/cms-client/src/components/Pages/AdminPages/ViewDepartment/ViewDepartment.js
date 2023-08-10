@@ -204,7 +204,11 @@ export default function ViewDepartment() {
                     ))
                   ) : (
                     // Render a message or placeholder when the array is empty
-                    <div>No departments found.</div>
+                    <StyledTableRow>
+                    <StyledTableCell>
+                    <div>There is no Department Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                   )}
                 </TableBody>
               </Table>

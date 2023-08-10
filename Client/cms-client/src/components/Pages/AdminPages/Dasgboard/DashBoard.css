@@ -3,6 +3,7 @@
   width: 14rem;
   margin-top: 1rem;
   padding-top: 30px;
+  background-color: #1976d2c2 !important;
 }
 .paper1 {
   height: 150px;
@@ -22,6 +23,29 @@
   justify-content: center;
   padding-top: 3rem;
 }
+.card-icon {
+  color: rgba(255, 252, 252, 0.562);
+  font-size: 40px;
+  margin-left: 35%;
+}
+.AlignCenderDash{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-top: -20px;
+  color: white;
+
+}
+.count-text {
+  font-size: 50px;
+  margin-top: -12px;
+}
+
+.card-title {
+ font-family: sans-serif;
+ font-weight: lighter;
+}
+
 
 @media (max-width: 768px) {
   .mainpaperdiv {

@@ -16,6 +16,7 @@ const SwalError = () => {
 };
 
 export const ApiViewDepartment = async (search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/admin/department",
     { params: { search, pageNo } },
@@ -26,8 +27,12 @@ export const ApiViewDepartment = async (search, pageNo) => {
     SwalError();
   }
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiAddDepartment = async (datas) => {
+  try{
   let { data } = await axios.post(
     "/admin/department",
     { departmentName: datas },
@@ -43,8 +48,12 @@ export const ApiAddDepartment = async (datas) => {
     text: data,
   });
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiDeleteDepartment = async (id) => {
+  try{
   let { data } = await axios.delete(
     "/admin/department",
     { params: { id } },
@@ -61,8 +70,12 @@ export const ApiDeleteDepartment = async (id) => {
   });
 
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiViewSemester = async (Dep, search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/admin/semester",
     { params: { Dep, search, pageNo } },
@@ -73,8 +86,12 @@ export const ApiViewSemester = async (Dep, search, pageNo) => {
     SwalError();
   }
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiAddSemester = async (datas) => {
+  try{
   let { data } = await axios.post("/admin/semester", datas, header);
 
   if (data === false) {
@@ -86,8 +103,12 @@ export const ApiAddSemester = async (datas) => {
   });
 
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiDeleteSemester = async (id) => {
+  try{
   let { data } = await axios.delete(
     "/admin/semester",
     { params: { id } },
@@ -102,8 +123,12 @@ export const ApiDeleteSemester = async (id) => {
     text: data,
   });
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiViewSubjects = async (dep, sem, search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/admin/subjects",
     { params: { dep, sem, search, pageNo } },
@@ -113,8 +138,12 @@ export const ApiViewSubjects = async (dep, sem, search, pageNo) => {
     SwalError();
   }
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiAddSubjects = async (datas, department, className) => {
+  try{
   let { data } = await axios.post(
     "/admin/subject",
     { datas, department, className },
@@ -127,9 +156,14 @@ export const ApiAddSubjects = async (datas, department, className) => {
     icon: "success",
     text: data,
   });
+  
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiDeleteSubjects = async (id) => {
+  try{
   let { data } = await axios.delete(
     "/admin/subject",
     { params: { id } },
@@ -143,9 +177,13 @@ export const ApiDeleteSubjects = async (id) => {
     text: data,
   });
   return data;
+}catch(err){
+  SwalError();
+}
 };
 
 export const ApiUploadNotice = async (files, title) => {
+  try{
   let { data } = await axios.post(
     "/admin/uploadNotice",
     { files, title },
@@ -162,8 +200,12 @@ export const ApiUploadNotice = async (files, title) => {
     text: data,
   });
   return data;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiUpdateStudent = async (id) => {
+  try{
   let { data } = await axios.get(
     "/admin/updateStudent",
     { params: { id } },
@@ -173,6 +215,9 @@ export const ApiUpdateStudent = async (id) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiStudentUpdatePost = async (
@@ -190,6 +235,7 @@ export const ApiStudentUpdatePost = async (
   guardianNumber,
   className
 ) => {
+  try{
   let { data } = await axios.post(
     "/admin/updateStudent",
     {
@@ -218,9 +264,13 @@ export const ApiStudentUpdatePost = async (
     text: "Student Data Updated",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiStudentDelete = async (id) => {
+  try{
   let data = await axios.delete("/admin/student", { params: { id } }, header);
   if (data === false) {
     SwalError();
@@ -231,8 +281,12 @@ export const ApiStudentDelete = async (id) => {
     text: "Student data Deleted",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiAddStudent = (value) => {
+ 
   axios.post("/admin/student", value, header).then((data) => {
     if (data.data === false) {
       SwalError();
@@ -243,10 +297,13 @@ export const ApiAddStudent = (value) => {
       text: data.data,
     });
     return data.data;
-  });
+  }).catch(()=>{
+    SwalError()
+  })
 };
 
 export const ApiAddFaculty = (value) => {
+  
   axios.post("/admin/faculty", value, header).then((data) => {
     if (data.data === false) {
       SwalError();
@@ -257,10 +314,13 @@ export const ApiAddFaculty = (value) => {
       text: data.data,
     });
     return data.data;
-  });
+  }).catch(()=>{
+    SwalError()
+  })
 };
 
 export const ApiDeleteFaculty = async (id) => {
+  try{
   let { data } = await axios.delete(
     "/admin/faculty",
     { params: { id } },
@@ -275,6 +335,9 @@ export const ApiDeleteFaculty = async (id) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiFacultyUpdatePost = async (
@@ -292,6 +355,7 @@ export const ApiFacultyUpdatePost = async (
   qualifications,
   className
 ) => {
+  try{
   let { data } = await axios.post(
     "/admin/updateFaculty",
     {
@@ -320,9 +384,13 @@ export const ApiFacultyUpdatePost = async (
     text: "Faculty Data Updated",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewFaculty = async (Dep, search, pages) => {
+  try{
   let { data } = await axios.get(
     "/admin/facultys",
     { params: { Dep, search, pages } },
@@ -333,8 +401,12 @@ export const ApiViewFaculty = async (Dep, search, pages) => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiUpdateFaculty = async (id) => {
+  try{
   let { data } = await axios.get(
     "/admin/updateFaculty",
     { params: { id } },
@@ -344,9 +416,13 @@ export const ApiUpdateFaculty = async (id) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewClass = async (Dep, Sem, search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/admin/class",
     { params: { Dep, Sem, search, pageNo } },
@@ -357,8 +433,12 @@ export const ApiViewClass = async (Dep, Sem, search, pageNo) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiAddClass = async (datas) => {
+  try{
   let { data } = await axios.post(
     "/admin/class",
     {
@@ -377,8 +457,12 @@ export const ApiAddClass = async (datas) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiDeleteClass = async (id) => {
+  try{
   let { data } = await axios.delete("/admin/class", { params: { id } }, header);
 
   if (data === false) {
@@ -389,8 +473,12 @@ export const ApiDeleteClass = async (id) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiViewComplaint = async (search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/admin/complaints",
     { params: { search, pageNo } },
@@ -402,9 +490,13 @@ export const ApiViewComplaint = async (search, pageNo) => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiDeleteComplaint = async (id) => {
+  try{
   let { data } = await axios.delete(
     "/admin/complaint",
     { params: { id } },
@@ -416,9 +508,13 @@ export const ApiDeleteComplaint = async (id) => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewApprovelists = async () => {
+  try{
   let { data } = await axios.get("/admin/approvelists", header);
 
   if (data === false) {
@@ -426,25 +522,45 @@ export const ApiViewApprovelists = async () => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiFacultyProfile = async (id) => {
+  try{
   let { data } = await axios.get("/admin/facultys", { params: { id } }, header);
   return data?.allFacultys;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiStudentProfile = async (id) => {
+  try{
   let { data } = await axios.get("/admin/students", { params: { id } }, header);
   return data?.allStudents;
+}catch(err){
+  SwalError();
+}
 };
 export const ApiupdateRequests = async (id, category) => {
+  try{
   let { data } = await axios.get("/admin/updateRequests",{ params: { id, category } },header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiDeleteRequests = async (id) => {
+  try{
   let { data } = await axios.delete("/admin/approvelists",{ params: { id } },header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiPayment = async (title, amount, dueDate) => {
+  try{
   let { data } = await axios.post("/admin/payment",{ title, amount, dueDate },header);
   if (data === false) {
     SwalError();
@@ -454,16 +570,31 @@ export const ApiPayment = async (title, amount, dueDate) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiDeletepayment = async (id) => {
+  try{
   let { data } = await axios.delete("/admin/payment",{ params: { id } },header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiGetpayment = async (search) => {
+  try{
   let { data } = await axios.get("/admin/payment",{ params: { search } },header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiGetpaymentHistory = async () => {
+  try{
   let { data } = await axios.get("/admin/paymentHistory", header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };

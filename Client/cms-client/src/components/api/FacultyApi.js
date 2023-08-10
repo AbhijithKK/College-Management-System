@@ -16,17 +16,25 @@ const SwalError = () => {
 };
 
 export const FacultyLoginApi = async (email, password) => {
+  try{
   let { data } = await axios.post(
     "/faculty/login",
     { email, password },
     header
   );
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyProfileApi = async () => {
+  try{
   let { data } = await axios.get("/faculty/profile", header);
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyProfileUpdateApi = async (
   name,
@@ -41,6 +49,7 @@ export const FacultyProfileUpdateApi = async (
   gender,
   image
 ) => {
+  try{
   let { data } = await axios.post(
     "/faculty/updateprofile",
     {
@@ -71,8 +80,12 @@ export const FacultyProfileUpdateApi = async (
 
     text: "Profile Updated Request Send Successfully",
   });
+}catch(err){
+  SwalError()
+}
 };
 export const FacultyVerifyMail = async (datas) => {
+  try{
   let { data } = await axios.post(
     "/faculty/verifymail",
     { data: datas },
@@ -82,8 +95,12 @@ export const FacultyVerifyMail = async (datas) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultySubmitpassApi = async (pass) => {
+  try{
   let { data } = axios.post("/faculty/changepassword", { pass }, header);
   if (data === false) {
     SwalError();
@@ -94,6 +111,9 @@ export const FacultySubmitpassApi = async (pass) => {
     text: "Password Changed Successfully",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyClubrequestSend = async (
@@ -106,6 +126,7 @@ export const FacultyClubrequestSend = async (
   studentId,
   clubId
 ) => {
+  try{
   let { data } = await axios.post(
     "/faculty/clubRequest",
     {
@@ -131,8 +152,12 @@ export const FacultyClubrequestSend = async (
   });
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyClubStatus = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/ClubRequests",
     { params: { search } },
@@ -142,8 +167,12 @@ export const FacultyClubStatus = async (search) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyClubRequestUpdated = async (id, status) => {
+  try{
   let { data } = await axios.post(
     "/faculty/clubrequestupdate",
     { id, status },
@@ -153,9 +182,13 @@ export const FacultyClubRequestUpdated = async (id, status) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyLeaveLettersApi = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/leaveletters",
     { params: { search } },
@@ -165,9 +198,13 @@ export const FacultyLeaveLettersApi = async (search) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyLeaveActionApi = async (id, status, adminName) => {
+  try{
   let { data } = await axios.post(
     "/faculty/leaveletterStatus",
     { id, status, adminName },
@@ -177,9 +214,13 @@ export const FacultyLeaveActionApi = async (id, status, adminName) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewStudents = async (dep, sem, cls) => {
+  try{
   let { data } = await axios.get(
     "/faculty/studentlist",
     { params: { dep, sem } },
@@ -189,6 +230,9 @@ export const ApiViewStudents = async (dep, sem, cls) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyResultAddApi = async (
@@ -200,6 +244,7 @@ export const FacultyResultAddApi = async (
   grade,
   subject
 ) => {
+  try{
   let { data } = await axios.post(
     "/faculty/result",
     { department, semester, className, studentId, mark, grade, subject },
@@ -214,9 +259,13 @@ export const FacultyResultAddApi = async (
     text: "Result Added",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyAttendenceApi = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/attendence",
     { params: { search } },
@@ -226,17 +275,25 @@ export const FacultyAttendenceApi = async (search) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyAttendencePostApi = async (details) => {
+  try{
   let { data } = await axios.post("/faculty/attendence", { details }, header);
   if (data === false) {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyCompliantPostApi = async (title, content) => {
+  try{
   let { data } = await axios.post(
     "/faculty/addcomplaint",
     { title, content },
@@ -246,9 +303,13 @@ export const FacultyCompliantPostApi = async (title, content) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyGetDepStudents = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/studentdepwise",
     { params: { search } },
@@ -258,8 +319,12 @@ export const FacultyGetDepStudents = async (search) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyGetClubs = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/clubs",
     { params: { search } },
@@ -269,8 +334,12 @@ export const FacultyGetClubs = async (search) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyDeleteClubs = async (id) => {
+  try{
   let { data } = await axios.get(
     "/faculty/deleteclubs",
     { params: { id } },
@@ -280,8 +349,12 @@ export const FacultyDeleteClubs = async (id) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyDeleteClubRequest = async (id) => {
+  try{
   let { data } = await axios.get(
     "/faculty/deleteclubRequest",
     { params: { id } },
@@ -291,9 +364,13 @@ export const FacultyDeleteClubRequest = async (id) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewClass = async (Dep, Sem) => {
+  try{
   let { data } = await axios.get(
     "/faculty/class",
     { params: { Dep, Sem } },
@@ -304,8 +381,12 @@ export const ApiViewClass = async (Dep, Sem) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const ApiViewSubjects = async (dep, sem) => {
+  try{
   let { data } = await axios.get(
     "/faculty/subjects",
     { params: { dep, sem } },
@@ -315,9 +396,13 @@ export const ApiViewSubjects = async (dep, sem) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewSemester = async (Dep) => {
+  try{
   let { data } = await axios.get(
     "/faculty/semester",
     { params: { Dep } },
@@ -328,18 +413,26 @@ export const ApiViewSemester = async (Dep) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const ApiViewDepartment = async () => {
+  try{
   let { data } = await axios.get("/faculty/department", header);
 
   if (data === false) {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyNoticeApi = async (search, pageNo) => {
+  try{
   let { data } = await axios.get(
     "/faculty/checknotice",
     { params: { search, pageNo } },
@@ -349,17 +442,25 @@ export const FacultyNoticeApi = async (search, pageNo) => {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 
 export const FacultyForgotPassword = async (email) => {
+  try{
   let { data } = await axios.post("/faculty/forgotPassword", { email }, header);
 
   if (data === false) {
     SwalError();
   }
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyChangePassword = async (email, newpass) => {
+  try{
   let { data } = await axios.post(
     "/faculty/applypassword",
     { email, newpass },
@@ -375,8 +476,12 @@ export const FacultyChangePassword = async (email, newpass) => {
     text: "Password Changed SuccesFully",
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyClubSheduleMeeting = async (id, time, date, place) => {
+  try{
   let { data } = await axios.post(
     "/faculty/shedulemeeting",
     { id, time, date, place },
@@ -392,8 +497,12 @@ export const FacultyClubSheduleMeeting = async (id, time, date, place) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyClubDeleteMeeting = async (id, meetingId) => {
+  try{
   let { data } = await axios.get(
     "/faculty/deletemeeting",
     { params: { id, meetingId } },
@@ -409,8 +518,12 @@ export const FacultyClubDeleteMeeting = async (id, meetingId) => {
     text: data,
   });
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyClubStudentMeeting = async (id) => {
+  try{
   let { data } = await axios.get(
     "/faculty/clubstudent",
     { params: { id } },
@@ -422,8 +535,12 @@ export const FacultyClubStudentMeeting = async (id) => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };
 export const FacultyPreviousAttendance = async (search) => {
+  try{
   let { data } = await axios.get(
     "/faculty/previousattendance",
     { params: { search } },
@@ -435,4 +552,7 @@ export const FacultyPreviousAttendance = async (search) => {
   }
 
   return data;
+  }catch(err){
+  SwalError();
+}
 };

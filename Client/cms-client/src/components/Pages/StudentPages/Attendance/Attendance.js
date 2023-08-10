@@ -191,7 +191,11 @@ export default function Attendance() {
                   </TableRow>
                 ))
               ) : (
-                <div>Attendance not found</div>
+                <TableRow>
+                <TableCell>
+                Attendance Not Found
+                </TableCell>
+                </TableRow>
               )}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>

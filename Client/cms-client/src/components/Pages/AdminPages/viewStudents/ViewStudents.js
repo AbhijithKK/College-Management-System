@@ -503,7 +503,11 @@ export default function ViewStudents() {
                     </StyledTableRow>
                   ))
                 ) : (
-                  <div>There is no Students Found</div>
+                  <StyledTableRow>
+                    <StyledTableCell>
+                    <div>There is no Students Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 )}
               </TableBody>
             </Table>

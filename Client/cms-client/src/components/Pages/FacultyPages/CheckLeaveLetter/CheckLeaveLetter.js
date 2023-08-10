@@ -258,7 +258,11 @@ export default function CheckLeaveLetter() {
                     </TableRow>
                   ))
                 ) : (
-                  <div>No leaveletters found</div>
+                  <TableRow>
+                  <TableCell>
+                  Leave Letters Not Found
+                  </TableCell>
+                  </TableRow>
                 )}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>

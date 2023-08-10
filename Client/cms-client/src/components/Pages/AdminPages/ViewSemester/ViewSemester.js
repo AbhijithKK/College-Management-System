@@ -283,7 +283,11 @@ export default function ViewSemester() {
                       </StyledTableRow>
                     ))
                   ) : (
-                    <div>There is no Semester found</div>
+                    <StyledTableRow>
+                    <StyledTableCell>
+                    <div>There is no Semester Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                   )}
                 </TableBody>
               </Table>

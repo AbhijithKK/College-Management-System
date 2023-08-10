@@ -9,8 +9,8 @@ import { userChats, userCreateChats } from "../../../api/ChatApi";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 const Chat = () => {
-  const { refresh } = useSelector((state) => {
-    return state;
+  const refresh = useSelector((state) => {
+    return state?.refresh;
   });
   const [chats, setChats] = useState([]);
   const [userData, setUserData] = useState({});
@@ -81,7 +81,7 @@ const Chat = () => {
                       <div key={i}>
                         {chat.members.map((val, j) =>
                           val !== userData._id ? (
-                            <div
+                            <div key={j}
                               onClick={() =>
                                 handleConversationClick(chat, val, j)
                               }

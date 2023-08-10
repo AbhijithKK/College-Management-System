@@ -2,13 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "./Axios/Axios";
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet} from "react-router-dom";
 
 const PrivateRoutes = ({ role, route }) => {
-  const dispatch = useDispatch();
-  let navigate = useNavigate();
-  const { refresh } = useSelector((state) => {
-    return state;
+  const dispatch = useDispatch()
+  const refresh = useSelector((state) => {
+    return state.refresh;
   });
 
   const [auth, setAuth] = useState(null);
@@ -57,7 +56,7 @@ const PrivateRoutes = ({ role, route }) => {
     }
   }, [refresh, dispatch, role]);
   if (auth == null) return;
-  return <div>{auth ? <Outlet /> : navigate(route)}</div>;
+  return (auth ? <Outlet /> : <Navigate to={route} />)
 };
 
 export default PrivateRoutes;

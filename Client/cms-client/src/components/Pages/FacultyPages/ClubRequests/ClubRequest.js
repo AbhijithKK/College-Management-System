@@ -289,7 +289,13 @@ export default function ClubRequest() {
                     </TableRow>
                   ))
                 ) : (
-                  <div>No Requests</div>
+                  <>
+                  <TableRow>
+                    <TableCell>
+                    No Requests
+                    </TableCell>
+                    </TableRow>
+                  </>
                 )}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>

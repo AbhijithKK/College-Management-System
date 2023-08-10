@@ -287,7 +287,7 @@ function AddAttendanceTable() {
                   <TableCell>{row.studentName}</TableCell>
                   <TableCell>{row.status}</TableCell>
                   <TableCell>
-                    <div>
+                    <>
                       <IconButton
                         aria-label="more"
                         id="long-button"
@@ -322,12 +322,16 @@ function AddAttendanceTable() {
                           Half Day
                         </MenuItem>
                       </Menu>
-                    </div>
+                    </>
                   </TableCell>
                 </TableRow>
               ))
             ) : (
-              <div>Attends Not found</div>
+              <TableRow>
+                    <TableCell>
+                   Attendance Not Found
+                    </TableCell>
+                    </TableRow>
             )}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
@@ -337,11 +341,11 @@ function AddAttendanceTable() {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <div>
+              <TableCell>
                 <Button  style={{color:"rgba(60, 34, 34, 0.96)" }} onClick={handleClickOpenModal}>
                   Show Previous days Attendance
                 </Button>
-              </div>
+              </TableCell>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={4}
@@ -405,7 +409,11 @@ function AddAttendanceTable() {
                   </TableRow>
                 ))
               ) : (
-                <div>Attends Not found</div>
+                <TableRow>
+                <TableCell>
+                Attendance Not Found
+                </TableCell>
+                </TableRow>
               )}
               {emptyRows1 > 0 && (
                 <TableRow style={{ height: 53 * emptyRows1 }}>

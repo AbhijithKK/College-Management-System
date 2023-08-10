@@ -263,7 +263,11 @@ export default function ViewClass() {
                     </StyledTableRow>
                   ))
                 ) : (
-                  <div>There is no class found</div>
+                  <StyledTableRow>
+                    <StyledTableCell>
+                    <div>There is no Class Found</div>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 )}
               </TableBody>
             </Table>
