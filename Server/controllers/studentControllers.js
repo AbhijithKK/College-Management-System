@@ -17,9 +17,8 @@ const { Pagination } = require("../heplers/pagination");
 const { approveModel } = require("../models/approveRequests");
 const { paymentModel } = require("../models/payment");
 const { paymentHistoryModel } = require("../models/paymentHistory");
-const { isObjectIdOrHexString } = require("mongoose");
 const { department } = require("../models/departmentScheema");
-require("dotenv");
+require("dotenv").config()
 const stripe = require("stripe")(process.env.STRIP_KEY);
 const OtpGen = () => {
   return otpGenerator.generate(6, {
