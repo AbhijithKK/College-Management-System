@@ -56,6 +56,8 @@ const Chat = () => {
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
+  
+  
   return (
     <div style={{ backgroundColor: "gray",marginLeft:"60px" }}>
       <SideBarStudent />
@@ -64,7 +66,7 @@ const Chat = () => {
           <>
             <div className="Chat">
               {/* Left Side */}
-              <div className="Left-side-chat">
+              <div  className="Left-side-chat">
                 <div className="Chat-container">
                   <h2>Chats</h2>
                   <div className="Chat-list">
@@ -83,7 +85,9 @@ const Chat = () => {
 
               {/* Right Side */}
 
-              <div className="Right-side-chat">
+              <div  className=
+              
+              "Right-side-chat ">
                 <ChatBox
                   chat={currentChat}
                   currentUserId={userData._id}

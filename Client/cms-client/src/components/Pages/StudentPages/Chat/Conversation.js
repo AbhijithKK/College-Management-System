@@ -29,8 +29,9 @@ const Conversation = ({ data, currentUserId, online }) => {
               style={{ width: "50px", height: "50px" ,borderRadius:"25px"}}
             />
             <div className="name" style={{ fontSize: "0.8rem" }}>
+              <br/>
               <span>{userData?.name}</span>
-              <br />
+              <br  className="userName" />
               <span style={{ color: online ? "#51e200" : "" }}>
                 {online ? "Online" : "Offline"}
               </span>

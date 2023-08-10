@@ -89,7 +89,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
             </div>
             {/* chat-body */}
             <div className="chat-body">
-              {oldMessage.map((messages, i) => (
+              {oldMessage?.map((messages, i) => (
                 <div
                   key={i}
                   ref={scoll}

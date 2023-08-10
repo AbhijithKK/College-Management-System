@@ -65,13 +65,25 @@
 }
 
 @media screen and (max-width: 768px) {
-  .Chat {
-    grid-template-columns: 16% auto;
-  }
-  .follower.conversation > div > .name {
-    display: none;
-  }
-}
-@media (max-width:768px) {
   
+  
+  .Right-Blocker{
+    display: none !important;
+  }
+  .Left-Blocker{
+    display: none !important;
+  }
+  .Right-Un-Blocker{
+    display: block !important;
+  }
+  .Left-side-chat{
+  
+    width: 600%;
+  }
+  .name{
+    display: inline !important;
+  }
+  .userName{
+    padding-top: 50px;
+  }
 }
