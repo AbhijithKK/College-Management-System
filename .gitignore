@@ -2,3 +2,4 @@ Client/cms-client/.env
 Client/cms-client/node_modules
 server/node_modules
 Server/.env
+socket/.env
