@@ -247,21 +247,22 @@ const LoginForm = (props) => {
   const PasssFnc=(pass)=>{
     usePassword(pass)
   }
-const DefaultPassword=()=>{
-  if (props.img === "student") {
-    MailFnc('rahul@student.com')
-   PasssFnc("password")
-  }else if(props.img === "faculty"){
-  MailFnc('meera@faculty.com')
-  PasssFnc("123123")
-  }
-}
+
   useEffect(() => {
+    const DefaultPassword=()=>{
+      if (props.img === "student") {
+        MailFnc('rahul@student.com')
+       PasssFnc("password")
+      }else if(props.img === "faculty"){
+      MailFnc('meera@faculty.com')
+      PasssFnc("123123")
+      }
+    }
    DefaultPassword()
     setTimeout(() => {
       setLoader(false);
     }, 2000);
-  }, []);
+  }, [props?.img]);
 
   return (
     <>
