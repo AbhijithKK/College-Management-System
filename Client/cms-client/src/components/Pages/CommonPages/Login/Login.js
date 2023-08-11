@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./login.css";
 import admin from "../../../../assets/admin.png";
@@ -7,6 +7,7 @@ import faculty from "../../../../assets/faculty.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../../../Utils/Axios/Axios";
 import { useDispatch } from "react-redux";
+import MainpageJpg from "../../../../assets/mainPage.jpg";
 import {
   StudentChangePassword,
   StudentForgotPassword,
@@ -27,6 +28,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import LoaderPage from "../LoaderPage";
 
 const LoginForm = (props) => {
   const [mail, useMail] = useState("");
@@ -202,9 +204,27 @@ const LoginForm = (props) => {
     }
   };
   // =====================================================================
+  const [loader, setLoader] = useState(true);
+
+  const handleImageLoad = () => {
+    setLoader(false);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
 
   return (
-    <div className="mainpage">
+    <>
+    {loader === true ? (
+      <>
+        <LoaderPage />
+        
+      </>
+    ) : (
+    <div className="mainpage" onLoad={handleImageLoad} style={{ backgroundImage:`url(${MainpageJpg})` }}>
       {/* ========================>CONFIRM PASSWORD MODAL<=============================== */}
       <div>
         <Dialog
@@ -375,7 +395,8 @@ const LoginForm = (props) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)}
+    </>
   );
 };
 

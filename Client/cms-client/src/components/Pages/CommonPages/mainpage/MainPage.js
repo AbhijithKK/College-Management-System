@@ -25,18 +25,19 @@ const MainPage = () => {
       {loader === true ? (
         <>
           <LoaderPage />
-          <img
-            src={MainpageJpg}
-            alt="background"
-            onLoad={handleImageLoad}
-            style={{ display: "none" }} // Hide the image element
-          />
+          
         </>
       ) : (
-        <div
+        <div onLoad={handleImageLoad}
           className="mainpage"
           style={{ backgroundImage:`url(${MainpageJpg})` }}
         >
+          <img
+            src={MainpageJpg}
+            alt="background"
+            
+            style={{ display: "none" }} // Hide the image element
+          />
           <Container>
             <Row>
               <Col sm={12}>
