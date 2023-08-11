@@ -18,7 +18,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
     const userId = chat?.members?.find((id) => id !== currentUserId);
     const GetSecondUserData = async () => {
       let user = await getUserChatApi(userId);
-      //   console.log("user",user);
+      
       SetUserData(user);
     };
     if (chat !== null) GetSecondUserData();
@@ -44,12 +44,12 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
     setOldMessage([...oldMessage, data.data]);
     setNewMessage("");
     const receiverId = chat.members.filter((id) => id !== currentUserId);
-    console.log(receiverId, "ll");
+    
     setSendMessage({ ...message, receiverId });
   };
   useEffect(() => {
     if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
-      console.log(receiveMessage);
+
       setOldMessage([...oldMessage, receiveMessage]);
     }
   }, [receiveMessage, chat]);

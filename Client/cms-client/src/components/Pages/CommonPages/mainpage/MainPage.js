@@ -6,20 +6,37 @@ import student from "../../../../assets/student.png";
 import faculty from "../../../../assets/faculty.png";
 import { Link } from "react-router-dom";
 import LoaderPage from "../LoaderPage";
+import MainpageJpg from "../../../../assets/mainPage.jpg";
 const MainPage = () => {
   const [loader, setLoader] = useState(true);
+
+  const handleImageLoad = () => {
+    setLoader(false);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setLoader(false);
     }, 3000);
   }, []);
- 
+
   return (
     <>
       {loader === true ? (
-        <LoaderPage />
+        <>
+          <LoaderPage />
+          <img
+            src={MainpageJpg}
+            alt="background"
+            onLoad={handleImageLoad}
+            style={{ display: "none" }} // Hide the image element
+          />
+        </>
       ) : (
-        <div className="mainpage">
+        <div
+          className="mainpage"
+          style={{ backgroundImage:`url(${MainpageJpg})` }}
+        >
           <Container>
             <Row>
               <Col sm={12}>
