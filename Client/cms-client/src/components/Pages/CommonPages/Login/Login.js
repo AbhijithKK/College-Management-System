@@ -7,6 +7,8 @@ import faculty from "../../../../assets/faculty.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../../../Utils/Axios/Axios";
 import { useDispatch } from "react-redux";
+import { PulseLoader } from "react-spinners";
+
 import MainpageJpg from "../../../../assets/mainPage.jpg";
 import {
   StudentChangePassword,
@@ -47,9 +49,12 @@ const LoginForm = (props) => {
   const HandleErrmsg = () => {
     useErrmsg("Enter correct username and password");
   };
-
+  const[btLoader,SetBtLoader]=useState(false)
   const HandleSend = async () => {
+    
     if (props.img === "admin") {
+      if (mail.trim()&&password.trim()) {
+      SetBtLoader(true)
       axios
         .post(
           "/admin/adminLogin",
@@ -63,31 +68,58 @@ const LoginForm = (props) => {
         )
         .then((e) => {
           if (e.data === true) {
+            SetBtLoader(false)
             Navigate("/admin/dashboard");
 
             dispatch({ type: "refresh" });
           } else {
             HandleErrmsg();
           }
-        });
+        }).catch(()=>{
+          ErrMsg("Something wrong Plese Login again");
+        })
+      }else{
+        ErrMsg("Enter valid username and password");
+      }
     } else if (props.img === "student") {
+      try{
+      if (mail.trim()&&password.trim()) {
+      SetBtLoader(true)
       let data = await StudentLoginApi(mail, password);
       if (data === false) {
         ErrMsg("Invalid username or password");
       } else {
+        SetBtLoader(false)
+
         Navigate("/student/profile");
 
         dispatch({ type: "refresh" });
+      }}else{
+        ErrMsg("Enter valid username and password");
       }
+    }
+    catch(err){
+      ErrMsg("Something wrong Plese Login again");
+    }
     } else if (props.img === "faculty") {
+      try{
+      if (mail.trim()&&password.trim()) {
+      SetBtLoader(true)
       let data = await FacultyLoginApi(mail, password);
       if (data === false) {
         ErrMsg("Invalid username or password");
       } else {
+        SetBtLoader(false)
+
         Navigate("/faculty/profile");
 
         dispatch({ type: "refresh" });
       }
+    }}catch(err){
+      ErrMsg("Something wrong Plese Login again");
+    }
+  }else{
+      ErrMsg("Enter valid username and password");
     }
   };
   const ErrMsg = (data) => {
@@ -209,8 +241,23 @@ const LoginForm = (props) => {
   const handleImageLoad = () => {
     setLoader(false);
   };
-
+  const MailFnc=(mail)=>{
+    useMail(mail)
+  }
+  const PasssFnc=(pass)=>{
+    usePassword(pass)
+  }
+const DefaultPassword=()=>{
+  if (props.img === "student") {
+    MailFnc('rahul@student.com')
+   PasssFnc("password")
+  }else if(props.img === "faculty"){
+  MailFnc('meera@faculty.com')
+  PasssFnc("123123")
+  }
+}
   useEffect(() => {
+   DefaultPassword()
     setTimeout(() => {
       setLoader(false);
     }, 2000);
@@ -314,6 +361,7 @@ const LoginForm = (props) => {
           </DialogContent>
 
           <DialogActions>
+            <Button onClick={handleClosepas}>Close</Button>
             <Button
               onClick={btnText === "Verify" ? VerifyOtp : handleVerify}
               autoFocus
@@ -388,7 +436,8 @@ const LoginForm = (props) => {
                   </p>
                 )}
                 <Button className="button1" type="button" onClick={HandleSend}>
-                  login
+                  { btLoader!== true ?'login' :<PulseLoader color="white" size={10} />}
+
                 </Button>
               </Form>
             </div>
