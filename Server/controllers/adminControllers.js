@@ -114,6 +114,9 @@ let admin = {
   },
   addFaculty: async (req, res) => {
     try {
+      let message
+      let mailVerify=await facultyModel.findOne({email:req.body.email})
+      if (mailVerify==null) {
       let password = passGen();
       let sendPassWord = password;
       password = await bcript.hash(password, 10);
@@ -140,8 +143,11 @@ let admin = {
                  use this credential to Login Your Account`;
 
           nodeMail(req.body.email, content, sub);
-          res.json("faculty Added");
-        });
+         message='true'
+        })}else{
+          message="Email already exists"
+        }
+        res.json({message})
     } catch (err) {
       res.json(false);
     }

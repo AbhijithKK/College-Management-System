@@ -317,11 +317,18 @@ export const ApiAddFaculty = (value) => {
     if (data.data === false) {
       SwalError();
     }
-
+    console.log('api',data.data);
+if (data.data?.message==='true'||data.data?.message===undefined) {
     Swal.fire({
       icon: "success",
-      text: data.data,
-    });
+      text: "faculty Added",
+    })}
+    if(data.data?.message==="Email already exists"){
+      Swal.fire({
+        icon: "warning",
+        text: data.data?.message,
+      })
+    }
     return data.data;
   }).catch(()=>{
     SwalError()
