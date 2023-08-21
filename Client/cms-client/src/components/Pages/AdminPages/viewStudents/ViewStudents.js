@@ -194,11 +194,11 @@ export default function ViewStudents() {
       if (result.isConfirmed) {
         let data = await ApiStudentDelete(id);
         if (data === true) {
+          setRefresh(!refresh);
           Swal.fire({
             icon: "success",
             text: "Deleted Successfully",
           });
-          setRefresh(!refresh);
         }
       }
     });

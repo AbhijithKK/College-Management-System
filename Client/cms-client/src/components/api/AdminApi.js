@@ -288,14 +288,23 @@ export const ApiStudentDelete = async (id) => {
 export const ApiAddStudent = (value) => {
  
   axios.post("/admin/student", value, header).then((data) => {
-    if (data.data === false) {
+    console.log(data.data?.message,'api');
+    if (data.data?.message === false) {
       SwalError();
     }
+    if(data.data?.message===undefined){
 
     Swal.fire({
       icon: "success",
-      text: data.data,
-    });
+      text: "Student Added",
+    })}
+    if(data.data?.message==="Email already exist"){
+    Swal.fire({
+      icon: "warning",
+      text: data.data?.message,
+    })
+  }
+   
     return data.data;
   }).catch(()=>{
     SwalError()

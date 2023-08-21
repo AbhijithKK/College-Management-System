@@ -71,6 +71,10 @@ let admin = {
   // <====ADD CONTROLLS====>
   addStudent: async (req, res) => {
     try {
+      let message
+      let mailVerify=await studentModel.findOne({email:req.body.email})
+      if (mailVerify==null) {
+        
       let password = passGen();
       let sendPassWord = password;
       password = await bcript.hash(password, 10);
@@ -91,17 +95,21 @@ let admin = {
           password: password,
           className: req.body.className,
         })
-        .then(() => {
+        .then(async() => {
           const sub = "COLLEGE MANAGEMENT SYSTEM ✔";
           let content = `Congratulation,Dear Student Your Account Has been Created 
                  Your Email: ${req.body.email} Password: ${sendPassWord} 
                  use this credential to Login Your Account`;
 
           nodeMail(req.body.email, content, sub);
-          res.json("Student Added");
-        });
+         message=await "true"
+        })
+      }else{
+       message="Email already exist"
+      }
+      res.json({message})
     } catch (err) {
-      res.json(false);
+      res.json({message:false});
     }
   },
   addFaculty: async (req, res) => {
@@ -558,7 +566,7 @@ let admin = {
       let id = req.query.id;
       await studentModel.deleteOne({ _id: id });
 
-      res.json("student Data Deleted");
+      res.json(true);
     } catch (err) {
       res.json(false);
     }

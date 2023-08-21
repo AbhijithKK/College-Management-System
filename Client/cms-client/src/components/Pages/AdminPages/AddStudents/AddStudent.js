@@ -11,6 +11,7 @@ import {
   ApiViewSemester,
 } from "../../../api/AdminApi";
 
+
 function AddStudent() {
   const [value, SetValue] = useForm({
     names: "",
@@ -30,7 +31,7 @@ function AddStudent() {
     SetValue(event);
   };
   const [errmsg, setErrmsg] = useState("");
-  const SubmitForm = () => {
+  const SubmitForm =() => {
     if (
       value.names.trim() &&
       value.email.trim() &&
@@ -46,6 +47,7 @@ function AddStudent() {
       value.className.trim()
     ) {
       ApiAddStudent(value);
+    
     } else {
       setErrmsg("Fill the Form properly");
     }

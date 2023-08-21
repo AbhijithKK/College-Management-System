@@ -115,12 +115,13 @@ const LoginForm = (props) => {
 
         dispatch({ type: "refresh" });
       }
-    }}catch(err){
-      ErrMsg("Something wrong Plese Login again");
-    }
-  }else{
+    }else{
       ErrMsg("Enter valid username and password");
     }
+  }catch(err){
+      ErrMsg("Something wrong Plese Login again");
+    }
+  }
   };
   const ErrMsg = (data) => {
     useErrmsg(data);
